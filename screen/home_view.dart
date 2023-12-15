@@ -184,8 +184,6 @@ class _HomeViewState extends State<HomeView> {
 // );
 
   Widget subHeader(String text, double fontSize) {
-    //   return DefaultTextStyle(style: TextStyle(color: MyColor.myYellow), child: AnimatedTextKit(animatedTexts: [WavyAnimatedText(text)]));
-
     return Text(
       text,
       style: TextStyle(color: MyColor.myYellow),
@@ -203,11 +201,6 @@ class _HomeViewState extends State<HomeView> {
               height: 200,
               width: 200,
               fit: BoxFit.cover)),
-
-      // child: Image.network(
-      //   "https://www.japan-guide.com/g21/5501_11.jpg",
-      //   fit: BoxFit.cover,
-      // ),
     );
   }
 }

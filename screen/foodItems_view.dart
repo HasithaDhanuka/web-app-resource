@@ -54,7 +54,7 @@ class _FoodItemState extends State<FoodItemsView> {
       {required int crossAxisItemsCount, required Axis scrollDirectionAxis}) {
     //final int cross_axis_items;
     return Center(
-      child: Body(
+      child: bodyOfDevice(
           crossAxisItemsCount: crossAxisItemsCount,
           scrollDirectionAxis: scrollDirectionAxis),
     );
@@ -70,13 +70,13 @@ class _FoodItemState extends State<FoodItemsView> {
             borderRadius: BorderRadius.circular(20),
           ),
           height: 300,
-          child: Body(
+          child: bodyOfDevice(
               crossAxisItemsCount: crossAxisItemsCount,
               scrollDirectionAxis: scrollDirectionAxis)),
     );
   }
 
-  StreamBuilder<List<FoodItem>> Body(
+  StreamBuilder<List<FoodItem>> bodyOfDevice(
       {required int crossAxisItemsCount, required Axis scrollDirectionAxis}) {
     return StreamBuilder<List<FoodItem>>(
       stream: ReadFoodItems(),
@@ -120,7 +120,7 @@ class _FoodItemState extends State<FoodItemsView> {
   }
 
 // ->  FutureBuilder
-  // FutureBuilder<List<FoodItem>> Body({required int crossAxisItemsCount}) {
+  // FutureBuilder<List<FoodItem>> bodyOfDevice({required int crossAxisItemsCount}) {
   //   return FutureBuilder<List<FoodItem>>(
   //     future: ReadFoodItems().first, //productItem,
   //     builder: (context, snapshot) {

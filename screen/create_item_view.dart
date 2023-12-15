@@ -16,12 +16,12 @@ class CreateItem extends StatefulWidget {
 }
 
 class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
-  late AnimationController create_button_anim;
+  late AnimationController animationController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    create_button_anim =
+    animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 3))
           ..repeat();
   }
@@ -34,7 +34,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    create_button_anim.dispose();
+    animationController.dispose();
     itemNameController.dispose();
     itemPricesController.dispose();
     itemURLController.dispose();
@@ -117,7 +117,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                         children: [
                           Container(
                               child: Lottie.asset("assets/c1.json",
-                                  controller: create_button_anim,
+                                  controller: animationController,
                                   height: 200,
                                   // width: 200,
                                   fit: BoxFit.cover)),
@@ -148,9 +148,10 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
     );
   }
 
-  Padding createButton({required String buttonName, required modifyFunction}) {
+  Padding createButton(
+      {required String buttonName, required VoidCallback modifyFunction}) {
     return Padding(
-        padding: EdgeInsets.only(top: 40),
+        padding: const EdgeInsets.only(top: 40),
         child: ElevatedButton(
           onPressed: modifyFunction,
           style: ElevatedButton.styleFrom(

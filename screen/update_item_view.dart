@@ -94,7 +94,7 @@ class _UpdateDeleteItemState extends State<UpdateDeleteItem> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 AutoSizeText(
-                  "ID :${iteamId}",
+                  "ID :$iteamId",
                   style: TextStyle(color: MyColor.myRed),
                   maxFontSize: 30,
                 ),
