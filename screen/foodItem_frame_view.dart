@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
-import 'package:web_app/model/itemjson.dart';
+import 'package:web_app/model/food.dart';
 import 'package:web_app/provider_function/logic_function.dart';
-import 'package:web_app/screen/popUp_item_view.dart';
+import 'package:web_app/screen/popup_view.dart';
 
 class FoodTile extends StatelessWidget {
   const FoodTile(

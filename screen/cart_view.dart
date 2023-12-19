@@ -3,8 +3,10 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/custom_button.dart';
+import 'package:web_app/model/firebase_userOrder.dart';
+import 'package:web_app/model/user_order.dart';
 import 'package:web_app/provider_function/logic_function.dart';
-import 'package:web_app/screen/popUp_item_view.dart';
+import 'package:web_app/screen/popup_view.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -14,19 +16,25 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
-  final userNameController = TextEditingController();
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    userNameController.clear();
-  }
+  final userNameEditingController = TextEditingController();
+  final userPhoneNunberEditingController = TextEditingController();
+  final userPostalCodeEditingController = TextEditingController();
+  final userAddrassEditingController = TextEditingController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    userNameEditingController.clear();
+    userPhoneNunberEditingController.clear();
+    userPostalCodeEditingController.clear();
+    userAddrassEditingController.clear();
   }
 
   @override
@@ -53,10 +61,28 @@ class _CartViewState extends State<CartView> {
                 ),
                 totalPrice(
                     value: value,
-                    onPressed: () {
-                      popupOrder(
+                    onPressed: () async {
+                      final orderSend = await popupOrder(
                           context: context,
-                          inputEditingController: userNameController);
+                          userNameEditingController: userNameEditingController,
+                          userPhoneNunberEditingController:
+                              userPhoneNunberEditingController,
+                          userPostalCodeEditingController:
+                              userPostalCodeEditingController,
+                          userAddrassEditingController:
+                              userAddrassEditingController);
+                      if (orderSend == true) {
+                        createOrder(
+                            userOrder: UserOrder(
+                                userName: userNameEditingController.text,
+                                userAddruss: userAddrassEditingController.text,
+                                userPostalCode: int.parse(
+                                    userPostalCodeEditingController.text),
+                                userTotalPrice: value.getTotalPrice,
+                                userPhoneNumber: int.parse(
+                                    userPhoneNunberEditingController.text),
+                                userOrders: value.getOrderList));
+                      }
                     }),
               ],
             );

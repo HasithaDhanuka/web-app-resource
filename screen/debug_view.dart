@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import '../model/itemjson.dart';
+import '../model/food.dart';
 
 class DebugView extends StatefulWidget {
   const DebugView({super.key});

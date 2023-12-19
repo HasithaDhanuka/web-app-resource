@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/view_wrapper.dart';
-import 'package:web_app/model/itemjson.dart';
+import 'package:web_app/model/food.dart';
 import 'package:web_app/screen/foodItem_frame_view.dart';
-import '../model/firebase_model.dart';
+import '../model/firebase_food.dart';
 
 class FoodItemsView extends StatefulWidget {
   const FoodItemsView({super.key});
@@ -54,7 +54,7 @@ class _FoodItemState extends State<FoodItemsView> {
       {required int crossAxisItemsCount, required Axis scrollDirectionAxis}) {
     //final int cross_axis_items;
     return Center(
-      child: bodyOfDevice(
+      child: bodyOfDevicer(
           crossAxisItemsCount: crossAxisItemsCount,
           scrollDirectionAxis: scrollDirectionAxis),
     );
@@ -70,13 +70,13 @@ class _FoodItemState extends State<FoodItemsView> {
             borderRadius: BorderRadius.circular(20),
           ),
           height: 300,
-          child: bodyOfDevice(
+          child: bodyOfDevicer(
               crossAxisItemsCount: crossAxisItemsCount,
               scrollDirectionAxis: scrollDirectionAxis)),
     );
   }
 
-  StreamBuilder<List<FoodItem>> bodyOfDevice(
+  StreamBuilder<List<FoodItem>> bodyOfDevicer(
       {required int crossAxisItemsCount, required Axis scrollDirectionAxis}) {
     return StreamBuilder<List<FoodItem>>(
       stream: ReadFoodItems(),
@@ -120,7 +120,7 @@ class _FoodItemState extends State<FoodItemsView> {
   }
 
 // ->  FutureBuilder
-  // FutureBuilder<List<FoodItem>> bodyOfDevice({required int crossAxisItemsCount}) {
+  // FutureBuilder<List<FoodItem>> bodyOfDevicer({required int crossAxisItemsCount}) {
   //   return FutureBuilder<List<FoodItem>>(
   //     future: ReadFoodItems().first, //productItem,
   //     builder: (context, snapshot) {

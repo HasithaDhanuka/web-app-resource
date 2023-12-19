@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/text_field_module.dart';
-import 'package:web_app/model/itemjson.dart';
-import 'package:web_app/model/firebase_model.dart';
+import 'package:web_app/model/food.dart';
+import 'package:web_app/model/firebase_food.dart';
 import 'package:web_app/provider_function/logic_function.dart';
 import 'package:web_app/screen/foodItem_frame_view.dart';
 

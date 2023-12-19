@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:web_app/model/itemjson.dart';
+import 'package:web_app/model/food.dart';
 
 class FoodItemProperty extends ChangeNotifier {
   late String getItemName;

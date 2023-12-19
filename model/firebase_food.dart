@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:web_app/model/itemjson.dart';
+import 'package:web_app/model/food.dart';
 
 //*****************************************************************************
 //   Create Food Item
