@@ -74,14 +74,15 @@ class _CartViewState extends State<CartView> {
                       if (orderSend == true) {
                         createOrder(
                             userOrder: UserOrder(
-                                userName: userNameEditingController.text,
-                                userAddruss: userAddrassEditingController.text,
-                                userPostalCode: int.parse(
-                                    userPostalCodeEditingController.text),
-                                userTotalPrice: value.getTotalPrice,
-                                userPhoneNumber: int.parse(
-                                    userPhoneNunberEditingController.text),
-                                userOrders: value.getOrderList));
+                          userName: userNameEditingController.text,
+                          userAddruss: userAddrassEditingController.text,
+                          userPostalCode:
+                              int.parse(userPostalCodeEditingController.text),
+                          userTotalPrice: value.getTotalPrice,
+                          userPhoneNumber:
+                              int.parse(userPhoneNunberEditingController.text),
+                          userOrders: value.getOrderList,
+                        ));
                       }
                     }),
               ],

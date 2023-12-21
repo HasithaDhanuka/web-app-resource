@@ -108,6 +108,7 @@ Future<bool?> popupOrder({
                               userPhoneNunberEditingController.text.isEmpty ||
                               userPostalCodeEditingController.text.isEmpty ||
                               userAddrassEditingController.text.isEmpty) {
+                            print("not ok something is wrong");
                             return;
                           }
 

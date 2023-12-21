@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:web_app/model/food.dart';
 
 class UserOrder {
@@ -9,14 +10,15 @@ class UserOrder {
   late int userPhoneNumber;
   late final List<FoodItem> userOrders;
 
-  UserOrder(
-      {this.userid = "",
-      required this.userName,
-      required this.userAddruss,
-      required this.userPostalCode,
-      required this.userTotalPrice,
-      required this.userPhoneNumber,
-      required this.userOrders});
+  UserOrder({
+    this.userid = "",
+    required this.userName,
+    required this.userAddruss,
+    required this.userPostalCode,
+    required this.userTotalPrice,
+    required this.userPhoneNumber,
+    required this.userOrders,
+  });
 
   Map<String, dynamic> toJson() => {
         "userid": userid,
@@ -25,7 +27,7 @@ class UserOrder {
         "userPostalCode": userPostalCode,
         "userTotalPrice": userTotalPrice,
         "userPhoneNumber": userPhoneNumber,
-        "userOrders": userOrders,
+        "userOrders": userOrders.map((e) => e.toJson()).toList(),
       };
 
   factory UserOrder.fromMap(Map<String, dynamic> data) {
