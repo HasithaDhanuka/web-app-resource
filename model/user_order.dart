@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:web_app/model/food.dart';
 
 class UserOrder {
