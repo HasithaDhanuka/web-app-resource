@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/custom_button.dart';
 import 'package:web_app/Utils/text_field_module.dart';
+import 'package:web_app/provider_function/logic_function.dart';
 
 // ***************************************************************//
 // ####################   PopUp Item    ##########################//
@@ -74,49 +76,65 @@ Future<bool?> popupOrder({
               backgroundColor: Colors.black,
               content: SizedBox(
                 width: 400,
-                child: Column(
-                  children: <Widget>[
-                    custemInputField(
-                        inputFieldName: "Your Name",
-                        inputEditingController: userNameEditingController,
-                        isNumberTypeKeybord: false,
-                        isValidate: true,
-                        keyBordType: TextInputType.name),
-                    custemInputField(
-                        inputFieldName: "Telephone Number",
-                        inputEditingController:
-                            userPhoneNunberEditingController,
-                        isNumberTypeKeybord: true,
-                        isValidate: true,
-                        keyBordType: TextInputType.number),
-                    custemInputField(
-                        inputFieldName: "Postal Code",
-                        inputEditingController: userPostalCodeEditingController,
-                        isNumberTypeKeybord: true,
-                        isValidate: true,
-                        keyBordType: TextInputType.number),
-                    custemInputField(
-                        inputFieldName: "your Addruss",
-                        inputEditingController: userAddrassEditingController,
-                        isNumberTypeKeybord: false,
-                        isValidate: true,
-                        keyBordType: TextInputType.multiline,
-                        maxLine: 5),
-                    reUsableButton(
-                        onPressed: () {
-                          if (userNameEditingController.text.isEmpty ||
-                              userPhoneNunberEditingController.text.isEmpty ||
-                              userPostalCodeEditingController.text.isEmpty ||
-                              userAddrassEditingController.text.isEmpty) {
-                            print("not ok something is wrong");
-                            return;
-                          }
+                child: Consumer<TextFieldChanger>(
+                    builder: (context, value, chaild) {
+                  return Column(
+                    children: <Widget>[
+                      custemInputField(
+                          inputFieldName: "Your Name",
+                          inputEditingController: userNameEditingController,
+                          isNumberTypeKeybord: false,
+                          isValidate: value.getUserNameValidate,
+                          keyBordType: TextInputType.name),
+                      custemInputField(
+                          inputFieldName: "Telephone Number",
+                          inputEditingController:
+                              userPhoneNunberEditingController,
+                          isNumberTypeKeybord: true,
+                          isValidate: value.getUserTelNumberValidate,
+                          keyBordType: TextInputType.number),
+                      custemInputField(
+                          inputFieldName: "Postal Code",
+                          inputEditingController:
+                              userPostalCodeEditingController,
+                          isNumberTypeKeybord: true,
+                          isValidate: value.getUserPostalCodeValidate,
+                          keyBordType: TextInputType.number),
+                      custemInputField(
+                          inputFieldName: "your Address",
+                          inputEditingController: userAddrassEditingController,
+                          isNumberTypeKeybord: false,
+                          isValidate: value.getUserAddressValidate,
+                          keyBordType: TextInputType.multiline,
+                          maxLine: 5),
+                      reUsableButton(
+                          onPressed: () {
+                            value.orderSendScreen(
+                                bUserNameValidate:
+                                    userNameEditingController.text.isEmpty,
+                                bUserTelNumberValidate:
+                                    userPhoneNunberEditingController
+                                        .text.isEmpty,
+                                bUserPostalCodeValidate:
+                                    userPostalCodeEditingController
+                                        .text.isEmpty,
+                                bUserAddressValidate:
+                                    userAddrassEditingController.text.isEmpty);
 
-                          Navigator.of(context).pop(true);
-                        },
-                        buttonName: "Send",
-                        borderSideColor: MyColor.myGreen)
-                  ],
-                ),
+                            if (userNameEditingController.text.isEmpty ||
+                                userPhoneNunberEditingController.text.isEmpty ||
+                                userPostalCodeEditingController.text.isEmpty ||
+                                userAddrassEditingController.text.isEmpty) {
+                              print("not ok something is wrong");
+                              return;
+                            }
+
+                            Navigator.of(context).pop(true);
+                          },
+                          buttonName: "Send",
+                          borderSideColor: MyColor.myGreen)
+                    ],
+                  );
+                }),
               ),
             ));

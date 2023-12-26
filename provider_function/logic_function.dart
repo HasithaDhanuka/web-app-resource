@@ -26,9 +26,14 @@ class FoodItemProperty extends ChangeNotifier {
 // *****************************************************************
 // ##################    TEXT FIELD   ##############################
 class TextFieldChanger extends ChangeNotifier {
-  late bool bItemNameValidate = false;
-  late bool bItemPriceValidate = false;
-  late bool bItemUrlValidate = false;
+  bool bItemNameValidate = false;
+  bool bItemPriceValidate = false;
+  bool bItemUrlValidate = false;
+
+  bool getUserNameValidate = false;
+  bool getUserTelNumberValidate = false;
+  bool getUserPostalCodeValidate = false;
+  bool getUserAddressValidate = false;
 
   void itemNameChanger(bool nameValidate) {
     bItemNameValidate = nameValidate;
@@ -42,6 +47,20 @@ class TextFieldChanger extends ChangeNotifier {
 
   void itemUrlChanger(bool urlValidate) {
     bItemUrlValidate = urlValidate;
+    notifyListeners();
+  }
+
+  void orderSendScreen({
+    bool bUserNameValidate = false,
+    bool bUserTelNumberValidate = false,
+    bool bUserPostalCodeValidate = false,
+    bool bUserAddressValidate = false,
+  }) {
+    getUserNameValidate = bUserNameValidate;
+    getUserTelNumberValidate = bUserTelNumberValidate;
+    getUserPostalCodeValidate = bUserPostalCodeValidate;
+    getUserAddressValidate = bUserAddressValidate;
+
     notifyListeners();
   }
 }
@@ -67,6 +86,13 @@ class OrderFoodItems extends ChangeNotifier {
   void currentPrice({required int currentPrice}) {
     ntotalPrice = ntotalPrice + currentPrice;
 
+    notifyListeners();
+  }
+
+  void orderListClear() {
+    listOfOrder.clear();
+    print(listOfOrder.length);
+    print(listOfOrder);
     notifyListeners();
   }
 

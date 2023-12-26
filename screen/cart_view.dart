@@ -72,17 +72,28 @@ class _CartViewState extends State<CartView> {
                           userAddrassEditingController:
                               userAddrassEditingController);
                       if (orderSend == true) {
-                        createOrder(
-                            userOrder: UserOrder(
-                          userName: userNameEditingController.text,
-                          userAddruss: userAddrassEditingController.text,
-                          userPostalCode:
-                              int.parse(userPostalCodeEditingController.text),
-                          userTotalPrice: value.getTotalPrice,
-                          userPhoneNumber:
-                              int.parse(userPhoneNunberEditingController.text),
-                          userOrders: value.getOrderList,
-                        ));
+                        final bIsSuccess = await createOrder(
+                          userOrder: UserOrder(
+                            userName: userNameEditingController.text,
+                            userAddruss: userAddrassEditingController.text,
+                            userPostalCode:
+                                int.parse(userPostalCodeEditingController.text),
+                            userTotalPrice: value.getTotalPrice,
+                            userPhoneNumber: int.parse(
+                                userPhoneNunberEditingController.text),
+                            userOrders: value.getOrderList,
+                          ),
+                        );
+
+                        if (bIsSuccess == true) {
+                          print("is success? : $bIsSuccess");
+                        }
+
+                        value.orderListClear();
+                        userNameEditingController.clear();
+                        userPhoneNunberEditingController.clear();
+                        userPostalCodeEditingController.clear();
+                        userAddrassEditingController.clear();
                       }
                     }),
               ],

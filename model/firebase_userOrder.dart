@@ -4,7 +4,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:web_app/model/user_order.dart';
 
-Future createOrder({required UserOrder userOrder}) async {
+Future<bool?> createOrder({required UserOrder userOrder}) async {
   final collection = FirebaseFirestore.instance.collection("userOrders");
 
   print("collection:: ${collection}");
@@ -13,5 +13,11 @@ Future createOrder({required UserOrder userOrder}) async {
   final setJson = userOrder.toJson();
 
   print("${setJson}");
-  await getDoctItem.set(setJson);
+  return getDoctItem.set(setJson).then((value) {
+    print("Order send success !");
+    return true;
+  }).catchError((error) {
+    print("Oder Error");
+    return false;
+  });
 }
