@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -87,6 +88,24 @@ class _CartViewState extends State<CartView> {
 
                         if (bIsSuccess == true) {
                           print("is success? : $bIsSuccess");
+
+                          // ignore: use_build_context_synchronously
+                          AwesomeDialog(
+                            context: context,
+                            animType: AnimType.leftSlide,
+                            headerAnimationLoop: false,
+                            dialogType: DialogType.success,
+                            showCloseIcon: false,
+                            title: 'Succes',
+                            desc: ' Order Is Deliverd ',
+                            btnOkOnPress: () {
+                              //debugPrint('OnClcik');
+                            },
+                            btnOkIcon: Icons.check_circle,
+                            onDismissCallback: (type) {
+                              debugPrint('Dialog Dissmiss from callback $type');
+                            },
+                          ).show();
                         }
 
                         value.orderListClear();
