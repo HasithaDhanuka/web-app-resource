@@ -4,6 +4,7 @@ import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/custom_button.dart';
 import 'package:web_app/Utils/text_field_module.dart';
 import 'package:web_app/provider_function/logic_function.dart';
+import 'package:web_app/screen/foodItems_view.dart';
 
 // ***************************************************************//
 // ####################   PopUp Item    ##########################//
@@ -60,7 +61,7 @@ Widget buttonOfPopUp(BuildContext context,
   );
 }
 
-// ***************************************************************//
+// ****************************************************************//
 // ####################   PopUp Order    ##########################//
 Future<bool?> popupOrder({
   required BuildContext context,
@@ -138,3 +139,53 @@ Future<bool?> popupOrder({
                 }),
               ),
             ));
+
+// ***************************************************************//
+// ####################   Owner Order View    ##########################//
+
+Future orderDetails({
+  required BuildContext context,
+  required Widget itemViewr,
+  required Widget nameWidget,
+  required Widget telPhoneWidget,
+  required Widget addressWidget,
+}) =>
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        insetPadding: const EdgeInsets.all(10),
+        backgroundColor: Colors.black,
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                width: 400,
+                height: 200,
+                child: itemViewr,
+              ),
+              nameWidget,
+              telPhoneWidget,
+              addressWidget,
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    reUsableButton(
+                        onPressed: () {},
+                        buttonName: "Order Finished",
+                        borderSideColor: MyColor.myGreen),
+                    reUsableButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        buttonName: "Back To Menu",
+                        borderSideColor: MyColor.myYellow),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );

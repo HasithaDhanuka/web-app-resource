@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/text_field_module.dart';
 import 'package:web_app/model/food.dart';
-import 'package:web_app/model/firebase_food.dart';
+import 'package:web_app/firebase/firebase_food.dart';
 import 'package:web_app/provider_function/logic_function.dart';
 import 'package:web_app/screen/foodItem_frame_view.dart';
 
@@ -35,7 +35,7 @@ class _UpdateDeleteItemState extends State<UpdateDeleteItem> {
         stream: ReadFoodItems(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const CircularProgressIndicator.adaptive();
           }
           if (snapshot.hasError) {
             return Center(
@@ -50,7 +50,7 @@ class _UpdateDeleteItemState extends State<UpdateDeleteItem> {
               child: ListView.builder(
                   // scrollDirection: Axis.horizontal,
                   itemCount: itemdata.length,
-                  itemBuilder: (BuildContext contect, int index) {
+                  itemBuilder: (BuildContext context, int index) {
                     final item = itemdata[index];
                     return ListOfItems(
                         itemName: item.itemName,

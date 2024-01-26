@@ -3,7 +3,7 @@ import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/view_wrapper.dart';
 import 'package:web_app/model/food.dart';
 import 'package:web_app/screen/foodItem_frame_view.dart';
-import '../model/firebase_food.dart';
+import '../firebase/firebase_food.dart';
 
 class FoodItemsView extends StatefulWidget {
   const FoodItemsView({super.key});
@@ -50,15 +50,22 @@ class _FoodItemState extends State<FoodItemsView> {
             crossAxisItemsCount: 2, scrollDirectionAxis: Axis.horizontal));
   }
 
+// ***************************************************************//
+// ####################   DESKTOP VIEW    ##########################//
+
   Widget desktopView(
       {required int crossAxisItemsCount, required Axis scrollDirectionAxis}) {
     //final int cross_axis_items;
     return Center(
       child: bodyOfDevicer(
-          crossAxisItemsCount: crossAxisItemsCount,
-          scrollDirectionAxis: scrollDirectionAxis),
+        crossAxisItemsCount: crossAxisItemsCount,
+        scrollDirectionAxis: scrollDirectionAxis,
+        readfoodItems: ReadFoodItems(),
+      ),
     );
   }
+// ***************************************************************//
+// ####################   Mobile VIEW    ##########################//
 
   Widget mobileView(
       {required int crossAxisItemsCount, required Axis scrollDirectionAxis}) {
@@ -71,15 +78,21 @@ class _FoodItemState extends State<FoodItemsView> {
           ),
           height: 300,
           child: bodyOfDevicer(
-              crossAxisItemsCount: crossAxisItemsCount,
-              scrollDirectionAxis: scrollDirectionAxis)),
+            crossAxisItemsCount: crossAxisItemsCount,
+            scrollDirectionAxis: scrollDirectionAxis,
+            readfoodItems: ReadFoodItems(),
+          )),
     );
   }
 
-  StreamBuilder<List<FoodItem>> bodyOfDevicer(
-      {required int crossAxisItemsCount, required Axis scrollDirectionAxis}) {
+// ***************************************************************//
+// ####################   Steram Data    ##########################//
+  Widget bodyOfDevicer(
+      {required int crossAxisItemsCount,
+      required Axis scrollDirectionAxis,
+      required Stream<List<FoodItem>> readfoodItems}) {
     return StreamBuilder<List<FoodItem>>(
-      stream: ReadFoodItems(),
+      stream: readfoodItems,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
@@ -94,21 +107,10 @@ class _FoodItemState extends State<FoodItemsView> {
         } else if (snapshot.hasData) {
           final productItems = snapshot.data!;
 
-          return GridView.builder(
-              scrollDirection: scrollDirectionAxis,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisItemsCount,
-              ),
-              itemCount: productItems.length,
-              itemBuilder: (BuildContext, index) {
-                final items = productItems[index];
-
-                return FoodTile(
-                  itemName: items.itemName,
-                  itemPrice: items.itemPrice,
-                  itemUrl: items.itemUrl,
-                );
-              });
+          return gridItemViewr(
+              crossAxisItemsCount: crossAxisItemsCount,
+              scrollDirectionAxis: scrollDirectionAxis,
+              itemLength: productItems);
         } else {
           return Text(
             "Item Not Founded",
@@ -149,4 +151,28 @@ class _FoodItemState extends State<FoodItemsView> {
   //     },
   //   );
   // }
+}
+// ***************************************************************//
+// ####################   Grid VIEW    ##########################//
+
+Widget gridItemViewr({
+  required int crossAxisItemsCount,
+  required Axis scrollDirectionAxis,
+  required List<FoodItem> itemLength,
+}) {
+  return GridView.builder(
+      scrollDirection: scrollDirectionAxis,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: crossAxisItemsCount,
+      ),
+      itemCount: itemLength.length,
+      itemBuilder: (BuildContext context, int index) {
+        final items = itemLength[index];
+
+        return FoodTile(
+          itemName: items.itemName,
+          itemPrice: items.itemPrice,
+          itemUrl: items.itemUrl,
+        );
+      });
 }

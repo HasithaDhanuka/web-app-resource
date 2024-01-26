@@ -27,6 +27,8 @@ class UserOrder {
         "userTotalPrice": userTotalPrice,
         "userPhoneNumber": userPhoneNumber,
         "userOrders": userOrders.map((e) => e.toJson()).toList(),
+
+        //   userOrders.map((e) => e.toJson()).toList(),
       };
 
   factory UserOrder.fromMap(Map<String, dynamic> data) {
@@ -37,7 +39,67 @@ class UserOrder {
       userPostalCode: data["userPostalCode"],
       userTotalPrice: data["userTotalPrice"],
       userPhoneNumber: data["userPhoneNumber"],
-      userOrders: data["userOrders"],
+      userOrders: List<FoodItem>.from(
+          data["userOrders"].map((item) => FoodItem.fromMap(item))),
     );
   }
 }
+
+
+// .forEach((v) {
+//           final orders = <FoodItem>[];
+//           orders.add(FoodItem.fromMap(v));
+//           print(orders[1]);
+//         })
+
+
+
+
+
+
+// class User {
+//   String userid;
+//   String userName;
+//   String userAddruss;
+//   int userPostalCode;
+//   double userTotalPrice;
+//   int userPhoneNumber;
+//   List<UserOrder> userOrders;
+
+//   User({
+//     required this.userid,
+//     required this.userName,
+//     required this.userAddruss,
+//     required this.userPostalCode,
+//     required this.userTotalPrice,
+//     required this.userPhoneNumber,
+//     required this.userOrders,
+//   });
+
+//   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+//   Map<String, dynamic> toJson() => _$UserToJson(this);
+// }
+
+// @JsonSerializable()
+// class UserOrder {
+//   String id;
+//   String itemName;
+//   double itemPrice;
+//   String itemUrl;
+
+//   UserOrder({
+//     required this.id,
+//     required this.itemName,
+//     required this.itemPrice,
+//     required this.itemUrl,
+//   });
+
+//   factory UserOrder.fromJson(Map<String, dynamic> json) =>
+//       _$UserOrderFromJson(json);
+
+//   Map<String, dynamic> toJson() => _$UserOrderToJson(this);
+// }
+
+
+
