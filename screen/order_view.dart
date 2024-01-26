@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:web_app/Utils/colors.dart';
-import 'package:web_app/widgets/custom_button.dart';
 import 'package:web_app/firebase/firebase_userOrder.dart';
 import 'package:web_app/model/food.dart';
 import 'package:web_app/model/user_order.dart';
-import 'package:web_app/provider_function/logic_function.dart';
 import 'package:web_app/screen/foodItems_view.dart';
 import 'package:web_app/screen/popup_view.dart';
 import 'package:web_app/widgets/reusable_widget.dart';
