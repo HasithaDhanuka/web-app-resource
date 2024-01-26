@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:web_app/Utils/colors.dart';
 
-Padding custemInputField({
+Padding customInputField({
   required String inputFieldName,
   required TextEditingController inputEditingController,
   required bool isNumberTypeKeybord,

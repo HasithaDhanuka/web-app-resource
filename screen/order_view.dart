@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:web_app/Utils/colors.dart';
-import 'package:web_app/Utils/custom_button.dart';
+import 'package:web_app/widgets/custom_button.dart';
 import 'package:web_app/firebase/firebase_userOrder.dart';
 import 'package:web_app/model/food.dart';
 import 'package:web_app/model/user_order.dart';
@@ -19,7 +19,7 @@ class OrderView extends StatefulWidget {
 
 class _CartViewState extends State<OrderView> {
   // final userNameEditingController = TextEditingController();
-  // final userPhoneNunberEditingController = TextEditingController();
+  final userPhoneNunberEditingController = TextEditingController();
   // final userPostalCodeEditingController = TextEditingController();
   // final userAddrassEditingController = TextEditingController();
 
@@ -34,7 +34,7 @@ class _CartViewState extends State<OrderView> {
     // TODO: implement dispose
     super.dispose();
     // userNameEditingController.clear();
-    // userPhoneNunberEditingController.clear();
+    userPhoneNunberEditingController.clear();
     // userPostalCodeEditingController.clear();
     // userAddrassEditingController.clear();
   }
@@ -70,7 +70,7 @@ class _CartViewState extends State<OrderView> {
                         child: orderCart(
                             userID: orderDetails.userid,
                             userName: orderDetails.userName,
-                            telephoneNumber: orderDetails.userPhoneNumber,
+                            userTelephoneNumber: orderDetails.userPhoneNumber,
                             userPostalCode: orderDetails.userPostalCode,
                             userAddress: orderDetails.userAddruss,
                             itemPrice: orderDetails.userTotalPrice,
@@ -111,15 +111,15 @@ class _CartViewState extends State<OrderView> {
   Widget orderCart({
     required String userID,
     required String userName,
-    required int telephoneNumber,
+    required int userTelephoneNumber,
     required int userPostalCode,
     required String userAddress,
     required int itemPrice,
     required List<FoodItem> orders,
   }) {
     return InkWell(
-      onTap: () {
-        orderDetails(
+      onTap: () async {
+        final isOrderFinished = await orderDetails(
           context: context,
           itemViewr: gridItemViewr(
               crossAxisItemsCount: 3,
@@ -131,13 +131,39 @@ class _CartViewState extends State<OrderView> {
               icon: const Icon(Icons.account_circle)),
           telPhoneWidget: titleSubtitle(
               title: "Phone Number",
-              subTitle: "$telephoneNumber",
+              subTitle: "$userTelephoneNumber",
               icon: const Icon(Icons.phone)),
           addressWidget: titleSubtitle(
               title: "Address",
               subTitle: "$userPostalCode \n $userAddress",
               icon: const Icon(Icons.location_on)),
+          userPhoneNumber: userTelephoneNumber,
+          textEditingController: userPhoneNunberEditingController,
         );
+        if (isOrderFinished == true) {
+          print("order is finished :: $isOrderFinished");
+
+          final removeDatabase = await deleteOrder(orderID: userID);
+
+          if (removeDatabase == true) {
+            isSuccessPopup(
+                context: context,
+                title: "Order Remove Success",
+                msg: "This Order Is Remove In The Data Base",
+                function: () {},
+                isSuccess: removeDatabase!);
+
+            debugPrint("Order is finished :: $isOrderFinished");
+          } else {
+            // ignore: use_build_context_synchronously
+            isSuccessPopup(
+                context: context,
+                title: "ERROR",
+                msg: "Cannot Remove This Order",
+                function: () {},
+                isSuccess: false);
+          }
+        }
       },
       child: SizedBox(
         height: 120,
@@ -158,7 +184,7 @@ class _CartViewState extends State<OrderView> {
                       style: TextStyle(color: MyColor.myGreen, fontSize: 15),
                     ),
                     Text(
-                      "$telephoneNumber",
+                      "$userTelephoneNumber",
                       style: TextStyle(color: MyColor.myGreen, fontSize: 15),
                     ),
                   ],
@@ -168,11 +194,37 @@ class _CartViewState extends State<OrderView> {
                 "$itemPrice 円",
                 style: TextStyle(color: MyColor.myGreen, fontSize: 15),
               ),
+              // ###################   Delete Button    ##########################//
               IconButton(
-                  onPressed: () {
-                    // context
-                    //     .read<OrderFoodItems>()
-                    //     .removeOrder(orderIndex: nOrderIndex);
+                  onPressed: () async {
+                    final isOrderFinished = await orderFinished(
+                        context: context,
+                        userPhoneNumber: userTelephoneNumber,
+                        textEditingController:
+                            userPhoneNunberEditingController);
+
+                    if (isOrderFinished == true) {
+                      final removeDatabase = await deleteOrder(orderID: userID);
+
+                      if (removeDatabase == true) {
+                        isSuccessPopup(
+                            context: context,
+                            title: "Order Remove Success",
+                            msg: "This Order Is Remove In The Data Base",
+                            function: () {},
+                            isSuccess: removeDatabase!);
+
+                        debugPrint("Order is finished :: $isOrderFinished");
+                      } else {
+                        // ignore: use_build_context_synchronously
+                        isSuccessPopup(
+                            context: context,
+                            title: "ERROR",
+                            msg: "Cannot Remove This Order",
+                            function: () {},
+                            isSuccess: false);
+                      }
+                    }
                   },
                   icon: Icon(
                     Icons.delete_outline,
@@ -186,6 +238,11 @@ class _CartViewState extends State<OrderView> {
     );
   }
 }
+
+
+
+
+
 
 // ***************************************************************//
 // ###################   Total Price    ##########################//

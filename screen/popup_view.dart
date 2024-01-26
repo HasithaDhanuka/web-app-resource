@@ -1,8 +1,10 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
-import 'package:web_app/Utils/custom_button.dart';
-import 'package:web_app/Utils/text_field_module.dart';
+import 'package:web_app/widgets/custom_button.dart';
+import 'package:web_app/widgets/reusable_widget.dart';
+import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/provider_function/logic_function.dart';
 import 'package:web_app/screen/foodItems_view.dart';
 
@@ -81,27 +83,27 @@ Future<bool?> popupOrder({
                     builder: (context, value, chaild) {
                   return Column(
                     children: <Widget>[
-                      custemInputField(
+                      customInputField(
                           inputFieldName: "Your Name",
                           inputEditingController: userNameEditingController,
                           isNumberTypeKeybord: false,
                           isValidate: value.getUserNameValidate,
                           keyBordType: TextInputType.name),
-                      custemInputField(
+                      customInputField(
                           inputFieldName: "Telephone Number",
                           inputEditingController:
                               userPhoneNunberEditingController,
                           isNumberTypeKeybord: true,
                           isValidate: value.getUserTelNumberValidate,
                           keyBordType: TextInputType.number),
-                      custemInputField(
+                      customInputField(
                           inputFieldName: "Postal Code",
                           inputEditingController:
                               userPostalCodeEditingController,
                           isNumberTypeKeybord: true,
                           isValidate: value.getUserPostalCodeValidate,
                           keyBordType: TextInputType.number),
-                      custemInputField(
+                      customInputField(
                           inputFieldName: "your Address",
                           inputEditingController: userAddrassEditingController,
                           isNumberTypeKeybord: false,
@@ -140,7 +142,7 @@ Future<bool?> popupOrder({
               ),
             ));
 
-// ***************************************************************//
+// *********************************************************************//
 // ####################   Owner Order View    ##########################//
 
 Future orderDetails({
@@ -149,6 +151,8 @@ Future orderDetails({
   required Widget nameWidget,
   required Widget telPhoneWidget,
   required Widget addressWidget,
+  required int userPhoneNumber,
+  required TextEditingController textEditingController,
 }) =>
     showDialog(
       context: context,
@@ -172,7 +176,17 @@ Future orderDetails({
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     reUsableButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          final isOrderFinished = await orderFinished(
+                              context: context,
+                              userPhoneNumber: userPhoneNumber,
+                              textEditingController: textEditingController);
+
+                          if (isOrderFinished == true) {
+                            print("order finished but presssed");
+                            Navigator.of((_)).pop(isOrderFinished);
+                          }
+                        },
                         buttonName: "Order Finished",
                         borderSideColor: MyColor.myGreen),
                     reUsableButton(
@@ -189,3 +203,164 @@ Future orderDetails({
         ),
       ),
     );
+
+// *********************************************************************//
+// ####################   Order Finished View    ##########################//
+
+Future<bool?> orderFinished(
+        {required BuildContext context,
+        required int userPhoneNumber,
+        required TextEditingController textEditingController}) =>
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              insetPadding: const EdgeInsets.only(
+                bottom: 200,
+                top: 200,
+              ),
+              backgroundColor: Colors.black,
+              content: SizedBox(
+                width: 400,
+                child: Column(
+                  children: [
+                    titleSubtitle(
+                        title: "User Phone Number",
+                        subTitle: "$userPhoneNumber",
+                        icon: const Icon(Icons.phone)),
+                    customInputField(
+                        inputFieldName: "Enter The Order Finished Code",
+                        inputEditingController: textEditingController,
+                        isNumberTypeKeybord: true,
+                        isValidate: true,
+                        keyBordType: TextInputType.number),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          reUsableButton(
+                              onPressed: () {
+                                // ####################### Is Text Field Empty    #####################//
+                                if (textEditingController.text.isEmpty) {
+                                  isSuccessPopup(
+                                    context: context,
+                                    title: "ERROR",
+                                    msg: "Please enter your mobile phone",
+                                    isSuccess: false,
+                                    function: () {},
+                                  );
+                                }
+                                // ####################### Is Text Field Match    #####################//
+                                if (userPhoneNumber ==
+                                    int.parse(textEditingController.text)) {
+                                  textEditingController.clear();
+                                  Navigator.of(context).pop(true);
+                                }
+                                // ####################### Is Text Field Not Match    #####################//
+                                else {
+                                  isSuccessPopup(
+                                      context: context,
+                                      title: "ERROR",
+                                      msg:
+                                          " Phone numbers do not match. Please enter again !",
+                                      isSuccess: false,
+                                      function: () {});
+                                }
+                              },
+                              buttonName: "Order Finished",
+                              borderSideColor: MyColor.myGreen),
+                          const SizedBox(
+                            width: 50,
+                          ),
+                          reUsableButton(
+                              onPressed: () {
+                                textEditingController.clear();
+                                Navigator.of(context).pop();
+                              },
+                              buttonName: "Back To Menu",
+                              borderSideColor: MyColor.myRed),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ));
+
+// *********************************************************************//
+// ####################   Error Popup    ###############################//
+Future isSuccessPopup({
+  required BuildContext context,
+  required String title,
+  required String msg,
+  required VoidCallback function,
+  required bool isSuccess,
+}) {
+  return isSuccess
+      ? AwesomeDialog(
+          context: context,
+          animType: AnimType.leftSlide,
+          headerAnimationLoop: false,
+          dialogType: DialogType.error,
+          showCloseIcon: false,
+          title: title,
+          desc: msg,
+          btnOkOnPress: function,
+          btnOkIcon: Icons.check_circle,
+        ).show()
+      : AwesomeDialog(
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.rightSlide,
+          headerAnimationLoop: false,
+          title: title,
+          desc: msg,
+          btnOkOnPress: function,
+          btnOkIcon: Icons.cancel,
+          btnOkColor: Colors.red,
+        ).show();
+}
+
+// // *********************************************************************//
+// // ####################   Error Popup    ###############################//
+// Future errorPopup({
+//   required BuildContext context,
+//   required String title,
+//   required String msg,
+//   required VoidCallback function,
+// }) {
+//   return AwesomeDialog(
+//     context: context,
+//     dialogType: DialogType.error,
+//     animType: AnimType.rightSlide,
+//     headerAnimationLoop: false,
+//     title: title,
+//     desc: msg,
+//     btnOkOnPress: function,
+//     btnOkIcon: Icons.cancel,
+//     btnOkColor: Colors.red,
+//   ).show();
+// }
+
+// // *********************************************************************//
+// // ####################   Success Popup    #############################//
+// Future successPopup({
+//   required BuildContext context,
+//   required String title,
+//   required String msg,
+//   required VoidCallback function,
+// }) =>
+//     AwesomeDialog(
+//       context: context,
+//       animType: AnimType.leftSlide,
+//       headerAnimationLoop: false,
+//       dialogType: DialogType.error,
+//       showCloseIcon: false,
+//       title: title,
+//       desc: msg,
+//       btnOkOnPress: function,
+//       btnOkIcon: Icons.check_circle,
+//       onDismissCallback: (type) {
+//         debugPrint('Dialog Dissmiss from callback $type');
+//       },
+//     ).show();

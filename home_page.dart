@@ -5,14 +5,13 @@ import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/view_wrapper.dart';
 import 'package:web_app/provider_function/logic_function.dart';
 //  import 'package:web_app/screen/about_view.dart';
-import 'package:web_app/screen/cart_view.dart';
+//import 'package:web_app/screen/cart_view.dart';
 import 'package:web_app/bottom_bar.dart';
 import 'package:web_app/content_view.dart';
 import 'package:web_app/custom_tab.dart';
 import 'package:web_app/screen/create_item_view.dart';
 import 'package:web_app/screen/foodItems_view.dart';
 import 'package:web_app/screen/order_view.dart';
-//  import 'package:web_app/screen/home_view.dart';
 import 'package:web_app/screen/update_item_view.dart';
 import 'package:web_app/widgets/background.dart';
 import 'custom_tab_bar.dart';
@@ -172,7 +171,7 @@ class _HomePageState extends State<HomePage>
                 ),
                 IconButton(
                     onPressed: () {
-                      _itemScrollController.jumpTo(index: 3);
+                      _itemScrollController.jumpTo(index: 0);
                     },
                     icon: Icon(
                       Icons.add_shopping_cart_outlined,

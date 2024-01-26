@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
-import 'package:web_app/Utils/text_field_module.dart';
+import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/firebase/firebase_food.dart';
 import 'package:web_app/model/food.dart';
 import 'package:web_app/provider_function/logic_function.dart';
@@ -50,7 +50,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
       child: Column(
         children: <Widget>[
           Consumer<TextFieldChanger>(builder: (context, value, child) {
-            return custemInputField(
+            return customInputField(
                 inputFieldName: "Item Name",
                 inputEditingController: itemNameController,
                 isNumberTypeKeybord: false,
@@ -58,7 +58,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                 keyBordType: TextInputType.name);
           }),
           Consumer<TextFieldChanger>(builder: (context, value, child) {
-            return custemInputField(
+            return customInputField(
                 inputFieldName: "Item Price",
                 inputEditingController: itemPricesController,
                 isNumberTypeKeybord: true,
@@ -66,7 +66,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                 keyBordType: TextInputType.number);
           }),
           Consumer<TextFieldChanger>(builder: (context, value, child) {
-            return custemInputField(
+            return customInputField(
                 inputFieldName: "Item URL",
                 inputEditingController: itemURLController,
                 isNumberTypeKeybord: false,

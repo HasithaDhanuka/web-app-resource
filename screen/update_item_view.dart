@@ -4,7 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
-import 'package:web_app/Utils/text_field_module.dart';
+import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/model/food.dart';
 import 'package:web_app/firebase/firebase_food.dart';
 import 'package:web_app/provider_function/logic_function.dart';
@@ -205,7 +205,7 @@ class _UpdateDeleteItemState extends State<UpdateDeleteItem> {
               child: Column(
                 children: <Widget>[
                   Consumer<FoodItemProperty>(builder: (context, value, child) {
-                    return custemInputField(
+                    return customInputField(
                         inputFieldName: value.getItemName,
                         inputEditingController: _itemNameController,
                         isNumberTypeKeybord: false,
@@ -213,7 +213,7 @@ class _UpdateDeleteItemState extends State<UpdateDeleteItem> {
                         keyBordType: TextInputType.name);
                   }),
                   Consumer<FoodItemProperty>(builder: (context, value, child) {
-                    return custemInputField(
+                    return customInputField(
                         inputFieldName: "${value.getItemPrice} ￥",
                         inputEditingController: _itemPriceController,
                         isNumberTypeKeybord: true,

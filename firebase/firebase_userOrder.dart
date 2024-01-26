@@ -32,3 +32,15 @@ Stream<List<UserOrder>> readUserOrders() {
   return firestoreUserOrders.map((snapshot) =>
       snapshot.docs.map((doc) => UserOrder.fromMap(doc.data())).toList());
 }
+
+//*****************************************************************************
+//   Read Food Item Order
+//*****************************************************************************
+Future<bool?> deleteOrder({required String orderID}) async {
+  final orderDelete =
+      FirebaseFirestore.instance.collection("userOrders").doc(orderID);
+  return await orderDelete
+      .delete()
+      .then((value) => true)
+      .catchError((err) => false);
+}
