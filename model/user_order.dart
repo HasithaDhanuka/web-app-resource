@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:web_app/model/food.dart';
 
 class UserOrder {
@@ -7,6 +8,7 @@ class UserOrder {
   late final int userPostalCode;
   late final int userTotalPrice;
   late int userPhoneNumber;
+  late int timestamp;
   late final List<FoodItem> userOrders;
 
   UserOrder({
@@ -16,6 +18,7 @@ class UserOrder {
     required this.userPostalCode,
     required this.userTotalPrice,
     required this.userPhoneNumber,
+    this.timestamp = 8,
     required this.userOrders,
   });
 
@@ -26,6 +29,7 @@ class UserOrder {
         "userPostalCode": userPostalCode,
         "userTotalPrice": userTotalPrice,
         "userPhoneNumber": userPhoneNumber,
+        "timeStamp": FieldValue.serverTimestamp(),
         "userOrders": userOrders.map((e) => e.toJson()).toList(),
 
         //   userOrders.map((e) => e.toJson()).toList(),
@@ -39,67 +43,9 @@ class UserOrder {
       userPostalCode: data["userPostalCode"],
       userTotalPrice: data["userTotalPrice"],
       userPhoneNumber: data["userPhoneNumber"],
+      timestamp: data["timeStamp"],
       userOrders: List<FoodItem>.from(
           data["userOrders"].map((item) => FoodItem.fromMap(item))),
     );
   }
 }
-
-
-// .forEach((v) {
-//           final orders = <FoodItem>[];
-//           orders.add(FoodItem.fromMap(v));
-//           print(orders[1]);
-//         })
-
-
-
-
-
-
-// class User {
-//   String userid;
-//   String userName;
-//   String userAddruss;
-//   int userPostalCode;
-//   double userTotalPrice;
-//   int userPhoneNumber;
-//   List<UserOrder> userOrders;
-
-//   User({
-//     required this.userid,
-//     required this.userName,
-//     required this.userAddruss,
-//     required this.userPostalCode,
-//     required this.userTotalPrice,
-//     required this.userPhoneNumber,
-//     required this.userOrders,
-//   });
-
-//   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-
-//   Map<String, dynamic> toJson() => _$UserToJson(this);
-// }
-
-// @JsonSerializable()
-// class UserOrder {
-//   String id;
-//   String itemName;
-//   double itemPrice;
-//   String itemUrl;
-
-//   UserOrder({
-//     required this.id,
-//     required this.itemName,
-//     required this.itemPrice,
-//     required this.itemUrl,
-//   });
-
-//   factory UserOrder.fromJson(Map<String, dynamic> json) =>
-//       _$UserOrderFromJson(json);
-
-//   Map<String, dynamic> toJson() => _$UserOrderToJson(this);
-// }
-
-
-

@@ -16,7 +16,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => FoodItemProperty()),
         ChangeNotifierProvider(create: (_) => TextFieldChanger()),
         ChangeNotifierProvider(create: (_) => OrderFoodItems()),
-        ChangeNotifierProvider(create: (_) => OrderCount()),
+        ChangeNotifierProvider(create: (_) => UserOrdersFind()),
       ],
       builder: (context, child) => const MyApp(),
     ),

@@ -53,7 +53,8 @@ class FoodTile extends StatelessWidget {
           ),
           child: InkResponse(
             onTap: () async {
-              final orderComplete = await popUpItem(context, itemUrl: itemUrl);
+              final orderComplete =
+                  await popUpItem(context, itemUrl: itemUrl, canOrder: false);
 
               if (orderComplete == null || orderComplete == false) {
                 return;

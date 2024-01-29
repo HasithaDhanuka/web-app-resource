@@ -100,18 +100,18 @@ class OrderFoodItems extends ChangeNotifier {
   List<FoodItem> get getOrderList => listOfOrder;
 }
 
-class OrderCount extends ChangeNotifier {
-  int nCurrentItem = 1;
-  void addItem({required int nItem}) {
-    nItem++;
-    nCurrentItem = nItem;
+// *****************************************************************
+// ##################    USER  ORDERS   ############################
+
+class UserOrdersFind extends ChangeNotifier {
+  int lengthOfOrders = 0;
+  Future<int> getUserOrder({required int ordersLength}) async {
+    lengthOfOrders = await ordersLength;
+    print("order length is ::${lengthOfOrders}");
+
     notifyListeners();
+    return lengthOfOrders;
   }
 
-  void removeItem({int nItem = 1}) {
-    nItem - nItem;
-    nItem == 0 ? nItem = 1 : nItem;
-    nCurrentItem = nItem;
-    notifyListeners();
-  }
+  int get totalOrdersCount => lengthOfOrders;
 }

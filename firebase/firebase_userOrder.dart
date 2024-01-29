@@ -26,8 +26,10 @@ Future<bool?> createOrder({required UserOrder userOrder}) async {
 //   Read Food Item Order
 //*****************************************************************************
 Stream<List<UserOrder>> readUserOrders() {
-  final firestoreUserOrders =
-      FirebaseFirestore.instance.collection("userOrders").snapshots();
+  final firestoreUserOrders = FirebaseFirestore.instance
+      .collection("userOrders")
+      // .orderBy('createdAt', descending: true)
+      .snapshots();
 
   return firestoreUserOrders.map((snapshot) =>
       snapshot.docs.map((doc) => UserOrder.fromMap(doc.data())).toList());

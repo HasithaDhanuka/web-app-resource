@@ -9,7 +9,8 @@ import 'package:web_app/provider_function/logic_function.dart';
 
 // ***************************************************************//
 // ####################   PopUp Item    ##########################//
-Future<bool?> popUpItem(BuildContext context, {required String itemUrl}) =>
+Future<bool?> popUpItem(BuildContext context,
+        {required String itemUrl, required bool canOrder}) =>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -35,10 +36,12 @@ Future<bool?> popUpItem(BuildContext context, {required String itemUrl}) =>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              buttonOfPopUp(context,
-                  isOrder: true,
-                  borderSideColor: MyColor.myGreen,
-                  buttonName: "Order"),
+              canOrder
+                  ? buttonOfPopUp(context,
+                      isOrder: true,
+                      borderSideColor: MyColor.myGreen,
+                      buttonName: "Order")
+                  : Container(),
               buttonOfPopUp(context,
                   isOrder: false,
                   borderSideColor: MyColor.myRed,

@@ -165,8 +165,13 @@ class _HomePageState extends State<HomePage>
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                //"${context.watch<OrderFoodItems>().listOfOrder.length}",
+                // Consumer<UserOrdersFind>(builder: (context, value, chaild) {
+                //   return Text("1 ${value.totalOrdersCount}");
+                // }),
+
                 Text(
-                  "${context.watch<OrderFoodItems>().listOfOrder.length}",
+                  "${context.watch<UserOrdersFind>().totalOrdersCount}",
                   style: TextStyle(color: MyColor.myRed, fontSize: 30),
                 ),
                 IconButton(

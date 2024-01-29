@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/firebase/firebase_userOrder.dart';
 import 'package:web_app/model/food.dart';
 import 'package:web_app/model/user_order.dart';
+import 'package:web_app/provider_function/logic_function.dart';
 import 'package:web_app/screen/foodItems_view.dart';
 import 'package:web_app/screen/popup_view.dart';
 import 'package:web_app/widgets/reusable_widget.dart';
@@ -16,10 +18,7 @@ class OrderView extends StatefulWidget {
 }
 
 class _CartViewState extends State<OrderView> {
-  // final userNameEditingController = TextEditingController();
   final userPhoneNunberEditingController = TextEditingController();
-  // final userPostalCodeEditingController = TextEditingController();
-  // final userAddrassEditingController = TextEditingController();
 
   @override
   void initState() {
@@ -31,10 +30,8 @@ class _CartViewState extends State<OrderView> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    // userNameEditingController.clear();
+
     userPhoneNunberEditingController.clear();
-    // userPostalCodeEditingController.clear();
-    // userAddrassEditingController.clear();
   }
 
   @override
@@ -43,7 +40,10 @@ class _CartViewState extends State<OrderView> {
         stream: readUserOrders(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator.adaptive();
+            return const CircularProgressIndicator.adaptive(
+              strokeWidth: 4,
+              semanticsLabel: "Lording",
+            );
           }
 
           if (snapshot.hasError) {
@@ -56,6 +56,10 @@ class _CartViewState extends State<OrderView> {
           } else if (snapshot.hasData) {
             final userOrdersData = snapshot.data!;
 
+            context
+                .read<UserOrdersFind>()
+                .getUserOrder(ordersLength: userOrdersData.length);
+
             return Column(children: [
               SizedBox(
                 height: 400,
@@ -63,6 +67,7 @@ class _CartViewState extends State<OrderView> {
                     itemCount: userOrdersData.length,
                     itemBuilder: (BuildContext context, int index) {
                       final orderDetails = userOrdersData[index];
+
                       return Padding(
                         padding: const EdgeInsets.only(top: 10),
                         child: orderCart(
