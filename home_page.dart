@@ -4,15 +4,16 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/view_wrapper.dart';
 import 'package:web_app/provider_function/logic_function.dart';
-//  import 'package:web_app/screen/about_view.dart';
-//import 'package:web_app/screen/cart_view.dart';
+import 'package:web_app/screen/about_view.dart';
+import 'package:web_app/screen/cart_view.dart';
 import 'package:web_app/bottom_bar.dart';
 import 'package:web_app/content_view.dart';
 import 'package:web_app/custom_tab.dart';
-import 'package:web_app/screen/create_item_view.dart';
+//  import 'package:web_app/screen/create_item_view.dart';
 import 'package:web_app/screen/foodItems_view.dart';
-import 'package:web_app/screen/order_view.dart';
-import 'package:web_app/screen/update_item_view.dart';
+import 'package:web_app/screen/home_view.dart';
+//  import 'package:web_app/screen/order_view.dart';
+//  import 'package:web_app/screen/update_item_view.dart';
 import 'package:web_app/widgets/background.dart';
 import 'custom_tab_bar.dart';
 
@@ -35,17 +36,15 @@ class _HomePageState extends State<HomePage>
   List<ContentView> contentViews = [
     ContentView(
       tab: const CustomTab(
-        isShowCount: true,
-        title: "Orders ",
-        //context.watch<OrderFoodItems>().listOfOrder.length,
-        iconData: Icons.add_shopping_cart_sharp,
+        isShowCount: false,
+        title: "Home",
       ),
-      content: const OrderView(),
+      content: const HomeView(),
     ),
 
     ContentView(
       tab: const CustomTab(
-        isShowCount: false,
+        isShowCount: true,
         title: "Food",
       ),
       content: const FoodItemsView(),
@@ -54,41 +53,44 @@ class _HomePageState extends State<HomePage>
     ContentView(
       tab: const CustomTab(
         isShowCount: false,
-        title: "Update Item",
+        title: "About",
       ),
-      content: const UpdateDeleteItem(),
+      content: const AboutView(),
     ),
+
     ContentView(
       tab: const CustomTab(
-        isShowCount: false,
-        title: "Create",
+        isShowCount: true,
+        title: "Cart ",
+        iconData: Icons.add_shopping_cart_sharp,
       ),
-      content: const CreateItem(),
+      content: const CartView(),
     ),
-
-    // ContentView(
-    //   tab: const CustomTab(
-    //     isShowCount: false,
-    //     title: "Home",
-    //   ),
-    //   content: const HomeView(),
-    // ),
-
-    // ContentView(
-    //   tab: const CustomTab(
-    //     isShowCount: false,
-    //     title: "About",
-    //   ),
-    //   content: const AboutView(),
-    // ),
 
     // ContentView(
     //   tab: const CustomTab(
     //     isShowCount: true,
-    //     title: "Cart ",
+    //     title: "Orders ",
+    //     //context.watch<OrderFoodItems>().listOfOrder.length,
     //     iconData: Icons.add_shopping_cart_sharp,
     //   ),
-    //   content: const CartView(),
+    //   content: const OrderView(),
+    // ),
+
+    // ContentView(
+    //   tab: const CustomTab(
+    //     isShowCount: false,
+    //     title: "Update Item",
+    //   ),
+    //   content: const UpdateDeleteItem(),
+    // ),
+
+    // ContentView(
+    //   tab: const CustomTab(
+    //     isShowCount: false,
+    //     title: "Create",
+    //   ),
+    //   content: const CreateItem(),
     // ),
   ];
   @override
@@ -165,18 +167,13 @@ class _HomePageState extends State<HomePage>
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                //"${context.watch<OrderFoodItems>().listOfOrder.length}",
-                // Consumer<UserOrdersFind>(builder: (context, value, chaild) {
-                //   return Text("1 ${value.totalOrdersCount}");
-                // }),
-
                 Text(
-                  "${context.watch<UserOrdersFind>().totalOrdersCount}",
+                  "${context.watch<OrderFoodItems>().getOrderList.length}",
                   style: TextStyle(color: MyColor.myRed, fontSize: 30),
                 ),
                 IconButton(
                     onPressed: () {
-                      _itemScrollController.jumpTo(index: 0);
+                      _itemScrollController.jumpTo(index: 4);
                     },
                     icon: Icon(
                       Icons.add_shopping_cart_outlined,
