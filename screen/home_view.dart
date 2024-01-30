@@ -118,12 +118,15 @@ class _HomeViewState extends State<HomeView> {
                 // fontFamily: 'Horizon',
               ),
               child: AnimatedTextKit(
+                totalRepeatCount: 4,
                 animatedTexts: [
+                  RotateAnimatedText('සුභ දවසක් ',
+                      textStyle: TextStyle(color: MyColor.myRed)),
                   RotateAnimatedText('Lankan Taste',
                       textStyle: TextStyle(color: MyColor.myGreen)),
                   RotateAnimatedText('スリランカ味',
                       textStyle: TextStyle(color: MyColor.myOrange)),
-                  RotateAnimatedText('DIFFERENT',
+                  RotateAnimatedText('ආයුබෝවන්',
                       textStyle: TextStyle(color: MyColor.myYellow)),
                 ],
                 repeatForever: true,

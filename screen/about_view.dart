@@ -19,7 +19,9 @@ class _AboutViewState extends State<AboutView>
 
   final String _about_text =
       "xxxxxx xxxxxxx xxxxxxx xxxxxxxx xxxxxxxx xxxxxxx xxxxxx nnnnnnnnnnnnnnnnnnnnnxxxxxxxxxxxxxxxxxx BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB xxxxxx";
-
+  String japanese = "松山市内で配達しています。オーダーから200円ご利用頂きます。";
+  String sinhala =
+      "අපි Matsuyama නගරය තුළ බෙදාහරින්නෙමු. ඇණවුමෙන් යෙන් 200 ක් අය කෙරේ.";
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
@@ -51,7 +53,7 @@ class _AboutViewState extends State<AboutView>
         Expanded(
             flex: 3,
             child: BulletList(
-              strings: [_about_text, _about_text, _about_text, _about_text],
+              strings: [_about_text, japanese, sinhala, _about_text],
             ))
       ],
     );
@@ -134,9 +136,7 @@ class _AboutViewState extends State<AboutView>
   }
 
   Widget infoText() {
-    return Text(
-        "xxx xxxx xxxx ccc casdadadaa     xxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxx  xxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxxxxxxxxxxxxx cc",
-        style: TextStyle(color: MyColor.myYellow),
-        overflow: TextOverflow.clip);
+    return Text("$japanese \n\n$sinhala",
+        style: TextStyle(color: MyColor.myYellow), overflow: TextOverflow.clip);
   }
 }
