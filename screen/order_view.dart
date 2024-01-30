@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
+import 'package:web_app/Utils/timedate_conventer.dart';
 import 'package:web_app/firebase/firebase_userOrder.dart';
 import 'package:web_app/model/food.dart';
 import 'package:web_app/model/user_order.dart';
@@ -77,6 +79,7 @@ class _CartViewState extends State<OrderView> {
                             userPostalCode: orderDetails.userPostalCode,
                             userAddress: orderDetails.userAddruss,
                             itemPrice: orderDetails.userTotalPrice,
+                            timeOfOrder: orderDetails.timestamp!,
                             orders: orderDetails.userOrders),
                       );
                     }),
@@ -118,8 +121,11 @@ class _CartViewState extends State<OrderView> {
     required int userPostalCode,
     required String userAddress,
     required int itemPrice,
+    required Timestamp timeOfOrder,
     required List<FoodItem> orders,
   }) {
+// ***************************************************************//
+// ###################   Tap ON CART    ##########################//
     return InkWell(
       onTap: () async {
         final isOrderFinished = await orderDetails(
@@ -144,7 +150,7 @@ class _CartViewState extends State<OrderView> {
           textEditingController: userPhoneNunberEditingController,
         );
         if (isOrderFinished == true) {
-          print("order is finished :: $isOrderFinished");
+          //   print("order is finished :: $isOrderFinished");
 
           final removeDatabase = await deleteOrder(orderID: userID);
 
@@ -168,6 +174,8 @@ class _CartViewState extends State<OrderView> {
           }
         }
       },
+// ***************************************************************//
+// ##################   Design of Order Cart  ####################//
       child: SizedBox(
         height: 120,
         child: Card(
@@ -179,24 +187,30 @@ class _CartViewState extends State<OrderView> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      userName,
+                      "Name : $userName",
                       style: TextStyle(color: MyColor.myGreen, fontSize: 15),
                     ),
                     Text(
-                      "$userTelephoneNumber",
+                      "TP    : $userTelephoneNumber",
                       style: TextStyle(color: MyColor.myGreen, fontSize: 15),
                     ),
                   ],
                 ),
               ),
-              Text(
-                "$itemPrice 円",
-                style: TextStyle(color: MyColor.myGreen, fontSize: 15),
+
+              Row(
+                children: [
+                  Text(
+                    "Date - ${TimeDateConventor().date(timeStamp: timeOfOrder)}\nTime - ${TimeDateConventor().time(timeStamp: timeOfOrder)}\n$itemPrice 円",
+                    style: TextStyle(color: MyColor.myGreen, fontSize: 15),
+                  ),
+                ],
               ),
+
               // ###################   Delete Button    ##########################//
               IconButton(
                   onPressed: () async {
@@ -216,8 +230,6 @@ class _CartViewState extends State<OrderView> {
                             msg: "This Order Is Remove In The Data Base",
                             function: () {},
                             isSuccess: removeDatabase!);
-
-                        debugPrint("Order is finished :: $isOrderFinished");
                       } else {
                         // ignore: use_build_context_synchronously
                         isSuccessPopup(

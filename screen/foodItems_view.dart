@@ -95,7 +95,7 @@ class _FoodItemState extends State<FoodItemsView> {
       stream: readfoodItems,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const CircularProgressIndicator.adaptive();
         }
 
         if (snapshot.hasError) {

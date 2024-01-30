@@ -16,8 +16,8 @@ class BulletPoint extends StatelessWidget {
     double _animationStart = 0.1 * index;
     double _animationEnd = _animationStart + 0.4;
     return SlideTransition(
-      position: Tween<Offset>(begin: Offset(2, 0), end: Offset(0, 0)).animate(
-          CurvedAnimation(
+      position: Tween<Offset>(begin: const Offset(2, 0), end: Offset(0, 0))
+          .animate(CurvedAnimation(
               parent: animationController,
               curve: Interval(_animationStart, _animationEnd,
                   curve: Curves.ease))),

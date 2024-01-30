@@ -17,13 +17,14 @@ class _BulletListState extends State<BulletList>
   late AnimationController _animationController;
 
   void animStart() {
-    Timer(Duration(milliseconds: 200), () => _animationController.forward());
+    Timer(const Duration(milliseconds: 200),
+        () => _animationController.forward());
   }
 
   @override
   void initState() {
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1000));
+        vsync: this, duration: const Duration(milliseconds: 1000));
     animStart();
 
     super.initState();
@@ -37,8 +38,7 @@ class _BulletListState extends State<BulletList>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(widget.strings.length * 2, (index) {
         if (index.isEven) {
@@ -54,6 +54,6 @@ class _BulletListState extends State<BulletList>
           return Spacer(flex: 1);
         }
       }),
-    ));
+    );
   }
 }

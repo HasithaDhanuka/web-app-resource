@@ -130,7 +130,6 @@ Future<bool?> popupOrder({
                                 userPhoneNunberEditingController.text.isEmpty ||
                                 userPostalCodeEditingController.text.isEmpty ||
                                 userAddrassEditingController.text.isEmpty) {
-                              print("not ok something is wrong");
                               return;
                             }
 
@@ -303,7 +302,7 @@ Future isSuccessPopup({
           context: context,
           animType: AnimType.leftSlide,
           headerAnimationLoop: false,
-          dialogType: DialogType.error,
+          dialogType: DialogType.success,
           showCloseIcon: false,
           title: title,
           desc: msg,

@@ -87,8 +87,6 @@ class _CartViewState extends State<CartView> {
                         );
 
                         if (bIsSuccess == true) {
-                          print("is success? : $bIsSuccess");
-
                           // ignore: use_build_context_synchronously
                           AwesomeDialog(
                             context: context,
@@ -102,9 +100,6 @@ class _CartViewState extends State<CartView> {
                               //debugPrint('OnClcik');
                             },
                             btnOkIcon: Icons.check_circle,
-                            onDismissCallback: (type) {
-                              debugPrint('Dialog Dissmiss from callback $type');
-                            },
                           ).show();
                         }
 

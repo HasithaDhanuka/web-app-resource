@@ -128,9 +128,7 @@ class _HomeViewState extends State<HomeView> {
                 ],
                 repeatForever: true,
                 pause: const Duration(seconds: 1),
-                onTap: () {
-                  print("Tap Event");
-                },
+                onTap: () {},
               ),
             ),
           ],

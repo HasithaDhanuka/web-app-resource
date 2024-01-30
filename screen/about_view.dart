@@ -38,14 +38,14 @@ class _AboutViewState extends State<AboutView>
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Spacer(
+        const Spacer(
           flex: 1,
         ),
         Expanded(
           flex: 3,
           child: infoSection(),
         ),
-        Spacer(
+        const Spacer(
           flex: 1,
         ),
         Expanded(
@@ -87,7 +87,7 @@ class _AboutViewState extends State<AboutView>
   }
 
   Widget infoSection() {
-    return Container(
+    return SizedBox(
       width: screenWidth * 0.35,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

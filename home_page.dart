@@ -140,14 +140,14 @@ class _HomePageState extends State<HomePage>
           controller: tabController,
           tabs: contentViews.map((e) => e.tab).toList(),
         ),
-        Container(
+        SizedBox(
           height: screenHeight * 0.8,
           child: TabBarView(
             controller: tabController,
             children: contentViews.map((e) => e.content).toList(),
           ),
         ),
-        BottomBar(),
+        const BottomBar(),
       ],
     );
   }

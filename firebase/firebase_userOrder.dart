@@ -12,12 +12,12 @@ Future<bool?> createOrder({required UserOrder userOrder}) async {
   userOrder.userid = getDoctItem.id;
   final setJson = userOrder.toJson();
 
-  print("${setJson}");
+//  print("${setJson}");
   return getDoctItem.set(setJson).then((value) {
-    print("Order send success !");
+    //   print("Order send success !");
     return true;
   }).catchError((error) {
-    print("Oder Error");
+    //   print("Oder Error");
     return false;
   });
 }
@@ -28,7 +28,7 @@ Future<bool?> createOrder({required UserOrder userOrder}) async {
 Stream<List<UserOrder>> readUserOrders() {
   final firestoreUserOrders = FirebaseFirestore.instance
       .collection("userOrders")
-      // .orderBy('createdAt', descending: true)
+      .orderBy('timeStamp')
       .snapshots();
 
   return firestoreUserOrders.map((snapshot) =>

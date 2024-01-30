@@ -19,7 +19,7 @@ class BottomBar extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        Container(
+        SizedBox(
           height: screenHeight * 0.05,
           child: Padding(
             padding: EdgeInsets.only(
@@ -29,21 +29,21 @@ class BottomBar extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    CustomIconButton(
+                    const CustomIconButton(
                         icondata: FontAwesomeIcons.github,
                         url: "https://github.com/HasithaDhanuka",
                         color: Colors.blue),
                     SizedBox(
                       width: screenWidth * 0.02,
                     ),
-                    CustomIconButton(
+                    const CustomIconButton(
                         icondata: FontAwesomeIcons.youtube,
                         url: "https://www.youtube.com/",
                         color: Colors.blue),
                     SizedBox(
                       width: screenWidth * 0.02,
                     ),
-                    CustomIconButton(
+                    const CustomIconButton(
                         icondata: FontAwesomeIcons.facebook,
                         url: "https://www.facebook.com/",
                         color: Colors.blue),

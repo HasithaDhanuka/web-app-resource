@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:web_app/Utils/colors.dart';
 
 class CustomTabBar extends StatelessWidget {
-  CustomTabBar({required this.controller, required this.tabs});
+  const CustomTabBar({super.key, required this.controller, required this.tabs});
   final TabController controller;
   final List<Widget> tabs;
 
@@ -16,13 +16,13 @@ class CustomTabBar extends StatelessWidget {
             : 0.8;
     return Padding(
       padding: EdgeInsets.only(right: screen_width * 0.05),
-      child: Container(
+      child: SizedBox(
         width: screen_width * tabBarScaling,
         child: Theme(
           data: ThemeData(
               highlightColor: Colors.transparent,
-              splashColor: Color.fromARGB(239, 241, 5, 5),
-              hoverColor: Color.fromARGB(19, 250, 3, 3)),
+              splashColor: const Color.fromARGB(239, 241, 5, 5),
+              hoverColor: const Color.fromARGB(19, 250, 3, 3)),
           child: TabBar(
             labelColor: MyColor.myRed,
             unselectedLabelColor: MyColor.myWhite,
@@ -31,7 +31,7 @@ class CustomTabBar extends StatelessWidget {
             overlayColor: MaterialStateProperty.resolveWith<Color?>(
               (Set<MaterialState> states) {
                 if (states.contains(MaterialState.hovered)) {
-                  return Color.fromARGB(70, 70, 241, 36);
+                  return const Color.fromARGB(70, 70, 241, 36);
                 }
                 return null;
               },

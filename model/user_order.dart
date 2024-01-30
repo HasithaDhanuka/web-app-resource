@@ -8,7 +8,7 @@ class UserOrder {
   late final int userPostalCode;
   late final int userTotalPrice;
   late int userPhoneNumber;
-  late int timestamp;
+  late Timestamp? timestamp;
   late final List<FoodItem> userOrders;
 
   UserOrder({
@@ -18,7 +18,7 @@ class UserOrder {
     required this.userPostalCode,
     required this.userTotalPrice,
     required this.userPhoneNumber,
-    this.timestamp = 8,
+    this.timestamp,
     required this.userOrders,
   });
 
