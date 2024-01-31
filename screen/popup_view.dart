@@ -86,6 +86,13 @@ Future<bool?> popupOrder({
                   return Column(
                     children: <Widget>[
                       customInputField(
+                          inputFieldName: "your Address",
+                          inputEditingController: userAddrassEditingController,
+                          isNumberTypeKeybord: false,
+                          isValidate: value.getUserAddressValidate,
+                          keyBordType: TextInputType.multiline,
+                          maxLine: 5),
+                      customInputField(
                           inputFieldName: "Your Name",
                           inputEditingController: userNameEditingController,
                           isNumberTypeKeybord: false,
@@ -105,13 +112,6 @@ Future<bool?> popupOrder({
                           isNumberTypeKeybord: true,
                           isValidate: value.getUserPostalCodeValidate,
                           keyBordType: TextInputType.number),
-                      customInputField(
-                          inputFieldName: "your Address",
-                          inputEditingController: userAddrassEditingController,
-                          isNumberTypeKeybord: false,
-                          isValidate: value.getUserAddressValidate,
-                          keyBordType: TextInputType.multiline,
-                          maxLine: 5),
                       reUsableButton(
                           onPressed: () {
                             value.orderSendScreen(

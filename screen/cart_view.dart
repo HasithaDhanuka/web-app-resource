@@ -133,7 +133,7 @@ class _CartViewState extends State<CartView> {
               child: Lottie.asset("assets/wating.json",
                   height: 200, width: 200, fit: BoxFit.cover)),
           Text(
-            "Data is Not allow",
+            "オーダーをまだ購入されてない。\nඔබ තවමත් ඔබේ ඇණවුම මිලදී ගෙන නැත.\nYou have not purchased your order yet.",
             style: TextStyle(color: MyColor.myRed),
           ),
         ]),
