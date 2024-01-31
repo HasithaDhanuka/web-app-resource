@@ -13,6 +13,7 @@ Padding customInputField({
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
     child: TextField(
+      onTap: () {},
       style: TextStyle(color: MyColor.myWhite),
       controller: inputEditingController,
       keyboardType: keyBordType,

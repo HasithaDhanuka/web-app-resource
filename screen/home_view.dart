@@ -104,12 +104,13 @@ class _HomeViewState extends State<HomeView> {
 
       child: SizedBox(
         height: 150,
-        width: 300,
+        width: 400,
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
-              'HI ',
+              '  --> ',
               style: TextStyle(fontSize: fontSize, color: MyColor.myGreen),
             ),
             DefaultTextStyle(
