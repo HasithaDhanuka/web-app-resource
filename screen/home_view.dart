@@ -37,16 +37,25 @@ class _HomeViewState extends State<HomeView> {
               SizedBox(
                 height: screenHeight * 0.08,
               ),
-              subHeader("Welcome to matsuyama ....", getFontSize(false)),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              subHeader("How about you ?", getFontSize(false)),
+              subHeader(
+                  text: "Welcome to matsuyama ....",
+                  fontSize: getFontSize(false),
+                  color: MyColor.myYellow),
               SizedBox(
                 height: screenHeight * 0.02,
               ),
               subHeader(
-                  "flutter web development testing ....", getFontSize(false)),
+                  text: "ඔබගේ සහභාගීත්වයට බොහෝම ස්තූතියි.",
+                  fontSize: getFontSize(false),
+                  color: MyColor.myYellow),
+              SizedBox(
+                height: screenHeight * 0.02,
+              ),
+              subHeader(
+                  text:
+                      "අපි මට්සුයම හා ඒ අවට ප්‍රදේශ වල භාණ්ඩ සැපයුන් සේවාව පවත්වාගෙන යන්නෙමු.",
+                  fontSize: getFontSize(false),
+                  color: MyColor.myYellow),
             ],
           ),
         ),
@@ -64,17 +73,26 @@ class _HomeViewState extends State<HomeView> {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          //   mainAxisAlignment: MainAxisAlignment.center,
           children: [
             picture(),
             header(30),
             SizedBox(
               height: screenHeight * 0.03,
             ),
-            subHeader("How About you ..", 15),
+            subHeader(
+                text: "ඔබගේ සහභාගීත්වයට බොහෝම ස්තූතියි.\n",
+                fontSize: 15,
+                color: MyColor.myGreen),
             SizedBox(
               height: screenHeight * 0.01,
             ),
-            subHeader("You can contact us and joing with us", 15),
+            subHeader(
+                text:
+                    "අපි මට්සුයම හා ඒ අවට ප්‍රදේශ වල භාණ්ඩ \n සැපයුන් සේවාව පවත්වාගෙන යන්නෙමු.",
+                fontSize: 15,
+                color: MyColor.myRed),
           ],
         ),
       ),
@@ -187,10 +205,11 @@ class _HomeViewState extends State<HomeView> {
 //   ),
 // );
 
-  Widget subHeader(String text, double fontSize) {
+  Widget subHeader(
+      {required String text, required double fontSize, required Color color}) {
     return Text(
       text,
-      style: TextStyle(color: MyColor.myYellow),
+      style: TextStyle(color: color),
     );
   }
 

@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage>
 
     ContentView(
       tab: const CustomTab(
-        isShowCount: true,
+        isShowCount: false,
         title: "Food",
       ),
       content: const FoodItemsView(),
