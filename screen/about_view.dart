@@ -17,10 +17,16 @@ class _AboutViewState extends State<AboutView>
   late double screenWidth;
   late double screenHeight;
 
-  final String _about_text =
-      "xxxxxx xxxxxxx xxxxxxx xxxxxxxx xxxxxxxx xxxxxxx xxxxxx nnnnnnnnnnnnnnnnnnnnnxxxxxxxxxxxxxxxxxx BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB xxxxxx";
-  String japanese = "松山市内で配達しています。オーダーから200円ご利用頂きます。";
-  String sinhala =
+  static const String contactYouSinhala =
+      "ඔන්ලයින් ඇනවුමක්  යැවීමෙන් පසුව අපි ඔබව  සම්බන්ඳ කරගන්නෙමු.";
+  static const String contactYouJapanese = "ネット注文後、ご連絡させていただきます。";
+  static const String aboutContactNumberSinhala =
+      "ඔන්ලයින් ඇනවුමකදී දැනට භාවිතයේ පවතින දුරකථන අංකය පමණක් බාවිතාකරන්න.";
+  static const String aboutContactNumberJapanese =
+      "オンラインでご注文の際は、現在使用されている電話番号のみをご使用ください。";
+
+  static const String japanese = "松山市内で配達しています。オーダーから200円ご利用頂きます。";
+  static const String sinhala =
       "අපි Matsuyama නගරය තුළ බෙදාහරින්නෙමු. ඇණවුමෙන් යෙන් 200 ක් අය කෙරේ.";
   @override
   Widget build(BuildContext context) {
@@ -40,20 +46,27 @@ class _AboutViewState extends State<AboutView>
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Spacer(
+        const Spacer(
           flex: 1,
         ),
         Expanded(
           flex: 3,
           child: infoSection(),
         ),
-        Spacer(
+        const Spacer(
           flex: 1,
         ),
-        Expanded(
+        const Expanded(
             flex: 3,
             child: BulletList(
-              strings: [_about_text, japanese, sinhala, _about_text],
+              strings: [
+                contactYouSinhala,
+                contactYouJapanese,
+                sinhala,
+                japanese,
+                aboutContactNumberSinhala,
+                aboutContactNumberJapanese
+              ],
             ))
       ],
     );
@@ -71,21 +84,8 @@ class _AboutViewState extends State<AboutView>
         SizedBox(
           height: screenHeight * 0.01,
         ),
-        // Container(
-        //   height: screenHeight * 1,
-        //   child: test(),
-        // )
       ],
     );
-  }
-
-  BulletList test() {
-    print("test ok");
-    return BulletList(strings: [
-      _about_text,
-      _about_text,
-      _about_text,
-    ]);
   }
 
   Widget infoSection() {
