@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
+import 'package:web_app/widgets/image_picker.dart';
 import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/firebase/firebase_food.dart';
 import 'package:web_app/model/food.dart';
@@ -42,108 +46,155 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: MyColor.myGreen),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        children: <Widget>[
-          Consumer<TextFieldChanger>(builder: (context, value, child) {
-            return customInputField(
-                inputFieldName: "Item Name",
-                inputEditingController: itemNameController,
-                isNumberTypeKeybord: false,
-                isValidate: value.bItemNameValidate,
-                keyBordType: TextInputType.name);
-          }),
-          Consumer<TextFieldChanger>(builder: (context, value, child) {
-            return customInputField(
-                inputFieldName: "Item Price",
-                inputEditingController: itemPricesController,
-                isNumberTypeKeybord: true,
-                isValidate: value.bItemPriceValidate,
-                keyBordType: TextInputType.number);
-          }),
-          Consumer<TextFieldChanger>(builder: (context, value, child) {
-            return customInputField(
-                inputFieldName: "Item URL",
-                inputEditingController: itemURLController,
-                isNumberTypeKeybord: false,
-                isValidate: value.bItemUrlValidate,
-                keyBordType: TextInputType.multiline);
-          }),
-          //     Create button()
-          createButton(
-            buttonName: "Create",
-            modifyFunction: () {
-              //     set provider function
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: MyColor.myGreen),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          children: <Widget>[
+            Consumer<TextFieldChanger>(builder: (context, value, child) {
+              return customInputField(
+                  inputFieldName: "Item Name",
+                  inputEditingController: itemNameController,
+                  isNumberTypeKeybord: false,
+                  isValidate: value.bItemNameValidate,
+                  keyBordType: TextInputType.name);
+            }),
+            Consumer<TextFieldChanger>(builder: (context, value, child) {
+              return customInputField(
+                  inputFieldName: "Item Price",
+                  inputEditingController: itemPricesController,
+                  isNumberTypeKeybord: true,
+                  isValidate: value.bItemPriceValidate,
+                  keyBordType: TextInputType.number);
+            }),
+            Consumer<TextFieldChanger>(builder: (context, value, child) {
+              return customInputField(
+                  inputFieldName: "Item URL",
+                  inputEditingController: itemURLController,
+                  isNumberTypeKeybord: false,
+                  isValidate: value.bItemUrlValidate,
+                  keyBordType: TextInputType.multiline);
+            }),
+            IconButton(
+                onPressed: () async {
+                  final imgpath = await getImageLocal();
 
-              context.read<TextFieldChanger>().itemNameChanger(
-                  itemNameController.value.text.isEmpty ? true : false);
+                  context.read<GetImgLocal>().pickupImg(imgPath: imgpath!.path);
+                  // print(
+                  //     "IMG LOCATION :: ${context.watch<GetImgLocal>().imgpath}");
 
-              context.read<TextFieldChanger>().itemPriceChanger(
-                  itemPricesController.value.text.isEmpty ? true : false);
+                  //         child: Image.file(
+                  //   File(imageFile!.path),
+                  //   fit: BoxFit.cover,
+                  // ),
 
-              context.read<TextFieldChanger>().itemUrlChanger(
-                  itemURLController.value.text.isEmpty ? true : false);
+                  //         child: Image.file(
+                  //   imageFile!,
+                  //   fit: BoxFit.cover,
 
-              if (itemNameController.value.text.isEmpty ||
-                  itemPricesController.value.text.isEmpty ||
-                  itemURLController.value.text.isEmpty) {
-                return;
-              }
+                  // ),
+                },
+                icon: const Icon(
+                  Icons.camera,
+                  size: 60,
+                )),
 
-              CreateItemModule(
-                  foodItem: FoodItem(
-                      itemName: itemNameController.text,
-                      itemPrice: int.parse(itemPricesController.text),
-                      itemUrl: itemURLController.text));
-              Future.delayed(const Duration(milliseconds: 200), () async {
-                itemNameController.clear();
-                itemPricesController.clear();
-                itemURLController.clear();
-              });
-            },
-          ), //   Create button end
-          Consumer<TextFieldChanger>(
-            builder: (context, value, child) {
-              return Container(
-                child: itemNameController.value.text.isEmpty ||
-                        itemPricesController.value.text.isEmpty ||
-                        itemURLController.value.text.isEmpty
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                              child: Lottie.asset("assets/c1.json",
-                                  controller: animationController,
-                                  height: 200,
-                                  // width: 200,
-                                  fit: BoxFit.cover)),
-                          Text(
-                            "Still Not Setup The Item",
-                            style: TextStyle(color: MyColor.myOrange),
+            context.watch<GetImgLocal>().imgpath.toString().isEmpty
+                ? Container()
+                : SizedBox(
+                    height: 300,
+                    width: 300,
+                    child: kIsWeb
+                        ? Image.network(context.watch<GetImgLocal>().imgpath)
+                        : Image.file(
+                            File(context.watch<GetImgLocal>().imgpath)),
+                  ),
+
+            // Consumer<GetImgLocal>(builder: (context, value, child) {
+            //     return SizedBox(
+            //       height: 300,
+            //       width: 300,
+            //       child: kIsWeb
+            //           ? Image.network(value.imgpath)
+            //           : Image.file(File(value.imgpath)),
+            //     );
+            //   }),
+
+            //     Create button()
+            createButton(
+              buttonName: "Create",
+              modifyFunction: () {
+                //     set provider function
+
+                context.read<TextFieldChanger>().itemNameChanger(
+                    itemNameController.value.text.isEmpty ? true : false);
+
+                context.read<TextFieldChanger>().itemPriceChanger(
+                    itemPricesController.value.text.isEmpty ? true : false);
+
+                context.read<TextFieldChanger>().itemUrlChanger(
+                    itemURLController.value.text.isEmpty ? true : false);
+
+                if (itemNameController.value.text.isEmpty ||
+                    itemPricesController.value.text.isEmpty ||
+                    itemURLController.value.text.isEmpty) {
+                  return;
+                }
+
+                CreateItemModule(
+                    foodItem: FoodItem(
+                        itemName: itemNameController.text,
+                        itemPrice: int.parse(itemPricesController.text),
+                        itemUrl: itemURLController.text));
+                Future.delayed(const Duration(milliseconds: 200), () async {
+                  itemNameController.clear();
+                  itemPricesController.clear();
+                  itemURLController.clear();
+                });
+              },
+            ), //   Create button end
+            Consumer<TextFieldChanger>(
+              builder: (context, value, child) {
+                return Container(
+                  child: itemNameController.value.text.isEmpty ||
+                          itemPricesController.value.text.isEmpty ||
+                          itemURLController.value.text.isEmpty
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                                child: Lottie.asset("assets/c1.json",
+                                    controller: animationController,
+                                    height: 200,
+                                    // width: 200,
+                                    fit: BoxFit.cover)),
+                            Text(
+                              "Still Not Setup The Item",
+                              style: TextStyle(color: MyColor.myOrange),
+                            ),
+                          ],
+                        )
+                      : Center(
+                          child: SizedBox(
+                            height: 300,
+                            width: 300,
+                            child: FoodTile(
+                                itemName: itemNameController.text,
+                                itemPrice: int.parse(itemPricesController.text),
+                                itemUrl: itemURLController.text),
                           ),
-                        ],
-                      )
-                    : Center(
-                        child: SizedBox(
-                          height: 300,
-                          width: 300,
-                          child: FoodTile(
-                              itemName: itemNameController.text,
-                              itemPrice: int.parse(itemPricesController.text),
-                              itemUrl: itemURLController.text),
                         ),
-                      ),
-              );
-            },
-          ),
-          const SizedBox(
-            height: 30,
-          )
-        ],
+                );
+              },
+            ),
+            const SizedBox(
+              height: 30,
+            )
+          ],
+        ),
       ),
     );
   }

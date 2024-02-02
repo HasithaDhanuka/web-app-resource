@@ -17,6 +17,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => TextFieldChanger()),
         ChangeNotifierProvider(create: (_) => OrderFoodItems()),
         ChangeNotifierProvider(create: (_) => UserOrdersFind()),
+        ChangeNotifierProvider(create: (_) => GetImgLocal()),
       ],
       builder: (context, child) => const MyApp(),
     ),

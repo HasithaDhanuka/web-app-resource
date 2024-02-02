@@ -31,7 +31,7 @@ class CustomTab extends StatelessWidget {
         ),
         Text(
           isShowCount
-              ? " ${context.watch<OrderFoodItems>().listOfOrder.length}"
+              ? " ${context.watch<UserOrdersFind>().totalOrdersCount}"
               : "",
           style: TextStyle(color: MyColor.myRed, fontSize: 30),
         ),

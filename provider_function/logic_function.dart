@@ -91,8 +91,8 @@ class OrderFoodItems extends ChangeNotifier {
 
   void orderListClear() {
     listOfOrder.clear();
-    print(listOfOrder.length);
-    print(listOfOrder);
+    // print(listOfOrder.length);
+    //  print(listOfOrder);
     notifyListeners();
   }
 
@@ -113,4 +113,16 @@ class UserOrdersFind extends ChangeNotifier {
   }
 
   int get totalOrdersCount => lengthOfOrders;
+}
+
+class GetImgLocal extends ChangeNotifier {
+  late String imgpath = "";
+  String pickupImg({required String imgPath}) {
+    imgpath = imgPath;
+
+    notifyListeners();
+    return imgpath;
+  }
+
+  //XFile get getImgPath => imgLocation!;
 }
