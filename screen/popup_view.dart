@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/widgets/custom_button.dart';
+import 'package:web_app/widgets/network_image_render.dart';
 import 'package:web_app/widgets/reusable_widget.dart';
 import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/provider_function/logic_function.dart';
@@ -26,10 +27,7 @@ Future<bool?> popUpItem(BuildContext context,
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.network(
-              itemUrl,
-              fit: BoxFit.cover,
-            ),
+            child: NetImageView(imgURL: itemUrl),
           ),
         ),
         actions: [
@@ -137,7 +135,16 @@ Future<bool?> popupOrder({
                             Navigator.of(context).pop(true);
                           },
                           buttonName: "Send",
-                          borderSideColor: MyColor.myGreen)
+                          borderSideColor: MyColor.myGreen),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: reUsableButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            buttonName: "Back To Menu",
+                            borderSideColor: MyColor.myRed),
+                      )
                     ],
                   );
                 }),

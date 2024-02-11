@@ -8,6 +8,7 @@ import 'package:web_app/firebase/firebase_userOrder.dart';
 import 'package:web_app/model/user_order.dart';
 import 'package:web_app/provider_function/logic_function.dart';
 import 'package:web_app/screen/popup_view.dart';
+import 'package:web_app/widgets/network_image_render.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -159,12 +160,10 @@ class _CartViewState extends State<CartView> {
               width: 100,
               height: 100,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  itemUrl,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  borderRadius: BorderRadius.circular(20),
+                  child: NetImageView(
+                    imgURL: itemUrl,
+                  )),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),

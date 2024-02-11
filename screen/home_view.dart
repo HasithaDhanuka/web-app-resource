@@ -105,9 +105,9 @@ class _HomeViewState extends State<HomeView> {
     } else if (screenWidth > 1300 && screenHeight > 600) {
       return 550;
     } else if (screenWidth > 1000 && screenHeight > 400) {
-      return 300;
+      return 400;
     } else {
-      return 350;
+      return 220;
     }
   }
 

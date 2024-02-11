@@ -5,6 +5,7 @@ import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/model/food.dart';
 import 'package:web_app/provider_function/logic_function.dart';
 import 'package:web_app/screen/popup_view.dart';
+import 'package:web_app/widgets/network_image_render.dart';
 
 class FoodTile extends StatelessWidget {
   const FoodTile(
@@ -52,30 +53,47 @@ class FoodTile extends StatelessWidget {
             ),
           ),
           child: InkResponse(
-            onTap: () async {
-              final orderComplete =
-                  await popUpItem(context, itemUrl: itemUrl, canOrder: true);
+              onTap: () async {
+                // final orderComplete =
+                //     await popUpItem(context, itemUrl: itemUrl, canOrder: true);
 
-              if (orderComplete == null || orderComplete == false) {
-                return;
-              } else {
-                // ignore: use_build_context_synchronously
-                context.read<OrderFoodItems>().getOrder(
-                    foodItem: FoodItem(
-                        itemName: itemName,
-                        itemPrice: itemPrice,
-                        itemUrl: itemUrl));
-                // ignore: use_build_context_synchronously
-                context
-                    .read<OrderFoodItems>()
-                    .currentPrice(currentPrice: itemPrice);
-              }
-            },
-            child: Image.network(
-              itemUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
+                // if (orderComplete == null || orderComplete == false) {
+                //   return;
+                // } else {
+                //   // ignore: use_build_context_synchronously
+                //   context.read<OrderFoodItems>().getOrder(
+                //       foodItem: FoodItem(
+                //           itemName: itemName,
+                //           itemPrice: itemPrice,
+                //           itemUrl: itemUrl));
+                //   // ignore: use_build_context_synchronously
+                //   context
+                //       .read<OrderFoodItems>()
+                //       .currentPrice(currentPrice: itemPrice);
+                // }
+              },
+              child: NetImageView(
+                imgURL: itemUrl,
+                onTap: () async {
+                  final orderComplete = await popUpItem(context,
+                      itemUrl: itemUrl, canOrder: true);
+
+                  if (orderComplete == null || orderComplete == false) {
+                    return;
+                  } else {
+                    // ignore: use_build_context_synchronously
+                    context.read<OrderFoodItems>().getOrder(
+                        foodItem: FoodItem(
+                            itemName: itemName,
+                            itemPrice: itemPrice,
+                            itemUrl: itemUrl));
+                    // ignore: use_build_context_synchronously
+                    context
+                        .read<OrderFoodItems>()
+                        .currentPrice(currentPrice: itemPrice);
+                  }
+                },
+              )),
         ),
       ),
     );
