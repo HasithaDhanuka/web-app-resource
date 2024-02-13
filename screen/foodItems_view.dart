@@ -47,7 +47,10 @@ class _FoodItemState extends State<FoodItemsView> {
         desktopView: desktopView(
             crossAxisItemsCount: 5, scrollDirectionAxis: Axis.vertical),
         mobileView: mobileView(
-            crossAxisItemsCount: 2, scrollDirectionAxis: Axis.horizontal));
+          crossAxisItemsCount: 3,
+          scrollDirectionAxis: Axis.horizontal,
+          viewHeight: 700,
+        ));
   }
 
 // ***************************************************************//
@@ -67,8 +70,11 @@ class _FoodItemState extends State<FoodItemsView> {
 // ***************************************************************//
 // ####################   Mobile VIEW    ##########################//
 
-  Widget mobileView(
-      {required int crossAxisItemsCount, required Axis scrollDirectionAxis}) {
+  Widget mobileView({
+    required int crossAxisItemsCount,
+    required Axis scrollDirectionAxis,
+    required double viewHeight,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: Container(
@@ -76,7 +82,7 @@ class _FoodItemState extends State<FoodItemsView> {
             border: Border.all(color: MyColor.myGreen),
             borderRadius: BorderRadius.circular(20),
           ),
-          height: 300,
+          height: viewHeight,
           child: bodyOfDevicer(
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,

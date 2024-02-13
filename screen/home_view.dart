@@ -93,6 +93,9 @@ class _HomeViewState extends State<HomeView> {
                     "අපි මට්සුයම හා ඒ අවට ප්‍රදේශ වල භාණ්ඩ \n සැපයුන් සේවාව පවත්වාගෙන යන්නෙමු.",
                 fontSize: 15,
                 color: MyColor.myRed),
+            SizedBox(
+              height: screenHeight * 0.05,
+            ),
           ],
         ),
       ),
@@ -141,9 +144,9 @@ class _HomeViewState extends State<HomeView> {
                 animatedTexts: [
                   RotateAnimatedText('සුභ දවසක් ',
                       textStyle: TextStyle(color: MyColor.myRed)),
-                  RotateAnimatedText('Lankan Taste',
+                  RotateAnimatedText('Ceylon Taste',
                       textStyle: TextStyle(color: MyColor.myGreen)),
-                  RotateAnimatedText('スリランカ味',
+                  RotateAnimatedText('セイロン味',
                       textStyle: TextStyle(color: MyColor.myOrange)),
                   RotateAnimatedText('ආයුබෝවන්',
                       textStyle: TextStyle(color: MyColor.myYellow)),

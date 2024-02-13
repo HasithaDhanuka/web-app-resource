@@ -28,6 +28,10 @@ class _AboutViewState extends State<AboutView>
   static const String japanese = "松山市内で配達しています。オーダーから200円ご利用頂きます。";
   static const String sinhala =
       "අපි Matsuyama නගරය තුළ බෙදාහරින්නෙමු. ඇණවුමෙන් යෙන් 200 ක් අය කෙරේ.";
+
+  static const String contactInfoSinhala =
+      "විස්තර දැනගැනීම සදහා මෙම අංකය අමතන්න 090-5318-0017 ";
+  static const String contactInfoJapan = "詳細については、この番号にお電話ください 090-5318-0017";
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
@@ -65,7 +69,9 @@ class _AboutViewState extends State<AboutView>
                 sinhala,
                 japanese,
                 aboutContactNumberSinhala,
-                aboutContactNumberJapanese
+                aboutContactNumberJapanese,
+                contactInfoSinhala,
+                contactInfoJapan,
               ],
             ))
       ],
@@ -89,7 +95,7 @@ class _AboutViewState extends State<AboutView>
   }
 
   Widget infoSection() {
-    return Container(
+    return SizedBox(
       width: screenWidth * 0.35,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +111,7 @@ class _AboutViewState extends State<AboutView>
   }
 
   Widget profilePicture() {
-    return Container(
+    return SizedBox(
       height: getImageSize(),
       width: getImageSize(),
       child: ClipRRect(
@@ -136,7 +142,9 @@ class _AboutViewState extends State<AboutView>
   }
 
   Widget infoText() {
-    return Text("$japanese \n\n$sinhala",
-        style: TextStyle(color: MyColor.myYellow), overflow: TextOverflow.clip);
+    return Text(
+        "$japanese \n\n$sinhala\n\n $contactInfoSinhala\n\n$contactInfoJapan,",
+        style: TextStyle(color: MyColor.myYellow),
+        overflow: TextOverflow.clip);
   }
 }
