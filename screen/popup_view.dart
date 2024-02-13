@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/widgets/custom_button.dart';
+import 'package:web_app/widgets/network_image_render.dart';
 import 'package:web_app/widgets/reusable_widget.dart';
 import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/provider_function/logic_function.dart';
@@ -26,9 +27,8 @@ Future<bool?> popUpItem(BuildContext context,
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Image.network(
-              itemUrl,
-              fit: BoxFit.cover,
+            child: NetImageView(
+              imgURL: itemUrl,
             ),
           ),
         ),
@@ -185,6 +185,7 @@ Future orderDetails({
 
                           if (isOrderFinished == true) {
                             print("order finished but presssed");
+
                             Navigator.of((_)).pop(isOrderFinished);
                           }
                         },
@@ -294,7 +295,7 @@ Future isSuccessPopup({
   required BuildContext context,
   required String title,
   required String msg,
-  required VoidCallback function,
+  required VoidCallback? function,
   required bool isSuccess,
 }) {
   return isSuccess

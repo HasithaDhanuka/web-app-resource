@@ -1,11 +1,10 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
-import 'package:web_app/widgets/image_picker.dart';
+import 'package:web_app/firebase/firebase_storage.dart';
+import 'package:web_app/screen/popup_view.dart';
 import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/firebase/firebase_food.dart';
 import 'package:web_app/model/food.dart';
@@ -70,92 +69,111 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                   isValidate: value.bItemPriceValidate,
                   keyBordType: TextInputType.number);
             }),
-            Consumer<TextFieldChanger>(builder: (context, value, child) {
-              return customInputField(
-                  inputFieldName: "Item URL",
-                  inputEditingController: itemURLController,
-                  isNumberTypeKeybord: false,
-                  isValidate: value.bItemUrlValidate,
-                  keyBordType: TextInputType.multiline);
-            }),
-            IconButton(
-                onPressed: () async {
-                  final imgpath = await getImageLocal();
-
-                  context.read<GetImgLocal>().pickupImg(imgPath: imgpath!.path);
-                  // print(
-                  //     "IMG LOCATION :: ${context.watch<GetImgLocal>().imgpath}");
-
-                  //         child: Image.file(
-                  //   File(imageFile!.path),
-                  //   fit: BoxFit.cover,
-                  // ),
-
-                  //         child: Image.file(
-                  //   imageFile!,
-                  //   fit: BoxFit.cover,
-
-                  // ),
-                },
-                icon: const Icon(
-                  Icons.camera,
-                  size: 60,
-                )),
-
-            context.watch<GetImgLocal>().imgpath.toString().isEmpty
+            context.watch<GetImgLocal>().isFile
                 ? Container()
-                : SizedBox(
-                    height: 300,
-                    width: 300,
-                    child: kIsWeb
-                        ? Image.network(context.watch<GetImgLocal>().imgpath)
-                        : Image.file(
-                            File(context.watch<GetImgLocal>().imgpath)),
-                  ),
+                : Consumer<TextFieldChanger>(builder: (context, value, child) {
+                    return customInputField(
+                        inputFieldName: "Item URL",
+                        inputEditingController: itemURLController,
+                        isNumberTypeKeybord: false,
+                        isValidate: value.bItemUrlValidate,
+                        keyBordType: TextInputType.multiline);
+                  }),
 
-            // Consumer<GetImgLocal>(builder: (context, value, child) {
-            //     return SizedBox(
-            //       height: 300,
-            //       width: 300,
-            //       child: kIsWeb
-            //           ? Image.network(value.imgpath)
-            //           : Image.file(File(value.imgpath)),
-            //     );
-            //   }),
+//*************************************************************************/
+//*****************     GET IMAGE FUNCTION    *****************************/
+            Consumer<GetImgLocal>(builder: (context, value, child) {
+              return getImage(
+                //###########    GET BUTTON    ##########################
+                imgGet: () async {
+                  final isImage = await value.getImageLocal();
 
-            //     Create button()
-            createButton(
-              buttonName: "Create",
-              modifyFunction: () {
-                //     set provider function
+                  if (isImage == false) {
+                    itemURLController.clear();
+                    value.getImageClear();
+                    return;
+                  }
+                  value.createButtonDisable();
+                  String? imgUrl = await upLoadImage(
+                      imagePath: value.fileName, data: value.fileBytes);
 
-                context.read<TextFieldChanger>().itemNameChanger(
-                    itemNameController.value.text.isEmpty ? true : false);
+                  itemURLController.text = imgUrl!;
 
-                context.read<TextFieldChanger>().itemPriceChanger(
-                    itemPricesController.value.text.isEmpty ? true : false);
+                  if (imgUrl.isNotEmpty) {
+                    value.createButtonEnable();
+                  }
 
-                context.read<TextFieldChanger>().itemUrlChanger(
-                    itemURLController.value.text.isEmpty ? true : false);
+                  imgUrl = "";
+                },
+                //###########    IMAGE DELETE BUTTON     ###################
+                imgDelete: () async {
+                  final isDelete =
+                      await deleteCloudImage(imagePath: value.fileName);
 
-                if (itemNameController.value.text.isEmpty ||
-                    itemPricesController.value.text.isEmpty ||
-                    itemURLController.value.text.isEmpty) {
-                  return;
-                }
+                  isDelete!
+                      // ignore: use_build_context_synchronously
+                      ? isSuccessPopup(
+                          context: context,
+                          title: "Image is Deleted ",
+                          msg: "Image is Delete Success",
+                          function: () {},
+                          isSuccess: true)
+                      // ignore: use_build_context_synchronously
+                      : isSuccessPopup(
+                          context: context,
+                          title: "Image Deleted Faild ",
+                          msg: "Image Delete Is Faild",
+                          function: () {},
+                          isSuccess: false);
 
-                CreateItemModule(
-                    foodItem: FoodItem(
-                        itemName: itemNameController.text,
-                        itemPrice: int.parse(itemPricesController.text),
-                        itemUrl: itemURLController.text));
-                Future.delayed(const Duration(milliseconds: 200), () async {
-                  itemNameController.clear();
-                  itemPricesController.clear();
+                  value.isEnableCreateButton = true;
+                  value.getImageClear();
                   itemURLController.clear();
-                });
-              },
-            ), //   Create button end
+                },
+                isImage: value.isFile,
+                imageFileDetil: value.fileBytes,
+              );
+            }),
+
+//*********************     Create button()      ****************************
+            context.watch<GetImgLocal>().isEnableCreateButton
+                ? createButton(
+                    buttonName: "Create",
+                    modifyFunction: () async {
+                      //     set provider function
+
+                      context.read<TextFieldChanger>().itemNameChanger(
+                          itemNameController.value.text.isEmpty ? true : false);
+
+                      context.read<TextFieldChanger>().itemPriceChanger(
+                          itemPricesController.value.text.isEmpty
+                              ? true
+                              : false);
+
+                      context.read<TextFieldChanger>().itemUrlChanger(
+                          itemURLController.value.text.isEmpty ? true : false);
+
+                      if (itemNameController.value.text.isEmpty ||
+                          itemPricesController.value.text.isEmpty ||
+                          itemURLController.value.text.isEmpty) {
+                        return;
+                      }
+
+                      CreateItemModule(
+                          foodItem: FoodItem(
+                              itemName: itemNameController.text,
+                              itemPrice: int.parse(itemPricesController.text),
+                              itemUrl: itemURLController.text));
+                      Future.delayed(const Duration(milliseconds: 200),
+                          () async {
+                        itemNameController.clear();
+                        itemPricesController.clear();
+                        itemURLController.clear();
+                      });
+                    },
+                  )
+                : const CircularProgressIndicator
+                    .adaptive(), //   Create button end
             Consumer<TextFieldChanger>(
               builder: (context, value, child) {
                 return Container(
@@ -199,7 +217,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
     );
   }
 
-  Padding createButton(
+  Widget createButton(
       {required String buttonName, required VoidCallback modifyFunction}) {
     return Padding(
         padding: const EdgeInsets.only(top: 40),
@@ -220,3 +238,72 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
         ));
   }
 }
+
+//*****************************************************************/
+//*****************     GET IMAGE     *****************************/
+Widget getImage({
+  required bool isImage,
+  required VoidCallback imgGet,
+  required VoidCallback imgDelete,
+  required Uint8List imageFileDetil,
+}) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: [
+      !isImage
+          ? const Icon(
+              Icons.no_food_outlined,
+              size: 100,
+            )
+          : ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.memory(
+                imageFileDetil,
+                height: 200.0,
+                width: 200.0,
+                fit: BoxFit.cover,
+              ),
+            ),
+      Column(
+        children: <Widget>[
+          IconButton(
+              onPressed: imgGet,
+              icon: const Icon(
+                Icons.camera,
+                size: 100,
+              )),
+          IconButton(
+              onPressed: imgDelete,
+              icon: const Icon(
+                Icons.delete_forever,
+                size: 100,
+              )),
+        ],
+      )
+    ],
+  );
+}
+
+// Widget buildProgress() {
+//   return StreamBuilder<TaskSnapshot>(
+//       stream: uploadTask?.snapshotEvents,
+//       builder: (context, snapshot) {
+//         double progress = 0;
+//         if (snapshot.hasData) {
+//           final data = snapshot.data!;
+//           progress = data.bytesTransferred / data.totalBytes;
+//         }
+//         print("progress is :: ${(100 * progress)}");
+
+//         return SizedBox(
+//           height: 20,
+//           child: Stack(fit: StackFit.expand, children: [
+//             LinearProgressIndicator(
+//               value: progress,
+//               backgroundColor: Colors.grey,
+//               color: Colors.green,
+//             ),
+//           ]),
+//         );
+//       });
+// }

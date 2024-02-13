@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:web_app/model/food.dart';
 
@@ -116,13 +119,50 @@ class UserOrdersFind extends ChangeNotifier {
 }
 
 class GetImgLocal extends ChangeNotifier {
-  late String imgpath = "";
-  String pickupImg({required String imgPath}) {
-    imgpath = imgPath;
+  Uint8List imagedata = Uint8List(0);
+  String imageName = "";
+  bool isImageFile = false;
+  bool isEnableCreateButton = true;
 
+  Future<bool?> getImageLocal() async {
+    print("function entering of Img picker");
+
+    final pickFileResult = await FilePicker.platform.pickFiles();
+    if (pickFileResult == null) {
+      isImageFile = false;
+      createButtonEnable();
+      return isImageFile;
+    }
+
+    PlatformFile resultFile = pickFileResult.files.first;
+
+    imagedata = resultFile.bytes!;
+    imageName = resultFile.name;
+
+    isImageFile = true;
+
+    print("file name :: ${resultFile.name}");
+    print("file name :: ${resultFile.extension}");
     notifyListeners();
-    return imgpath;
+    return isImageFile;
   }
 
-  //XFile get getImgPath => imgLocation!;
+  void getImageClear() {
+    isImageFile = false;
+    notifyListeners();
+  }
+
+  void createButtonEnable() {
+    isEnableCreateButton = true;
+    notifyListeners();
+  }
+
+  void createButtonDisable() {
+    isEnableCreateButton = false;
+    notifyListeners();
+  }
+
+  Uint8List get fileBytes => imagedata;
+  bool get isFile => isImageFile;
+  String get fileName => imageName;
 }

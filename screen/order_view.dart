@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
@@ -126,127 +127,113 @@ class _CartViewState extends State<OrderView> {
   }) {
 // ***************************************************************//
 // ###################   Tap ON CART    ##########################//
-    return InkWell(
-      onTap: () async {
-        final isOrderFinished = await orderDetails(
-          context: context,
-          itemViewr: gridItemViewr(
-              crossAxisItemsCount: 3,
-              scrollDirectionAxis: Axis.vertical,
-              itemLength: orders),
-          nameWidget: titleSubtitle(
-              title: "Name",
-              subTitle: userName,
-              icon: const Icon(Icons.account_circle)),
-          telPhoneWidget: titleSubtitle(
-              title: "Phone Number",
-              subTitle: "$userTelephoneNumber",
-              icon: const Icon(Icons.phone)),
-          addressWidget: titleSubtitle(
-              title: "Address",
-              subTitle: "$userPostalCode \n $userAddress",
-              icon: const Icon(Icons.location_on)),
-          userPhoneNumber: userTelephoneNumber,
-          textEditingController: userPhoneNunberEditingController,
-        );
-        if (isOrderFinished == true) {
-          //   print("order is finished :: $isOrderFinished");
+    return Slidable(
+      endActionPane: const ActionPane(motion: BehindMotion(), children: [
+        SlidableAction(
+          onPressed: null,
+          //onTapDrag(userTelephoneNumber:userTelephoneNumber,userPhoneNunberEditingController: userPhoneNunberEditingController,userID: userID ) ,
 
-          final removeDatabase = await deleteOrder(orderID: userID);
+          backgroundColor: Color(0xFFFE4A49),
+          foregroundColor: Colors.white,
+          icon: Icons.delete,
+          label: 'Delete',
+        ),
+      ]),
+      child: InkWell(
+        onTap: () async {
+          final isOrderFinished = await orderDetails(
+            context: context,
+            itemViewr: gridItemViewr(
+                crossAxisItemsCount: 3,
+                scrollDirectionAxis: Axis.vertical,
+                itemLength: orders),
+            nameWidget: titleSubtitle(
+                title: "Name",
+                subTitle: userName,
+                icon: const Icon(Icons.account_circle)),
+            telPhoneWidget: titleSubtitle(
+                title: "Phone Number",
+                subTitle: "$userTelephoneNumber",
+                icon: const Icon(Icons.phone)),
+            addressWidget: titleSubtitle(
+                title: "Address",
+                subTitle: "$userPostalCode \n $userAddress",
+                icon: const Icon(Icons.location_on)),
+            userPhoneNumber: userTelephoneNumber,
+            textEditingController: userPhoneNunberEditingController,
+          );
+          if (isOrderFinished == true) {
+            //   print("order is finished :: $isOrderFinished");
 
-          if (removeDatabase == true) {
-            isSuccessPopup(
-                context: context,
-                title: "Order Remove Success",
-                msg: "This Order Is Remove In The Data Base",
-                function: () {},
-                isSuccess: removeDatabase!);
+            final removeDatabase = await deleteOrder(orderID: userID);
 
-            debugPrint("Order is finished :: $isOrderFinished");
-          } else {
-            // ignore: use_build_context_synchronously
-            isSuccessPopup(
-                context: context,
-                title: "ERROR",
-                msg: "Cannot Remove This Order",
-                function: () {},
-                isSuccess: false);
+            if (removeDatabase == true) {
+              isSuccessPopup(
+                  context: context,
+                  title: "Order Remove Success",
+                  msg: "This Order Is Remove In The Data Base",
+                  function: () {},
+                  isSuccess: removeDatabase!);
+
+              debugPrint("Order is finished :: $isOrderFinished");
+            } else {
+              // ignore: use_build_context_synchronously
+              isSuccessPopup(
+                  context: context,
+                  title: "ERROR",
+                  msg: "Cannot Remove This Order",
+                  function: () {},
+                  isSuccess: false);
+            }
           }
-        }
-      },
-// ***************************************************************//
-// ##################   Design of Order Cart  ####################//
-      child: SizedBox(
-        height: 120,
-        child: Card(
-          color: Colors.transparent,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+        },
+        // ***************************************************************//
+        // ##################   Design of Order Cart  ####################//
+        child: SizedBox(
+          height: 120,
+          child: Card(
+            color: Colors.transparent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Name : $userName",
+                        style: TextStyle(color: MyColor.myGreen, fontSize: 15),
+                      ),
+                      Text(
+                        "TP    : $userTelephoneNumber",
+                        style: TextStyle(color: MyColor.myGreen, fontSize: 15),
+                      ),
+                    ],
+                  ),
+                ),
+
+                Row(
                   children: [
                     Text(
-                      "Name : $userName",
-                      style: TextStyle(color: MyColor.myGreen, fontSize: 15),
-                    ),
-                    Text(
-                      "TP    : $userTelephoneNumber",
+                      "Date - ${TimeDateConventor().date(timeStamp: timeOfOrder)}\nTime - ${TimeDateConventor().time(timeStamp: timeOfOrder)}\n$itemPrice 円",
                       style: TextStyle(color: MyColor.myGreen, fontSize: 15),
                     ),
                   ],
                 ),
-              ),
 
-              Row(
-                children: [
-                  Text(
-                    "Date - ${TimeDateConventor().date(timeStamp: timeOfOrder)}\nTime - ${TimeDateConventor().time(timeStamp: timeOfOrder)}\n$itemPrice 円",
-                    style: TextStyle(color: MyColor.myGreen, fontSize: 15),
-                  ),
-                ],
-              ),
-
-              // ###################   Delete Button    ##########################//
-              IconButton(
-                  onPressed: () async {
-                    final isOrderFinished = await orderFinished(
-                        context: context,
-                        userPhoneNumber: userTelephoneNumber,
-                        textEditingController:
-                            userPhoneNunberEditingController);
-
-                    if (isOrderFinished == true) {
-                      final removeDatabase = await deleteOrder(orderID: userID);
-
-                      if (removeDatabase == true) {
-                        isSuccessPopup(
-                            context: context,
-                            title: "Order Remove Success",
-                            msg: "This Order Is Remove In The Data Base",
-                            function: () {},
-                            isSuccess: removeDatabase!);
-                      } else {
-                        // ignore: use_build_context_synchronously
-                        isSuccessPopup(
-                            context: context,
-                            title: "ERROR",
-                            msg: "Cannot Remove This Order",
-                            function: () {},
-                            isSuccess: false);
-                      }
-                    }
-                  },
-                  icon: Icon(
-                    Icons.delete_outline,
-                    color: MyColor.myRed,
-                    size: 50,
-                  )),
-            ],
+                // ###################   Delete Button    ##########################//
+                IconButton(
+                    onPressed: () async {},
+                    icon: Icon(
+                      Icons.delete_outline,
+                      color: MyColor.myRed,
+                      size: 50,
+                    )),
+              ],
+            ),
           ),
         ),
       ),
@@ -254,8 +241,42 @@ class _CartViewState extends State<OrderView> {
   }
 }
 
+void testFun(BuildContext context) {
+  print("Drag done");
+}
 
+void onTapDrag(
+  BuildContext context, {
+  required int userTelephoneNumber,
+  required TextEditingController userPhoneNunberEditingController,
+  required String userID,
+}) async {
+  final isOrderFinished = await orderFinished(
+      context: context,
+      userPhoneNumber: userTelephoneNumber,
+      textEditingController: userPhoneNunberEditingController);
 
+  if (isOrderFinished == true) {
+    final removeDatabase = await deleteOrder(orderID: userID);
+
+    if (removeDatabase == true) {
+      isSuccessPopup(
+          context: context,
+          title: "Order Remove Success",
+          msg: "This Order Is Remove In The Data Base",
+          function: () {},
+          isSuccess: removeDatabase!);
+    } else {
+      // ignore: use_build_context_synchronously
+      isSuccessPopup(
+          context: context,
+          title: "ERROR",
+          msg: "Cannot Remove This Order",
+          function: () {},
+          isSuccess: false);
+    }
+  }
+}
 
 
 
