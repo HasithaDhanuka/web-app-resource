@@ -161,7 +161,7 @@ class _CartViewState extends State<CartView> {
               height: 100,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: NetImageView(
+                  child: netImageView(
                     imgURL: itemUrl,
                   )),
             ),

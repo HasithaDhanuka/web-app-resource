@@ -17,7 +17,8 @@ class _BulletListState extends State<BulletList>
   late AnimationController _animationController;
 
   void animStart() {
-    Timer(Duration(milliseconds: 200), () => _animationController.forward());
+    Timer(const Duration(milliseconds: 200),
+        () => _animationController.forward());
   }
 
   @override

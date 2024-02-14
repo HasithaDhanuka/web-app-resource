@@ -47,146 +47,35 @@ class FoodTile extends StatelessWidget {
                 maxFontSize: 14,
                 style: TextStyle(
                     fontSize: 14,
-                    color: MyColor.myGreen, //Color.fromARGB(206, 226, 230, 6),
+                    color: MyColor.myGreen,
                     fontWeight: FontWeight.w700),
               ),
             ),
           ),
-          child: InkResponse(
-              onTap: () async {
-                // final orderComplete =
-                //     await popUpItem(context, itemUrl: itemUrl, canOrder: true);
+          child: netImageView(
+            imgURL: itemUrl,
+            onTap: () async {
+              final orderComplete =
+                  await popUpItem(context, itemUrl: itemUrl, canOrder: true);
 
-                // if (orderComplete == null || orderComplete == false) {
-                //   return;
-                // } else {
-                //   // ignore: use_build_context_synchronously
-                //   context.read<OrderFoodItems>().getOrder(
-                //       foodItem: FoodItem(
-                //           itemName: itemName,
-                //           itemPrice: itemPrice,
-                //           itemUrl: itemUrl));
-                //   // ignore: use_build_context_synchronously
-                //   context
-                //       .read<OrderFoodItems>()
-                //       .currentPrice(currentPrice: itemPrice);
-                // }
-              },
-              child: NetImageView(
-                imgURL: itemUrl,
-                onTap: () async {
-                  final orderComplete = await popUpItem(context,
-                      itemUrl: itemUrl, canOrder: true);
-
-                  if (orderComplete == null || orderComplete == false) {
-                    return;
-                  } else {
-                    // ignore: use_build_context_synchronously
-                    context.read<OrderFoodItems>().getOrder(
-                        foodItem: FoodItem(
-                            itemName: itemName,
-                            itemPrice: itemPrice,
-                            itemUrl: itemUrl));
-                    // ignore: use_build_context_synchronously
-                    context
-                        .read<OrderFoodItems>()
-                        .currentPrice(currentPrice: itemPrice);
-                  }
-                },
-              )),
+              if (orderComplete == null || orderComplete == false) {
+                return;
+              } else {
+                // ignore: use_build_context_synchronously
+                context.read<OrderFoodItems>().getOrder(
+                    foodItem: FoodItem(
+                        itemName: itemName,
+                        itemPrice: itemPrice,
+                        itemUrl: itemUrl));
+                // ignore: use_build_context_synchronously
+                context
+                    .read<OrderFoodItems>()
+                    .currentPrice(currentPrice: itemPrice);
+              }
+            },
+          ),
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
-// class Foods extends StatelessWidget {
-//   const Foods({super.key});
-
-//   // final String foodName;
-//   // final String foodPrise;
-
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       crossAxisAlignment: CrossAxisAlignment.center,
-//       children: [
-//         Padding(
-//           padding: const EdgeInsets.all(12.0),
-//           child: Container(
-//             //  width: 200,
-//             height: 200,
-//             decoration: BoxDecoration(
-//                 color: Colors.amber, borderRadius: BorderRadius.circular(18.0)),
-//           ),
-//         ),
-//         ItemName(),
-//         FoodPrise(),
-//       ],
-//     );
-//   }
-
-//   Widget ItemName() {
-//     return AutoSizeText(
-//       "Food Name XXXXXXXX",
-//       style: TextStyle(fontSize: 18),
-//       maxLines: 2,
-//       minFontSize: 5,
-//     );
-//   }
-
-//   Widget FoodPrise() {
-//     return AutoSizeText(
-//       "\$ xxxx",
-//       style: TextStyle(fontSize: 15),
-//       maxLines: 2,
-//       minFontSize: 5,
-//     );
-//   }
-// }
-
-// class FoodTile extends StatelessWidget {
-//   const FoodTile({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(15.0),
-//       child: ClipRRect(
-//         borderRadius: BorderRadius.circular(20),
-//         child: GridTile(
-//           header: Container(
-//             color: const Color.fromARGB(31, 99, 98, 98),
-//             height: 30,
-//             child: const Center(
-//               child: Text(
-//                 "Name of Item xxx",
-//                 style: TextStyle(fontSize: 18),
-//               ),
-//             ),
-//           ),
-//           footer: Container(
-//             height: 20,
-//             color: const Color.fromARGB(31, 105, 105, 105),
-//             child: const Center(
-//               child: Text(
-//                 "Item price \$",
-//                 style: TextStyle(fontSize: 14),
-//               ),
-//             ),
-//           ),
-//           child: Container(
-//             color: Colors.amber,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
