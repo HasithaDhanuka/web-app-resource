@@ -24,7 +24,7 @@ Future CreateItemModule({required FoodItem foodItem}) async {
 Stream<List<FoodItem>> ReadFoodItems() {
   final firestore = FirebaseFirestore.instance
       .collection("foods")
-      // .orderBy('timeStamp')
+      .orderBy('timeStamp', descending: true)
       .snapshots();
   return firestore.map((snapshot) =>
       snapshot.docs.map((doc) => FoodItem.fromMap(doc.data())).toList());

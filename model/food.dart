@@ -20,14 +20,14 @@ class FoodItem {
   late final String itemName;
   late final int itemPrice;
   late final String itemUrl;
-  late int timestamp;
+  late Timestamp? timestamp;
 
   FoodItem({
     this.id = "",
     required this.itemName,
     required this.itemPrice,
     required this.itemUrl,
-    this.timestamp = 8,
+    this.timestamp,
   });
 // send json
   Map<String, dynamic> toJson() => {
@@ -35,7 +35,7 @@ class FoodItem {
         "itemName": itemName,
         "itemPrice": itemPrice,
         "itemUrl": itemUrl,
-        "timeStamp": FieldValue.serverTimestamp(),
+        //    "timeStamp": FieldValue.serverTimestamp(),
       };
 
   factory FoodItem.fromMap(Map<String, dynamic> data) {
@@ -44,7 +44,7 @@ class FoodItem {
       itemName: data["itemName"],
       itemPrice: data["itemPrice"],
       itemUrl: data["itemUrl"],
-      //   timestamp: data["timeStamp"],
+      timestamp: data["timeStamp"],
     );
   }
 }
