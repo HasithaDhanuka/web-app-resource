@@ -52,7 +52,7 @@ class FoodTile extends StatelessWidget {
                 ),
               ),
             ),
-            child: NetImageView(
+            child: netImageView(
               imgURL: itemUrl,
               onTap: () async {
                 final orderComplete =

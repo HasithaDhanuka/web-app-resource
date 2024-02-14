@@ -27,7 +27,7 @@ Future<bool?> popUpItem(BuildContext context,
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: NetImageView(
+            child: netImageView(
               imgURL: itemUrl,
             ),
           ),
