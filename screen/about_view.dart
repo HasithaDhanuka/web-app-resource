@@ -4,6 +4,7 @@ import 'package:web_app/Utils/colors.dart';
 
 import 'package:web_app/Utils/view_wrapper.dart';
 import 'package:web_app/Animation/bullet_list.dart';
+import 'package:web_app/widgets/rounded_border.dart';
 
 class AboutView extends StatefulWidget {
   const AboutView({super.key});
@@ -90,17 +91,20 @@ class _AboutViewState extends State<AboutView>
 // ###########################################################################
 //  ********************       Mobile View Of About   ************************
   Widget mobileView() {
-    return Column(
-      children: [
-        SizedBox(
-          height: screenHeight * 0.05,
+    return roundedBorder(
+        height: null,
+        widget: Column(
+          children: [
+            SizedBox(
+              height: screenHeight * 0.05,
+            ),
+            infoSection(),
+            SizedBox(
+              height: screenHeight * 0.01,
+            ),
+          ],
         ),
-        infoSection(),
-        SizedBox(
-          height: screenHeight * 0.01,
-        ),
-      ],
-    );
+        title: "About View");
   }
 
   Widget infoSection() {

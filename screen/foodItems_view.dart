@@ -105,7 +105,7 @@ class _FoodItemState extends State<FoodItemsView> {
       children: [
         roundedBorder(
           title: "Other Items",
-          height: 400,
+          height: 500,
           widget: bodyOfDevicer(
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,
@@ -123,7 +123,7 @@ class _FoodItemState extends State<FoodItemsView> {
         ),
         roundedBorder(
           title: "Powder Items",
-          height: 400,
+          height: 500,
           widget: bodyOfDevicer(
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,

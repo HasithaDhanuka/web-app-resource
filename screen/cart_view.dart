@@ -9,6 +9,7 @@ import 'package:web_app/model/user_order.dart';
 import 'package:web_app/provider_function/logic_function.dart';
 import 'package:web_app/screen/popup_view.dart';
 import 'package:web_app/widgets/network_image_render.dart';
+import 'package:web_app/widgets/rounded_border.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -46,21 +47,23 @@ class _CartViewState extends State<CartView> {
           ? isItemOrder()
           : Column(
               children: [
-                SizedBox(
-                  height: 400,
-                  child: ListView.builder(
-                      itemCount: value.getOrderList.length,
-                      itemBuilder: (BuildContext contect, int index) {
-                        final orderList = value.getOrderList[index];
+                roundedBorder(
+                    height: 300,
+                    widget: ListView.builder(
+                        physics: const ScrollPhysics(
+                            parent: BouncingScrollPhysics()),
+                        itemCount: value.getOrderList.length,
+                        itemBuilder: (BuildContext contect, int index) {
+                          final orderList = value.getOrderList[index];
 
-                        return orderCart(
-                          itemName: orderList.itemName,
-                          itemPrice: orderList.itemPrice,
-                          itemUrl: orderList.itemUrl,
-                          nOrderIndex: index,
-                        );
-                      }),
-                ),
+                          return orderCart(
+                            itemName: orderList.itemName,
+                            itemPrice: orderList.itemPrice,
+                            itemUrl: orderList.itemUrl,
+                            nOrderIndex: index,
+                          );
+                        }),
+                    title: "Your Order View"),
                 totalPrice(
                     value: value,
                     onPressed: () async {
@@ -173,7 +176,8 @@ class _CartViewState extends State<CartView> {
                 children: [
                   Text(
                     itemName,
-                    style: TextStyle(color: MyColor.myGreen, fontSize: 15),
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: MyColor.myGreen, fontSize: 10),
                   ),
                   Text(
                     "$itemPrice 円",

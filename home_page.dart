@@ -191,6 +191,8 @@ class _HomePageState extends State<HomePage>
             ),
             Expanded(
                 child: ScrollablePositionedList.builder(
+                    physics:
+                        const ScrollPhysics(parent: BouncingScrollPhysics()),
                     itemScrollController: _itemScrollController,
                     itemCount: contentViews.length,
                     itemBuilder: (context, index) =>

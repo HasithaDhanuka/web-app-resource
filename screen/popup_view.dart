@@ -110,41 +110,57 @@ Future<bool?> popupOrder({
                           isNumberTypeKeybord: true,
                           isValidate: value.getUserPostalCodeValidate,
                           keyBordType: TextInputType.number),
-                      reUsableButton(
-                          onPressed: () {
-                            value.orderSendScreen(
-                                bUserNameValidate:
-                                    userNameEditingController.text.isEmpty,
-                                bUserTelNumberValidate:
-                                    userPhoneNunberEditingController
-                                        .text.isEmpty,
-                                bUserPostalCodeValidate:
-                                    userPostalCodeEditingController
-                                        .text.isEmpty,
-                                bUserAddressValidate:
-                                    userAddrassEditingController.text.isEmpty);
 
-                            if (userNameEditingController.text.isEmpty ||
-                                userPhoneNunberEditingController.text.isEmpty ||
-                                userPostalCodeEditingController.text.isEmpty ||
-                                userAddrassEditingController.text.isEmpty) {
-                              print("not ok something is wrong");
-                              return;
-                            }
-
-                            Navigator.of(context).pop(true);
-                          },
-                          buttonName: "Send",
-                          borderSideColor: MyColor.myGreen),
+//*************************************************************************************** */
+//##################      SEND / B A C K  BUTTON    #######################################
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: reUsableButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            buttonName: "Back To Menu",
-                            borderSideColor: MyColor.myRed),
-                      )
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            reUsableButton(
+                                onPressed: () {
+                                  value.orderSendScreen(
+                                      bUserNameValidate:
+                                          userNameEditingController
+                                              .text.isEmpty,
+                                      bUserTelNumberValidate:
+                                          userPhoneNunberEditingController
+                                              .text.isEmpty,
+                                      bUserPostalCodeValidate:
+                                          userPostalCodeEditingController
+                                              .text.isEmpty,
+                                      bUserAddressValidate:
+                                          userAddrassEditingController
+                                              .text.isEmpty);
+
+                                  if (userNameEditingController.text.isEmpty ||
+                                      userPhoneNunberEditingController
+                                          .text.isEmpty ||
+                                      userPostalCodeEditingController
+                                          .text.isEmpty ||
+                                      userAddrassEditingController
+                                          .text.isEmpty) {
+                                    print("not ok something is wrong");
+                                    return;
+                                  }
+
+                                  Navigator.of(context).pop(true);
+                                },
+                                buttonName: "Send",
+                                borderSideColor: MyColor.myGreen),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: reUsableButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  buttonName: "Back To Menu",
+                                  borderSideColor: MyColor.myRed),
+                            )
+                          ],
+                        ),
+                      ),
                     ],
                   );
                 }),
