@@ -2,6 +2,8 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
+import 'package:web_app/model/food.dart';
+import 'package:web_app/screen/food_update_view.dart';
 import 'package:web_app/widgets/custom_button.dart';
 import 'package:web_app/widgets/network_image_render.dart';
 import 'package:web_app/widgets/reusable_widget.dart';
@@ -59,6 +61,51 @@ Widget buttonOfPopUp(BuildContext context,
   return reUsableButton(
     onPressed: () {
       Navigator.of(context).pop(isOrder);
+    },
+    buttonName: buttonName,
+    borderSideColor: borderSideColor,
+  );
+}
+
+// *********************************************************************//
+// ####################   Update Item View    ##########################//
+Future<bool?> updateItem(
+  BuildContext context, {
+  required FoodItem foodItem,
+}) =>
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        insetPadding: const EdgeInsets.all(20),
+        backgroundColor: Colors.black,
+        shadowColor: MyColor.myGreen,
+        content: Container(
+          height: 300,
+          width: 300,
+          decoration: BoxDecoration(
+            border: Border.all(color: MyColor.myGreen),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: FoodUpdateView(foodItem: foodItem),
+        ),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              cancelButton(context,
+                  borderSideColor: MyColor.myOrange,
+                  buttonName: "Back item view")
+            ],
+          )
+        ],
+      ),
+    );
+
+Widget cancelButton(BuildContext context,
+    {required Color borderSideColor, required String buttonName}) {
+  return reUsableButton(
+    onPressed: () {
+      Navigator.of(context).pop();
     },
     buttonName: buttonName,
     borderSideColor: borderSideColor,
@@ -240,47 +287,51 @@ Future<bool?> orderFinished(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          reUsableButton(
-                              onPressed: () {
-                                // ####################### Is Text Field Empty    #####################//
-                                if (textEditingController.text.isEmpty) {
-                                  isSuccessPopup(
-                                    context: context,
-                                    title: "ERROR",
-                                    msg: "Please enter your mobile phone",
-                                    isSuccess: false,
-                                    function: () {},
-                                  );
-                                }
-                                // ####################### Is Text Field Match    #####################//
-                                if (userPhoneNumber ==
-                                    int.parse(textEditingController.text)) {
-                                  textEditingController.clear();
-                                  Navigator.of(context).pop(true);
-                                }
-                                // ####################### Is Text Field Not Match    #####################//
-                                else {
-                                  isSuccessPopup(
+                          Builder(builder: (context) {
+                            return reUsableButton(
+                                onPressed: () {
+                                  // ####################### Is Text Field Empty    #####################//
+                                  if (textEditingController.text.isEmpty) {
+                                    isSuccessPopup(
                                       context: context,
                                       title: "ERROR",
-                                      msg:
-                                          " Phone numbers do not match. Please enter again !",
+                                      msg: "Please enter your mobile phone",
                                       isSuccess: false,
-                                      function: () {});
-                                }
-                              },
-                              buttonName: "Order Finished",
-                              borderSideColor: MyColor.myGreen),
+                                      function: () {},
+                                    );
+                                  }
+                                  // ####################### Is Text Field Match    #####################//
+                                  if (userPhoneNumber ==
+                                      int.parse(textEditingController.text)) {
+                                    textEditingController.clear();
+                                    Navigator.of(context).pop(true);
+                                  }
+                                  // ####################### Is Text Field Not Match    #####################//
+                                  else {
+                                    isSuccessPopup(
+                                        context: context,
+                                        title: "ERROR",
+                                        msg:
+                                            " Phone numbers do not match. Please enter again !",
+                                        isSuccess: false,
+                                        function: () {});
+                                  }
+                                },
+                                buttonName: "Order Finished",
+                                borderSideColor: MyColor.myGreen);
+                          }),
                           const SizedBox(
                             width: 50,
                           ),
-                          reUsableButton(
-                              onPressed: () {
-                                textEditingController.clear();
-                                Navigator.of(context).pop();
-                              },
-                              buttonName: "Back To Menu",
-                              borderSideColor: MyColor.myRed),
+                          Builder(builder: (context) {
+                            return reUsableButton(
+                                onPressed: () {
+                                  textEditingController.clear();
+                                  Navigator.of(context).pop();
+                                },
+                                buttonName: "Back To Menu",
+                                borderSideColor: MyColor.myRed);
+                          }),
                         ],
                       ),
                     ),
@@ -292,35 +343,38 @@ Future<bool?> orderFinished(
 // *********************************************************************//
 // ####################   Error Popup    ###############################//
 Future isSuccessPopup({
-  required BuildContext context,
+  required BuildContext? context,
   required String title,
   required String msg,
   required VoidCallback? function,
   required bool isSuccess,
 }) {
-  return isSuccess
-      ? AwesomeDialog(
-          context: context,
-          animType: AnimType.leftSlide,
-          headerAnimationLoop: false,
-          dialogType: DialogType.success,
-          showCloseIcon: false,
-          title: title,
-          desc: msg,
-          btnOkOnPress: function,
-          btnOkIcon: Icons.check_circle,
-        ).show()
-      : AwesomeDialog(
-          context: context,
-          dialogType: DialogType.error,
-          animType: AnimType.rightSlide,
-          headerAnimationLoop: false,
-          title: title,
-          desc: msg,
-          btnOkOnPress: function,
-          btnOkIcon: Icons.cancel,
-          btnOkColor: Colors.red,
-        ).show();
+  print("context 03");
+  if (isSuccess) {
+    return AwesomeDialog(
+      context: context!,
+      animType: AnimType.leftSlide,
+      headerAnimationLoop: false,
+      dialogType: DialogType.success,
+      showCloseIcon: false,
+      title: title,
+      desc: msg,
+      btnOkOnPress: function,
+      btnOkIcon: Icons.check_circle,
+    ).show();
+  } else {
+    return AwesomeDialog(
+      context: context!,
+      dialogType: DialogType.error,
+      animType: AnimType.rightSlide,
+      headerAnimationLoop: false,
+      title: title,
+      desc: msg,
+      btnOkOnPress: function,
+      btnOkIcon: Icons.cancel,
+      btnOkColor: Colors.red,
+    ).show();
+  }
 }
 
 // // *********************************************************************//

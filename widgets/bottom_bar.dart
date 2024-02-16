@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:web_app/custom_icon_button.dart';
+import 'package:web_app/widgets/custom_icon_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BottomBar extends StatelessWidget {

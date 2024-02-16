@@ -118,6 +118,8 @@ class UserOrdersFind extends ChangeNotifier {
   int get totalOrdersCount => lengthOfOrders;
 }
 
+// *****************************************************************
+// ##################    GET LOCAL IMAGE   ############################
 class GetImgLocal extends ChangeNotifier {
   Uint8List imagedata = Uint8List(0);
   String imageName = "";
@@ -165,4 +167,20 @@ class GetImgLocal extends ChangeNotifier {
   Uint8List get fileBytes => imagedata;
   bool get isFile => isImageFile;
   String get fileName => imageName;
+}
+
+class DatabaseClassifier extends ChangeNotifier {
+  List<String> classifier = ["OtherItems", "GrainsItems", "PowderItems"];
+  List<bool> isSelected = [true, false, false];
+  int currentIndex = 1;
+  String collectionPath = "";
+  void getCurrentItem(int index) {
+    collectionPath = classifier[index];
+    currentIndex = index;
+    //final getItemIndex = isSelected[index];
+
+    notifyListeners();
+  }
+
+  String get getCollectionPath => collectionPath;
 }

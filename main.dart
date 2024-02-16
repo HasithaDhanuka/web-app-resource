@@ -18,6 +18,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => OrderFoodItems()),
         ChangeNotifierProvider(create: (_) => UserOrdersFind()),
         ChangeNotifierProvider(create: (_) => GetImgLocal()),
+        ChangeNotifierProvider(create: (_) => DatabaseClassifier()),
       ],
       builder: (context, child) => const MyApp(),
     ),
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         PointerDeviceKind.stylus,
         PointerDeviceKind.unknown,
       }),
-      title: 'スリランカ味',
+      title: 'セイロン味',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.black12),
         primarySwatch: Colors.red,

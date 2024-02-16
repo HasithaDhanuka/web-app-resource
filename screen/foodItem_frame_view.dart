@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/model/food.dart';
-import 'package:web_app/provider_function/logic_function.dart';
 import 'package:web_app/screen/popup_view.dart';
 import 'package:web_app/widgets/network_image_render.dart';
 
 class FoodTile extends StatelessWidget {
-  const FoodTile(
-      {super.key,
-      required this.itemName,
-      required this.itemPrice,
-      required this.itemUrl});
+  const FoodTile({
+    super.key,
+    this.foodItem,
+    required this.itemName,
+    required this.itemPrice,
+    required this.itemUrl,
+  });
+
+  final FoodItem? foodItem;
   final String itemName;
   final int itemPrice;
   final String itemUrl;
@@ -31,8 +33,9 @@ class FoodTile extends StatelessWidget {
                 child: AutoSizeText(
                   itemName,
                   maxFontSize: 15,
+                  maxLines: 2,
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 8,
                       color: MyColor.myOrange,
                       fontWeight: FontWeight.w600),
                 ),
@@ -55,22 +58,23 @@ class FoodTile extends StatelessWidget {
             child: netImageView(
               imgURL: itemUrl,
               onTap: () async {
-                final orderComplete =
-                    await popUpItem(context, itemUrl: itemUrl, canOrder: false);
-                if (orderComplete == null || orderComplete == false) {
-                  return;
-                } else {
-                  // ignore: use_build_context_synchronously
-                  context.read<OrderFoodItems>().getOrder(
-                      foodItem: FoodItem(
-                          itemName: itemName,
-                          itemPrice: itemPrice,
-                          itemUrl: itemUrl));
-                  // ignore: use_build_context_synchronously
-                  context
-                      .read<OrderFoodItems>()
-                      .currentPrice(currentPrice: itemPrice);
-                }
+                updateItem(context, foodItem: foodItem!);
+                // final orderComplete =
+                //     await popUpItem(context, itemUrl: itemUrl, canOrder: false);
+                // if (orderComplete == null || orderComplete == false) {
+                //   return;
+                // } else {
+                //   // ignore: use_build_context_synchronously
+                //   context.read<OrderFoodItems>().getOrder(
+                //       foodItem: FoodItem(
+                //           itemName: itemName,
+                //           itemPrice: itemPrice,
+                //           itemUrl: itemUrl));
+                //   // ignore: use_build_context_synchronously
+                //   context
+                //       .read<OrderFoodItems>()
+                //       .currentPrice(currentPrice: itemPrice);
+                // }
               },
             )),
       ),
