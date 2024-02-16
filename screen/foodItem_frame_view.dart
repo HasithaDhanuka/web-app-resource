@@ -12,10 +12,12 @@ class FoodTile extends StatelessWidget {
       {super.key,
       required this.itemName,
       required this.itemPrice,
-      required this.itemUrl});
+      required this.itemUrl,
+      this.foodItem});
   final String itemName;
   final int itemPrice;
   final String itemUrl;
+  final FoodItem? foodItem;
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +65,15 @@ class FoodTile extends StatelessWidget {
               } else {
                 // ignore: use_build_context_synchronously
                 context.read<OrderFoodItems>().getOrder(
-                    foodItem: FoodItem(
+                      foodItem: FoodItem(
                         itemName: itemName,
                         itemPrice: itemPrice,
-                        itemUrl: itemUrl));
+                        itemUrl: itemUrl,
+                        collectionPath: foodItem!.collectionPath,
+                        id: foodItem!.id,
+                        timestamp: foodItem!.timestamp,
+                      ),
+                    );
                 // ignore: use_build_context_synchronously
                 context
                     .read<OrderFoodItems>()

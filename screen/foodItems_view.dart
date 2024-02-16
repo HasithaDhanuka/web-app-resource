@@ -3,6 +3,7 @@ import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/view_wrapper.dart';
 import 'package:web_app/model/food.dart';
 import 'package:web_app/screen/foodItem_frame_view.dart';
+import 'package:web_app/widgets/rounded_border.dart';
 import '../firebase/firebase_food.dart';
 
 class FoodItemsView extends StatefulWidget {
@@ -47,10 +48,7 @@ class _FoodItemState extends State<FoodItemsView> {
         desktopView: desktopView(
             crossAxisItemsCount: 5, scrollDirectionAxis: Axis.vertical),
         mobileView: mobileView(
-          crossAxisItemsCount: 3,
-          scrollDirectionAxis: Axis.horizontal,
-          viewHeight: 700,
-        ));
+            crossAxisItemsCount: 2, scrollDirectionAxis: Axis.horizontal));
   }
 
 // ***************************************************************//
@@ -59,35 +57,80 @@ class _FoodItemState extends State<FoodItemsView> {
   Widget desktopView(
       {required int crossAxisItemsCount, required Axis scrollDirectionAxis}) {
     //final int cross_axis_items;
-    return Center(
-      child: bodyOfDevicer(
-        crossAxisItemsCount: crossAxisItemsCount,
-        scrollDirectionAxis: scrollDirectionAxis,
-        readfoodItems: ReadFoodItems(),
+    return SingleChildScrollView(
+      scrollDirection: scrollDirectionAxis,
+      physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            roundedBorder(
+              title: "Other Items",
+              height: 200,
+              widget: bodyOfDevicer(
+                crossAxisItemsCount: crossAxisItemsCount,
+                scrollDirectionAxis: scrollDirectionAxis,
+                readfoodItems: ReadOtherItems(),
+              ),
+            ),
+            roundedBorder(
+              title: "Grains Items",
+              height: 200,
+              widget: bodyOfDevicer(
+                crossAxisItemsCount: crossAxisItemsCount,
+                scrollDirectionAxis: scrollDirectionAxis,
+                readfoodItems: ReadGrainsItems(),
+              ),
+            ),
+            roundedBorder(
+              title: "Powder Items",
+              height: 200,
+              widget: bodyOfDevicer(
+                crossAxisItemsCount: crossAxisItemsCount,
+                scrollDirectionAxis: scrollDirectionAxis,
+                readfoodItems: ReadPowderItems(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 // ***************************************************************//
 // ####################   Mobile VIEW    ##########################//
 
-  Widget mobileView({
-    required int crossAxisItemsCount,
-    required Axis scrollDirectionAxis,
-    required double viewHeight,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: MyColor.myGreen),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          height: viewHeight,
-          child: bodyOfDevicer(
+  Widget mobileView(
+      {required int crossAxisItemsCount, required Axis scrollDirectionAxis}) {
+    return Column(
+      children: [
+        roundedBorder(
+          title: "Other Items",
+          height: 400,
+          widget: bodyOfDevicer(
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,
-            readfoodItems: ReadFoodItems(),
-          )),
+            readfoodItems: ReadOtherItems(),
+          ),
+        ),
+        roundedBorder(
+          title: "Grains Items",
+          height: 400,
+          widget: bodyOfDevicer(
+            crossAxisItemsCount: crossAxisItemsCount,
+            scrollDirectionAxis: scrollDirectionAxis,
+            readfoodItems: ReadGrainsItems(),
+          ),
+        ),
+        roundedBorder(
+          title: "Powder Items",
+          height: 400,
+          widget: bodyOfDevicer(
+            crossAxisItemsCount: crossAxisItemsCount,
+            scrollDirectionAxis: scrollDirectionAxis,
+            readfoodItems: ReadPowderItems(),
+          ),
+        ),
+      ],
     );
   }
 
@@ -126,37 +169,6 @@ class _FoodItemState extends State<FoodItemsView> {
       },
     );
   }
-
-// ->  FutureBuilder
-  // FutureBuilder<List<FoodItem>> bodyOfDevicer({required int crossAxisItemsCount}) {
-  //   return FutureBuilder<List<FoodItem>>(
-  //     future: ReadFoodItems().first, //productItem,
-  //     builder: (context, snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.waiting) {
-  //         return const CircularProgressIndicator();
-  //       } else if (snapshot.hasData) {
-  //         final productItems = snapshot.data;
-  //         return GridView.builder(
-  //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-  //               crossAxisCount: crossAxisItemsCount,
-  //             ),
-  //             itemCount: _productItems?.length,
-  //             itemBuilder: (BuildContext, index) {
-  //               final items = _productItems?[index];
-  //               // print(products[index]);
-  //               // return Container();
-  //               return FoodTile(
-  //                 itemName: items!.itemName,
-  //                 itemPrice: items.itemPrice,
-  //                 itemUrl: items.itemUrl,
-  //               );
-  //             });
-  //       } else {
-  //         return Text("Item Not Founded");
-  //       }
-  //     },
-  //   );
-  // }
 }
 // ***************************************************************//
 // ####################   Grid VIEW    ##########################//
@@ -176,6 +188,7 @@ Widget gridItemViewr({
         final items = itemLength[index];
 
         return FoodTile(
+          foodItem: items,
           itemName: items.itemName,
           itemPrice: items.itemPrice,
           itemUrl: items.itemUrl,

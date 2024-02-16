@@ -1,29 +1,15 @@
-// class ProductItems {
-//   late final String itemName;
-//   late final String itemPrice;
-//   late final String itemUrl;
-
-//   ProductItems(
-//       {required this.itemName, required this.itemPrice, required this.itemUrl});
-
-//   static ProductItems fromJson(json) => ProductItems(
-//         itemName: json["itemName"],
-//         itemPrice: json["itemPrice"],
-//         itemUrl: json["itemUrl"],
-//       );
-// }
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FoodItem {
   late String id;
+  late String? collectionPath;
   late final String itemName;
   late final int itemPrice;
   late final String itemUrl;
   late Timestamp? timestamp;
-
   FoodItem({
     this.id = "",
+    this.collectionPath = "",
     required this.itemName,
     required this.itemPrice,
     required this.itemUrl,
@@ -32,15 +18,17 @@ class FoodItem {
 // send json
   Map<String, dynamic> toJson() => {
         "id": id,
+        "collectionPath": collectionPath,
         "itemName": itemName,
         "itemPrice": itemPrice,
         "itemUrl": itemUrl,
-        //    "timeStamp": FieldValue.serverTimestamp(),
+        "timeStamp": timestamp,
       };
 
   factory FoodItem.fromMap(Map<String, dynamic> data) {
     return FoodItem(
       id: data["id"],
+      collectionPath: data["collectionPath"],
       itemName: data["itemName"],
       itemPrice: data["itemPrice"],
       itemUrl: data["itemUrl"],

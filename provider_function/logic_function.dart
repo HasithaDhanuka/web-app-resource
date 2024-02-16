@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:web_app/model/food.dart';
 
@@ -91,8 +94,8 @@ class OrderFoodItems extends ChangeNotifier {
 
   void orderListClear() {
     listOfOrder.clear();
-    print(listOfOrder.length);
-    print(listOfOrder);
+    // print(listOfOrder.length);
+    //  print(listOfOrder);
     notifyListeners();
   }
 
@@ -107,11 +110,77 @@ class UserOrdersFind extends ChangeNotifier {
   int lengthOfOrders = 0;
   Future<int> getUserOrder({required int ordersLength}) async {
     lengthOfOrders = await ordersLength;
-    print("order length is ::${lengthOfOrders}");
-
+    //  print("order length is ::${lengthOfOrders}");
     notifyListeners();
     return lengthOfOrders;
   }
 
   int get totalOrdersCount => lengthOfOrders;
+}
+
+// *****************************************************************
+// ##################    GET LOCAL IMAGE   ############################
+class GetImgLocal extends ChangeNotifier {
+  Uint8List imagedata = Uint8List(0);
+  String imageName = "";
+  bool isImageFile = false;
+  bool isEnableCreateButton = true;
+
+  Future<bool?> getImageLocal() async {
+    print("function entering of Img picker");
+
+    final pickFileResult = await FilePicker.platform.pickFiles();
+    if (pickFileResult == null) {
+      isImageFile = false;
+      createButtonEnable();
+      return isImageFile;
+    }
+
+    PlatformFile resultFile = pickFileResult.files.first;
+
+    imagedata = resultFile.bytes!;
+    imageName = resultFile.name;
+
+    isImageFile = true;
+
+    print("file name :: ${resultFile.name}");
+    print("file name :: ${resultFile.extension}");
+    notifyListeners();
+    return isImageFile;
+  }
+
+  void getImageClear() {
+    isImageFile = false;
+    notifyListeners();
+  }
+
+  void createButtonEnable() {
+    isEnableCreateButton = true;
+    notifyListeners();
+  }
+
+  void createButtonDisable() {
+    isEnableCreateButton = false;
+    notifyListeners();
+  }
+
+  Uint8List get fileBytes => imagedata;
+  bool get isFile => isImageFile;
+  String get fileName => imageName;
+}
+
+class DatabaseClassifier extends ChangeNotifier {
+  List<String> classifier = ["OtherItems", "GrainsItems", "PowderItems"];
+  List<bool> isSelected = [true, false, false];
+  int currentIndex = 1;
+  String collectionPath = "";
+  void getCurrentItem(int index) {
+    collectionPath = classifier[index];
+    currentIndex = index;
+    //final getItemIndex = isSelected[index];
+
+    notifyListeners();
+  }
+
+  String get getCollectionPath => collectionPath;
 }

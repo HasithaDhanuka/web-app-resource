@@ -38,7 +38,7 @@ class _HomeViewState extends State<HomeView> {
                 height: screenHeight * 0.08,
               ),
               subHeader(
-                  text: "Welcome to matsuyama ....",
+                  text: "Thank you very much for your participation.",
                   fontSize: getFontSize(false),
                   color: MyColor.myYellow),
               SizedBox(
@@ -46,6 +46,14 @@ class _HomeViewState extends State<HomeView> {
               ),
               subHeader(
                   text: "ඔබගේ සහභාගීත්වයට බොහෝම ස්තූතියි.",
+                  fontSize: getFontSize(false),
+                  color: MyColor.myYellow),
+              SizedBox(
+                height: screenHeight * 0.02,
+              ),
+              subHeader(
+                  text:
+                      "We operate a delivery service in Matsuyama and surrounding areas.",
                   fontSize: getFontSize(false),
                   color: MyColor.myYellow),
               SizedBox(
@@ -82,7 +90,19 @@ class _HomeViewState extends State<HomeView> {
               height: screenHeight * 0.03,
             ),
             subHeader(
+                text: "Thank you very much for your participation.",
+                fontSize: 15,
+                color: MyColor.myGreen),
+            subHeader(
                 text: "ඔබගේ සහභාගීත්වයට බොහෝම ස්තූතියි.\n",
+                fontSize: 15,
+                color: MyColor.myRed),
+            SizedBox(
+              height: screenHeight * 0.01,
+            ),
+            subHeader(
+                text:
+                    "We operate a delivery service \n in Matsuyama and surrounding areas.",
                 fontSize: 15,
                 color: MyColor.myGreen),
             SizedBox(

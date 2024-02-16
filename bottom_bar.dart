@@ -28,24 +28,25 @@ class BottomBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
-                  children: [
-                    CustomIconButton(
+                  children: <Widget>[
+                    const CustomIconButton(
                         icondata: FontAwesomeIcons.github,
                         url: "https://github.com/HasithaDhanuka",
                         color: Colors.blue),
                     SizedBox(
                       width: screenWidth * 0.02,
                     ),
-                    CustomIconButton(
+                    const CustomIconButton(
                         icondata: FontAwesomeIcons.youtube,
                         url: "https://www.youtube.com/",
                         color: Colors.blue),
                     SizedBox(
                       width: screenWidth * 0.02,
                     ),
-                    CustomIconButton(
+                    const CustomIconButton(
                         icondata: FontAwesomeIcons.facebook,
-                        url: "https://www.facebook.com/",
+                        url:
+                            "https://www.facebook.com/profile.php?id=61556556116960",
                         color: Colors.blue),
                   ],
                 ),
