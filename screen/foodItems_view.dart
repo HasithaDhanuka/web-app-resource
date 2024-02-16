@@ -57,11 +57,42 @@ class _FoodItemState extends State<FoodItemsView> {
   Widget desktopView(
       {required int crossAxisItemsCount, required Axis scrollDirectionAxis}) {
     //final int cross_axis_items;
-    return Center(
-      child: bodyOfDevicer(
-        crossAxisItemsCount: crossAxisItemsCount,
-        scrollDirectionAxis: scrollDirectionAxis,
-        readfoodItems: ReadOtherItems(),
+    return SingleChildScrollView(
+      scrollDirection: scrollDirectionAxis,
+      physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            roundedBorder(
+              title: "Other Items",
+              height: 200,
+              widget: bodyOfDevicer(
+                crossAxisItemsCount: crossAxisItemsCount,
+                scrollDirectionAxis: scrollDirectionAxis,
+                readfoodItems: ReadOtherItems(),
+              ),
+            ),
+            roundedBorder(
+              title: "Grains Items",
+              height: 200,
+              widget: bodyOfDevicer(
+                crossAxisItemsCount: crossAxisItemsCount,
+                scrollDirectionAxis: scrollDirectionAxis,
+                readfoodItems: ReadGrainsItems(),
+              ),
+            ),
+            roundedBorder(
+              title: "Powder Items",
+              height: 200,
+              widget: bodyOfDevicer(
+                crossAxisItemsCount: crossAxisItemsCount,
+                scrollDirectionAxis: scrollDirectionAxis,
+                readfoodItems: ReadPowderItems(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

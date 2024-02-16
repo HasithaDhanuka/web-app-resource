@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/timedate_conventer.dart';
+import 'package:web_app/Utils/view_wrapper.dart';
 import 'package:web_app/firebase/firebase_userOrder.dart';
 import 'package:web_app/model/food.dart';
 import 'package:web_app/model/user_order.dart';
@@ -64,33 +65,55 @@ class _CartViewState extends State<OrderView> {
                 .read<UserOrdersFind>()
                 .getUserOrder(ordersLength: userOrdersData.length);
 
-            return Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: roundedBorder(
-                  height: 400,
-                  widget: ListView.builder(
-                      physics:
-                          const ScrollPhysics(parent: BouncingScrollPhysics()),
-                      itemCount: userOrdersData.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final orderDetails = userOrdersData[index];
+            return ViewWrapper(
+                desktopView: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: roundedBorder(
+                      height: null,
+                      widget: ListView.builder(
+                          physics: const ScrollPhysics(
+                              parent: BouncingScrollPhysics()),
+                          itemCount: userOrdersData.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final orderDetails = userOrdersData[index];
 
-                        return Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: orderCart(
-                            userID: orderDetails.userid,
-                            userName: orderDetails.userName,
-                            userTelephoneNumber: orderDetails.userPhoneNumber,
-                            userPostalCode: orderDetails.userPostalCode,
-                            userAddress: orderDetails.userAddruss,
-                            itemPrice: orderDetails.userTotalPrice,
-                            timeOfOrder: orderDetails.timestamp!,
-                            orders: orderDetails.userOrders,
-                          ),
-                        );
-                      }),
-                  title: "Order View"),
-            );
+                            return orderCart(
+                              userID: orderDetails.userid,
+                              userName: orderDetails.userName,
+                              userTelephoneNumber: orderDetails.userPhoneNumber,
+                              userPostalCode: orderDetails.userPostalCode,
+                              userAddress: orderDetails.userAddruss,
+                              itemPrice: orderDetails.userTotalPrice,
+                              timeOfOrder: orderDetails.timestamp!,
+                              orders: orderDetails.userOrders,
+                            );
+                          }),
+                      title: "Customer Orders"),
+                ),
+                mobileView: Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: roundedBorder(
+                      height: 400,
+                      widget: ListView.builder(
+                          physics: const ScrollPhysics(
+                              parent: BouncingScrollPhysics()),
+                          itemCount: userOrdersData.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final orderDetails = userOrdersData[index];
+
+                            return orderCart(
+                              userID: orderDetails.userid,
+                              userName: orderDetails.userName,
+                              userTelephoneNumber: orderDetails.userPhoneNumber,
+                              userPostalCode: orderDetails.userPostalCode,
+                              userAddress: orderDetails.userAddruss,
+                              itemPrice: orderDetails.userTotalPrice,
+                              timeOfOrder: orderDetails.timestamp!,
+                              orders: orderDetails.userOrders,
+                            );
+                          }),
+                      title: "customer orders"),
+                ));
           } else {
             return isItemOrder();
           }

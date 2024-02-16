@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
-import 'package:web_app/firebase/firebase_storage.dart';
-import 'package:web_app/screen/popup_view.dart';
+import 'package:web_app/Utils/view_wrapper.dart';
+// import 'package:web_app/firebase/firebase_storage.dart';
+// import 'package:web_app/screen/popup_view.dart';
 import 'package:web_app/widgets/rounded_border.dart';
 import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/firebase/firebase_food.dart';
@@ -47,8 +48,15 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: roundedBorder(
-          height: null, widget: createViewBody(), title: "Create Item View"),
+      child: ViewWrapper(
+        desktopView: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: roundedBorder(
+              height: null, widget: createViewBody(), title: "Create View"),
+        ),
+        mobileView: roundedBorder(
+            height: null, widget: createViewBody(), title: "Create View"),
+      ),
     );
   }
 
