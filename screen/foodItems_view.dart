@@ -46,7 +46,7 @@ class _FoodItemState extends State<FoodItemsView> {
   Widget build(BuildContext context) {
     return ViewWrapper(
         desktopView: desktopView(
-            crossAxisItemsCount: 5, scrollDirectionAxis: Axis.vertical),
+            crossAxisItemsCount: 3, scrollDirectionAxis: Axis.vertical),
         mobileView: mobileView(
             crossAxisItemsCount: 2, scrollDirectionAxis: Axis.horizontal));
   }
