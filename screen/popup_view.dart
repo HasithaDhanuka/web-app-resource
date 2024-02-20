@@ -77,93 +77,99 @@ Future<bool?> popupOrder({
         builder: (context) => AlertDialog(
               insetPadding: const EdgeInsets.all(10),
               backgroundColor: Colors.black,
-              content: SizedBox(
-                width: 400,
-                child: Consumer<TextFieldChanger>(
-                    builder: (context, value, chaild) {
-                  return Column(
-                    children: <Widget>[
-                      customInputField(
-                          inputFieldName: "your Address",
-                          inputEditingController: userAddrassEditingController,
-                          isNumberTypeKeybord: false,
-                          isValidate: value.getUserAddressValidate,
-                          keyBordType: TextInputType.multiline,
-                          maxLine: 5),
-                      customInputField(
-                          inputFieldName: "Your Name",
-                          inputEditingController: userNameEditingController,
-                          isNumberTypeKeybord: false,
-                          isValidate: value.getUserNameValidate,
-                          keyBordType: TextInputType.name),
-                      customInputField(
-                          inputFieldName: "Telephone Number",
-                          inputEditingController:
-                              userPhoneNunberEditingController,
-                          isNumberTypeKeybord: true,
-                          isValidate: value.getUserTelNumberValidate,
-                          keyBordType: TextInputType.number),
-                      customInputField(
-                          inputFieldName: "Postal Code",
-                          inputEditingController:
-                              userPostalCodeEditingController,
-                          isNumberTypeKeybord: true,
-                          isValidate: value.getUserPostalCodeValidate,
-                          keyBordType: TextInputType.number),
+              content: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: SizedBox(
+                  width: 400,
+                  height: 500,
+                  child: Consumer<TextFieldChanger>(
+                      builder: (context, value, chaild) {
+                    return Column(
+                      children: <Widget>[
+                        customInputField(
+                            inputFieldName: "your Address",
+                            inputEditingController:
+                                userAddrassEditingController,
+                            isNumberTypeKeybord: false,
+                            isValidate: value.getUserAddressValidate,
+                            keyBordType: TextInputType.multiline,
+                            maxLine: 5),
+                        customInputField(
+                            inputFieldName: "Your Name",
+                            inputEditingController: userNameEditingController,
+                            isNumberTypeKeybord: false,
+                            isValidate: value.getUserNameValidate,
+                            keyBordType: TextInputType.name),
+                        customInputField(
+                            inputFieldName: "Telephone Number",
+                            inputEditingController:
+                                userPhoneNunberEditingController,
+                            isNumberTypeKeybord: true,
+                            isValidate: value.getUserTelNumberValidate,
+                            keyBordType: TextInputType.number),
+                        customInputField(
+                            inputFieldName: "Postal Code",
+                            inputEditingController:
+                                userPostalCodeEditingController,
+                            isNumberTypeKeybord: true,
+                            isValidate: value.getUserPostalCodeValidate,
+                            keyBordType: TextInputType.number),
 
-//*************************************************************************************** */
-//##################      SEND / B A C K  BUTTON    #######################################
-                      Padding(
-                        padding: const EdgeInsets.only(top: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            reUsableButton(
-                                onPressed: () {
-                                  value.orderSendScreen(
-                                      bUserNameValidate:
-                                          userNameEditingController
-                                              .text.isEmpty,
-                                      bUserTelNumberValidate:
-                                          userPhoneNunberEditingController
-                                              .text.isEmpty,
-                                      bUserPostalCodeValidate:
-                                          userPostalCodeEditingController
-                                              .text.isEmpty,
-                                      bUserAddressValidate:
-                                          userAddrassEditingController
-                                              .text.isEmpty);
-
-                                  if (userNameEditingController.text.isEmpty ||
-                                      userPhoneNunberEditingController
-                                          .text.isEmpty ||
-                                      userPostalCodeEditingController
-                                          .text.isEmpty ||
-                                      userAddrassEditingController
-                                          .text.isEmpty) {
-                                    print("not ok something is wrong");
-                                    return;
-                                  }
-
-                                  Navigator.of(context).pop(true);
-                                },
-                                buttonName: "Send",
-                                borderSideColor: MyColor.myGreen),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: reUsableButton(
+                        //*************************************************************************************** */
+                        //##################      SEND / B A C K  BUTTON    #######################################
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              reUsableButton(
                                   onPressed: () {
-                                    Navigator.of(context).pop();
+                                    value.orderSendScreen(
+                                        bUserNameValidate:
+                                            userNameEditingController
+                                                .text.isEmpty,
+                                        bUserTelNumberValidate:
+                                            userPhoneNunberEditingController
+                                                .text.isEmpty,
+                                        bUserPostalCodeValidate:
+                                            userPostalCodeEditingController
+                                                .text.isEmpty,
+                                        bUserAddressValidate:
+                                            userAddrassEditingController
+                                                .text.isEmpty);
+
+                                    if (userNameEditingController
+                                            .text.isEmpty ||
+                                        userPhoneNunberEditingController
+                                            .text.isEmpty ||
+                                        userPostalCodeEditingController
+                                            .text.isEmpty ||
+                                        userAddrassEditingController
+                                            .text.isEmpty) {
+                                      print("not ok something is wrong");
+                                      return;
+                                    }
+
+                                    Navigator.of(context).pop(true);
                                   },
-                                  buttonName: "Back To Menu",
-                                  borderSideColor: MyColor.myRed),
-                            )
-                          ],
+                                  buttonName: "Send",
+                                  borderSideColor: MyColor.myGreen),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: reUsableButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    buttonName: "Back To Menu",
+                                    borderSideColor: MyColor.myRed),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  );
-                }),
+                      ],
+                    );
+                  }),
+                ),
               ),
             ));
 
