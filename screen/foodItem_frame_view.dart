@@ -59,22 +59,6 @@ class FoodTile extends StatelessWidget {
               imgURL: itemUrl,
               onTap: () async {
                 updateItem(context, foodItem: foodItem!);
-                // final orderComplete =
-                //     await popUpItem(context, itemUrl: itemUrl, canOrder: false);
-                // if (orderComplete == null || orderComplete == false) {
-                //   return;
-                // } else {
-                //   // ignore: use_build_context_synchronously
-                //   context.read<OrderFoodItems>().getOrder(
-                //       foodItem: FoodItem(
-                //           itemName: itemName,
-                //           itemPrice: itemPrice,
-                //           itemUrl: itemUrl));
-                //   // ignore: use_build_context_synchronously
-                //   context
-                //       .read<OrderFoodItems>()
-                //       .currentPrice(currentPrice: itemPrice);
-                // }
               },
             )),
       ),

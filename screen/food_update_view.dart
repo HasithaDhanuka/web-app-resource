@@ -19,11 +19,13 @@ class FoodUpdateView extends StatefulWidget {
 class _FoodUpdateViewState extends State<FoodUpdateView> {
   final _itemNameController = TextEditingController();
   final _itemPriceController = TextEditingController();
+  final _itemUrlController = TextEditingController();
   @override
   void dispose() {
     super.dispose();
     _itemNameController.dispose();
     _itemPriceController.dispose();
+    _itemUrlController.dispose();
   }
 
   @override
@@ -113,11 +115,11 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
               itemID: foodItem.id,
             );
 
-        final itemNamePrice = await itemEditeField();
-        String getItemName = itemNamePrice![0];
-        String getItemPrice = itemNamePrice[1];
-
-        if (getItemName.isEmpty && getItemPrice.isEmpty) {
+        final itemUpdate = await itemEditeField();
+        String getItemName = itemUpdate![0];
+        String getItemPrice = itemUpdate[1];
+        String getItemUrl = itemUpdate[2];
+        if (getItemName.isEmpty && getItemPrice.isEmpty && getItemUrl.isEmpty) {
           return;
         }
 
@@ -125,11 +127,13 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
         getItemPrice.isEmpty
             ? getItemPrice = foodItem.itemPrice.toString()
             : getItemPrice;
+        getItemUrl.isEmpty ? getItemUrl = foodItem.itemUrl : getItemUrl;
 
         EditItem(
             item_ID: foodItem.id,
             itemName: getItemName,
             itemPrice: int.parse(getItemPrice),
+            itemUrl: getItemUrl,
             collectionPath: foodItem.collectionPath!);
       },
       icon: Icon(
@@ -152,41 +156,55 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
             "Change Item Details",
             style: TextStyle(color: MyColor.myOrange),
           ),
-          content: SizedBox(
-            height: 200,
-            width: 400,
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                  Consumer<FoodItemProperty>(builder: (context, value, child) {
-                    return customInputField(
-                        inputFieldName: value.getItemName,
-                        inputEditingController: _itemNameController,
-                        isNumberTypeKeybord: false,
-                        isValidate: false,
-                        keyBordType: TextInputType.name);
-                  }),
-                  Consumer<FoodItemProperty>(builder: (context, value, child) {
-                    return customInputField(
-                        inputFieldName: "${value.getItemPrice} ￥",
-                        inputEditingController: _itemPriceController,
-                        isNumberTypeKeybord: true,
-                        isValidate: false,
-                        keyBordType: TextInputType.number);
-                  }),
-                ],
+          content: SingleChildScrollView(
+            child: SizedBox(
+              height: 300,
+              width: 400,
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Consumer<FoodItemProperty>(
+                        builder: (context, value, child) {
+                      return customInputField(
+                          inputFieldName: value.getItemName,
+                          inputEditingController: _itemNameController,
+                          isNumberTypeKeybord: false,
+                          isValidate: false,
+                          keyBordType: TextInputType.name);
+                    }),
+                    Consumer<FoodItemProperty>(
+                        builder: (context, value, child) {
+                      return customInputField(
+                          inputFieldName: "${value.getItemPrice} ￥",
+                          inputEditingController: _itemPriceController,
+                          isNumberTypeKeybord: true,
+                          isValidate: false,
+                          keyBordType: TextInputType.number);
+                    }),
+                    Consumer<FoodItemProperty>(
+                        builder: (context, value, child) {
+                      return customInputField(
+                          inputFieldName: value.getItemUrl,
+                          inputEditingController: _itemUrlController,
+                          isNumberTypeKeybord: false,
+                          isValidate: false,
+                          keyBordType: TextInputType.name);
+                    }),
+                  ],
+                ),
               ),
             ),
           ),
           actions: [
             ElevatedButton(
               onPressed: () {
-                List<String> itemNamePrice = [
+                List<String> itemUpdate = [
                   _itemNameController.text,
-                  _itemPriceController.text
+                  _itemPriceController.text,
+                  _itemUrlController.text,
                 ];
 
-                Navigator.of(context).pop(itemNamePrice);
+                Navigator.of(context).pop(itemUpdate);
                 _itemNameController.clear();
                 _itemPriceController.clear();
               },

@@ -71,16 +71,19 @@ Stream<List<FoodItem>> ReadPowderItems() {
 //*****************************************************************************
 //   Update Food Item
 //*****************************************************************************
-Future EditItem(
-    {required String item_ID,
-    required String collectionPath,
-    required String itemName,
-    required int itemPrice}) async {
+Future EditItem({
+  required String item_ID,
+  required String collectionPath,
+  required String itemName,
+  required int itemPrice,
+  required String itemUrl,
+}) async {
   final item_Edit =
       FirebaseFirestore.instance.collection(collectionPath).doc(item_ID);
   await item_Edit.update({
     "itemName": itemName,
     "itemPrice": itemPrice,
+    "itemUrl": itemUrl,
     "timeStamp": FieldValue.serverTimestamp(),
   });
 }

@@ -46,7 +46,7 @@ class _FoodItemState extends State<FoodItemsView> {
   Widget build(BuildContext context) {
     return ViewWrapper(
         desktopView: desktopView(
-            crossAxisItemsCount: 5, scrollDirectionAxis: Axis.vertical),
+            crossAxisItemsCount: 3, scrollDirectionAxis: Axis.vertical),
         mobileView: mobileView(
             crossAxisItemsCount: 2, scrollDirectionAxis: Axis.horizontal));
   }
@@ -66,7 +66,7 @@ class _FoodItemState extends State<FoodItemsView> {
           children: [
             roundedBorder(
               title: "Other Items",
-              height: 200,
+              height: 400,
               widget: bodyOfDevicer(
                 crossAxisItemsCount: crossAxisItemsCount,
                 scrollDirectionAxis: scrollDirectionAxis,
@@ -75,7 +75,7 @@ class _FoodItemState extends State<FoodItemsView> {
             ),
             roundedBorder(
               title: "Grains Items",
-              height: 200,
+              height: 400,
               widget: bodyOfDevicer(
                 crossAxisItemsCount: crossAxisItemsCount,
                 scrollDirectionAxis: scrollDirectionAxis,
@@ -84,7 +84,7 @@ class _FoodItemState extends State<FoodItemsView> {
             ),
             roundedBorder(
               title: "Powder Items",
-              height: 200,
+              height: 400,
               widget: bodyOfDevicer(
                 crossAxisItemsCount: crossAxisItemsCount,
                 scrollDirectionAxis: scrollDirectionAxis,
@@ -105,7 +105,7 @@ class _FoodItemState extends State<FoodItemsView> {
       children: [
         roundedBorder(
           title: "Other Items",
-          height: 300,
+          height: 400,
           widget: bodyOfDevicer(
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,
@@ -114,7 +114,7 @@ class _FoodItemState extends State<FoodItemsView> {
         ),
         roundedBorder(
           title: "Grains Items",
-          height: 300,
+          height: 400,
           widget: bodyOfDevicer(
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,
@@ -123,7 +123,7 @@ class _FoodItemState extends State<FoodItemsView> {
         ),
         roundedBorder(
           title: "Powder Items",
-          height: 300,
+          height: 400,
           widget: bodyOfDevicer(
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,

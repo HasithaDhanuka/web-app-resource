@@ -32,7 +32,7 @@ class FoodItem {
       itemName: data["itemName"],
       itemPrice: data["itemPrice"],
       itemUrl: data["itemUrl"],
-      timestamp: data["timeStamp"],
+      //  timestamp: data["timeStamp"],
     );
   }
 }
