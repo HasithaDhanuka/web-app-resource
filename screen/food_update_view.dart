@@ -89,8 +89,9 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
   IconButton deleteButton(
       {required String itemID, required String collectionPath}) {
     return IconButton(
-      onPressed: () {
-        DeleteItem(itemID: itemID, collectionPath: collectionPath);
+      onPressed: () async {
+        await DeleteItem(itemID: itemID, collectionPath: collectionPath);
+        Navigator.of(context).pop();
       },
       icon: Icon(
         Icons.delete,
@@ -122,7 +123,7 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
         if (getItemName.isEmpty && getItemPrice.isEmpty && getItemUrl.isEmpty) {
           return;
         }
-
+        Navigator.of(context).pop();
         getItemName.isEmpty ? getItemName = foodItem.itemName : getItemName;
         getItemPrice.isEmpty
             ? getItemPrice = foodItem.itemPrice.toString()
