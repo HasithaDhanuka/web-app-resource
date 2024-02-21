@@ -74,12 +74,12 @@ Future<bool?> popupOrder({
 }) =>
     showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-              insetPadding: const EdgeInsets.all(10),
-              backgroundColor: Colors.black,
-              content: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: SizedBox(
+        builder: (context) => SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: AlertDialog(
+                insetPadding: const EdgeInsets.all(10),
+                backgroundColor: Colors.black,
+                content: SizedBox(
                   width: 400,
                   height: 500,
                   child: Consumer<TextFieldChanger>(
@@ -187,11 +187,12 @@ Future orderDetails({
 }) =>
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        insetPadding: const EdgeInsets.all(10),
-        backgroundColor: Colors.black,
-        content: SingleChildScrollView(
-          child: Column(
+      builder: (_) => SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: AlertDialog(
+          insetPadding: const EdgeInsets.all(10),
+          backgroundColor: Colors.black,
+          content: Column(
             children: [
               SizedBox(
                 width: 400,
