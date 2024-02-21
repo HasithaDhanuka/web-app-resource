@@ -36,13 +36,31 @@ Stream<List<UserOrder>> readUserOrders() {
 }
 
 //*****************************************************************************
-//   Read Food Item Order
+//   Delete Food Item Order
 //*****************************************************************************
 Future<bool?> deleteOrder({required String orderID}) async {
   final orderDelete =
       FirebaseFirestore.instance.collection("userOrders").doc(orderID);
-  return await orderDelete
-      .delete()
-      .then((value) => true)
-      .catchError((err) => false);
+  final DocumentSnapshot snapshot = await orderDelete.get();
+  final getOrder = snapshot.data() as Map<String, dynamic>;
+  UserOrder getUserOrder = UserOrder.fromMap(getOrder);
+
+/////////    remove Order Collection created //////////
+  final removeCollection =
+      FirebaseFirestore.instance.collection("removeOrders").doc();
+  getUserOrder.userid = removeCollection.id;
+  final json = getUserOrder.toJson();
+  // removeCollection.set(json)
+
+  return removeCollection.set(json).then((value) {
+    return orderDelete
+        .delete()
+        .then((value) => true)
+        .catchError((err) => false);
+
+    //   print("Order send success !");
+  }).catchError((error) {
+    //   print("Oder Error");
+    return false;
+  });
 }

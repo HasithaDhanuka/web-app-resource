@@ -204,11 +204,12 @@ Future orderDetails({
 }) =>
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        insetPadding: const EdgeInsets.all(10),
-        backgroundColor: Colors.black,
-        content: SingleChildScrollView(
-          child: Column(
+      builder: (_) => SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: AlertDialog(
+          insetPadding: const EdgeInsets.all(10),
+          backgroundColor: Colors.black,
+          content: Column(
             children: [
               SizedBox(
                 width: 400,
@@ -231,7 +232,7 @@ Future orderDetails({
                               textEditingController: textEditingController);
 
                           if (isOrderFinished == true) {
-                            print("order finished but presssed");
+                            print("order finished buton presssed");
 
                             Navigator.of((_)).pop(isOrderFinished);
                           }
@@ -262,80 +263,83 @@ Future<bool?> orderFinished(
         required TextEditingController textEditingController}) =>
     showDialog(
         context: context,
-        builder: (_) => AlertDialog(
-              insetPadding: const EdgeInsets.only(
-                bottom: 200,
-                top: 200,
-              ),
-              backgroundColor: Colors.black,
-              content: SizedBox(
-                width: 400,
-                child: Column(
-                  children: [
-                    titleSubtitle(
-                        title: "User Phone Number",
-                        subTitle: "$userPhoneNumber",
-                        icon: const Icon(Icons.phone)),
-                    customInputField(
-                        inputFieldName: "Enter The Order Finished Code",
-                        inputEditingController: textEditingController,
-                        isNumberTypeKeybord: true,
-                        isValidate: true,
-                        keyBordType: TextInputType.number),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Builder(builder: (context) {
-                            return reUsableButton(
-                                onPressed: () {
-                                  // ####################### Is Text Field Empty    #####################//
-                                  if (textEditingController.text.isEmpty) {
-                                    isSuccessPopup(
-                                      context: context,
-                                      title: "ERROR",
-                                      msg: "Please enter your mobile phone",
-                                      isSuccess: false,
-                                      function: () {},
-                                    );
-                                  }
-                                  // ####################### Is Text Field Match    #####################//
-                                  if (userPhoneNumber ==
-                                      int.parse(textEditingController.text)) {
-                                    textEditingController.clear();
-                                    Navigator.of(context).pop(true);
-                                  }
-                                  // ####################### Is Text Field Not Match    #####################//
-                                  else {
-                                    isSuccessPopup(
+        builder: (_) => SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: AlertDialog(
+                insetPadding: const EdgeInsets.only(
+                  bottom: 200,
+                  top: 200,
+                ),
+                backgroundColor: Colors.black,
+                content: SizedBox(
+                  width: 400,
+                  child: Column(
+                    children: [
+                      titleSubtitle(
+                          title: "User Phone Number",
+                          subTitle: "$userPhoneNumber",
+                          icon: const Icon(Icons.phone)),
+                      customInputField(
+                          inputFieldName: "Enter The Order Finished Code",
+                          inputEditingController: textEditingController,
+                          isNumberTypeKeybord: true,
+                          isValidate: true,
+                          keyBordType: TextInputType.number),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Builder(builder: (context) {
+                              return reUsableButton(
+                                  onPressed: () {
+                                    // ####################### Is Text Field Empty    #####################//
+                                    if (textEditingController.text.isEmpty) {
+                                      isSuccessPopup(
                                         context: context,
                                         title: "ERROR",
-                                        msg:
-                                            " Phone numbers do not match. Please enter again !",
+                                        msg: "Please enter your mobile phone",
                                         isSuccess: false,
-                                        function: () {});
-                                  }
-                                },
-                                buttonName: "Order Finished",
-                                borderSideColor: MyColor.myGreen);
-                          }),
-                          const SizedBox(
-                            width: 50,
-                          ),
-                          Builder(builder: (context) {
-                            return reUsableButton(
-                                onPressed: () {
-                                  textEditingController.clear();
-                                  Navigator.of(context).pop();
-                                },
-                                buttonName: "Back To Menu",
-                                borderSideColor: MyColor.myRed);
-                          }),
-                        ],
+                                        function: () {},
+                                      );
+                                    }
+                                    // ####################### Is Text Field Match    #####################//
+                                    if (userPhoneNumber ==
+                                        int.parse(textEditingController.text)) {
+                                      textEditingController.clear();
+                                      Navigator.of(context).pop(true);
+                                    }
+                                    // ####################### Is Text Field Not Match    #####################//
+                                    else {
+                                      isSuccessPopup(
+                                          context: context,
+                                          title: "ERROR",
+                                          msg:
+                                              " Phone numbers do not match. Please enter again !",
+                                          isSuccess: false,
+                                          function: () {});
+                                    }
+                                  },
+                                  buttonName: "Order Finished",
+                                  borderSideColor: MyColor.myGreen);
+                            }),
+                            const SizedBox(
+                              width: 50,
+                            ),
+                            Builder(builder: (context) {
+                              return reUsableButton(
+                                  onPressed: () {
+                                    textEditingController.clear();
+                                    Navigator.of(context).pop();
+                                  },
+                                  buttonName: "Back To Menu",
+                                  borderSideColor: MyColor.myRed);
+                            }),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ));
