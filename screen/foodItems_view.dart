@@ -1,3 +1,6 @@
+import 'dart:js';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/view_wrapper.dart';
@@ -68,6 +71,11 @@ class _FoodItemState extends State<FoodItemsView> {
               title: "Other Items",
               height: 400,
               widget: bodyOfDevicer(
+                viewportFraction: 0.3,
+                sliderView: true,
+                sliderViewAutoPlay: true,
+                sliderViewItemHeight: 370,
+                sliderViewAutoPlayDuration: 3,
                 crossAxisItemsCount: crossAxisItemsCount,
                 scrollDirectionAxis: scrollDirectionAxis,
                 readfoodItems: ReadOtherItems(),
@@ -77,6 +85,11 @@ class _FoodItemState extends State<FoodItemsView> {
               title: "Grains Items",
               height: 400,
               widget: bodyOfDevicer(
+                viewportFraction: 0.3,
+                sliderView: false,
+                sliderViewAutoPlay: true,
+                sliderViewItemHeight: 370,
+                sliderViewAutoPlayDuration: 3,
                 crossAxisItemsCount: crossAxisItemsCount,
                 scrollDirectionAxis: scrollDirectionAxis,
                 readfoodItems: ReadGrainsItems(),
@@ -86,6 +99,11 @@ class _FoodItemState extends State<FoodItemsView> {
               title: "Powder Items",
               height: 400,
               widget: bodyOfDevicer(
+                viewportFraction: 0.3,
+                sliderView: true,
+                sliderViewAutoPlay: true,
+                sliderViewItemHeight: 370,
+                sliderViewAutoPlayDuration: 4,
                 crossAxisItemsCount: crossAxisItemsCount,
                 scrollDirectionAxis: scrollDirectionAxis,
                 readfoodItems: ReadPowderItems(),
@@ -105,8 +123,13 @@ class _FoodItemState extends State<FoodItemsView> {
       children: [
         roundedBorder(
           title: "Other Items",
-          height: 500,
+          height: 450,
           widget: bodyOfDevicer(
+            sliderView: true,
+            sliderViewAutoPlay: true,
+            sliderViewItemHeight: 370,
+            viewportFraction: 0.8,
+            sliderViewAutoPlayDuration: 3,
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,
             readfoodItems: ReadOtherItems(),
@@ -116,6 +139,11 @@ class _FoodItemState extends State<FoodItemsView> {
           title: "Grains Items",
           height: 400,
           widget: bodyOfDevicer(
+            sliderView: false,
+            viewportFraction: 0.8,
+            sliderViewAutoPlay: true,
+            sliderViewItemHeight: 370,
+            sliderViewAutoPlayDuration: 3,
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,
             readfoodItems: ReadGrainsItems(),
@@ -123,8 +151,13 @@ class _FoodItemState extends State<FoodItemsView> {
         ),
         roundedBorder(
           title: "Powder Items",
-          height: 500,
+          height: 350,
           widget: bodyOfDevicer(
+            viewportFraction: 0.8,
+            sliderView: true,
+            sliderViewAutoPlay: true,
+            sliderViewItemHeight: 300,
+            sliderViewAutoPlayDuration: 4,
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,
             readfoodItems: ReadPowderItems(),
@@ -136,10 +169,16 @@ class _FoodItemState extends State<FoodItemsView> {
 
 // ***************************************************************//
 // ####################   Steram Data    ##########################//
-  Widget bodyOfDevicer(
-      {required int crossAxisItemsCount,
-      required Axis scrollDirectionAxis,
-      required Stream<List<FoodItem>> readfoodItems}) {
+  Widget bodyOfDevicer({
+    required bool sliderView,
+    required bool sliderViewAutoPlay,
+    required int sliderViewAutoPlayDuration,
+    required int crossAxisItemsCount,
+    required double viewportFraction,
+    required double sliderViewItemHeight,
+    required Axis scrollDirectionAxis,
+    required Stream<List<FoodItem>> readfoodItems,
+  }) {
     return StreamBuilder<List<FoodItem>>(
       stream: readfoodItems,
       builder: (context, snapshot) {
@@ -156,10 +195,17 @@ class _FoodItemState extends State<FoodItemsView> {
         } else if (snapshot.hasData) {
           final productItems = snapshot.data!;
 
-          return gridItemViewr(
-              crossAxisItemsCount: crossAxisItemsCount,
-              scrollDirectionAxis: scrollDirectionAxis,
-              itemLength: productItems);
+          return sliderView
+              ? itemsSliderView(
+                  itemLength: productItems,
+                  autoPlay: true,
+                  timeDuration: sliderViewAutoPlayDuration,
+                  itemHeight: sliderViewItemHeight,
+                  viewportFraction: viewportFraction)
+              : gridItemViewr(
+                  crossAxisItemsCount: crossAxisItemsCount,
+                  scrollDirectionAxis: scrollDirectionAxis,
+                  itemLength: productItems);
         } else {
           return Text(
             "Item Not Founded",
@@ -194,4 +240,36 @@ Widget gridItemViewr({
           itemUrl: items.itemUrl,
         );
       });
+}
+
+// ***************************************************************//
+// ####################   Slider VIEW    ##########################//
+Widget itemsSliderView({
+  required List<FoodItem> itemLength,
+  required bool? autoPlay,
+  required int? timeDuration,
+  required double itemHeight,
+  required double? viewportFraction,
+}) {
+  return Center(
+    child: CarouselSlider.builder(
+        itemCount: itemLength.length,
+        options: CarouselOptions(
+          height: itemHeight,
+          enlargeCenterPage: true,
+          enlargeStrategy: CenterPageEnlargeStrategy.height,
+          autoPlay: autoPlay!,
+          autoPlayInterval: Duration(seconds: timeDuration!),
+          viewportFraction: viewportFraction!,
+        ),
+        itemBuilder: (context, index, realIndex) {
+          final foodItem = itemLength[index];
+
+          return FoodTile(
+              foodItem: foodItem,
+              itemName: foodItem.itemName,
+              itemPrice: foodItem.itemPrice,
+              itemUrl: foodItem.itemUrl);
+        }),
+  );
 }
