@@ -179,6 +179,7 @@ Widget gridItemViewr({
   required List<FoodItem> itemLength,
 }) {
   return GridView.builder(
+    
       scrollDirection: scrollDirectionAxis,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisItemsCount,
