@@ -29,10 +29,8 @@ class UserOrder {
         "userPostalCode": userPostalCode,
         "userTotalPrice": userTotalPrice,
         "userPhoneNumber": userPhoneNumber,
-        "timeStamp": FieldValue.serverTimestamp(),
+        "timeStamp": timestamp ?? FieldValue.serverTimestamp(),
         "userOrders": userOrders.map((e) => e.toJson()).toList(),
-
-        //   userOrders.map((e) => e.toJson()).toList(),
       };
 
   factory UserOrder.fromMap(Map<String, dynamic> data) {

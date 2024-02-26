@@ -22,7 +22,7 @@ class FoodItem {
         "itemName": itemName,
         "itemPrice": itemPrice,
         "itemUrl": itemUrl,
-        "timeStamp": FieldValue.serverTimestamp(),
+        "timeStamp": timestamp ?? FieldValue.serverTimestamp(),
       };
 
   factory FoodItem.fromMap(Map<String, dynamic> data) {
@@ -32,7 +32,7 @@ class FoodItem {
       itemName: data["itemName"],
       itemPrice: data["itemPrice"],
       itemUrl: data["itemUrl"],
-      //  timestamp: data["timeStamp"],
+      timestamp: data["timeStamp"],
     );
   }
 }
