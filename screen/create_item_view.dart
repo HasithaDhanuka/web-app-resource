@@ -21,16 +21,6 @@ class CreateItem extends StatefulWidget {
 }
 
 class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
-  late AnimationController animationController;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 3))
-          ..repeat();
-  }
-
   final itemNameController = TextEditingController();
   final itemPricesController = TextEditingController();
   final itemURLController = TextEditingController();
@@ -39,7 +29,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    animationController.dispose();
+
     itemNameController.dispose();
     itemPricesController.dispose();
     itemURLController.dispose();
@@ -233,12 +223,16 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Container(
-                            child: Lottie.asset("assets/c1.json",
-                                controller: animationController,
-                                height: 200,
-                                // width: 200,
-                                fit: BoxFit.cover)),
+                        SizedBox(
+                          height: 200,
+                          child: Image.network(
+                              "https://64.media.tumblr.com/6d46bf44a332d592cea529d4afaec529/tumblr_mzxhgq5R1M1sxudx7o1_r1_400.gif"),
+                        ),
+                        // child: Lottie.asset("assets/c1.json",
+                        //     controller: animationController,
+                        //     height: 200,
+                        //     // width: 200,
+                        //     fit: BoxFit.cover)),
                         Text(
                           "Still Not Setup The Item",
                           style: TextStyle(color: MyColor.myOrange),

@@ -4,6 +4,7 @@ import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/view_wrapper.dart';
 import 'package:web_app/provider_function/logic_function.dart';
+import 'package:web_app/screen/delete_history_view.dart';
 //  import 'package:web_app/screen/about_view.dart';
 //import 'package:web_app/screen/cart_view.dart';
 import 'package:web_app/widgets/bottom_bar.dart';
@@ -50,13 +51,6 @@ class _HomePageState extends State<HomePage>
       content: const FoodItemsView(),
     ),
 
-    // ContentView(
-    //   tab: const CustomTab(
-    //     isShowCount: false,
-    //     title: "Update Item",
-    //   ),
-    //   content: const UpdateDeleteItem(),
-    // ),
     ContentView(
       tab: const CustomTab(
         isShowCount: false,
@@ -64,6 +58,20 @@ class _HomePageState extends State<HomePage>
       ),
       content: const CreateItem(),
     ),
+    ContentView(
+        tab: const CustomTab(
+          isShowCount: false,
+          title: "Delete History",
+        ),
+        content: const DeleteHistoryView()),
+
+// ContentView(
+    //   tab: const CustomTab(
+    //     isShowCount: false,
+    //     title: "Update Item",
+    //   ),
+    //   content: const UpdateDeleteItem(),
+    // ),
 
     // ContentView(
     //   tab: const CustomTab(

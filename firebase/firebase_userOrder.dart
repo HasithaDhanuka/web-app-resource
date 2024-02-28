@@ -23,7 +23,7 @@ Future<bool?> createOrder({required UserOrder userOrder}) async {
 }
 
 //*****************************************************************************
-//   Read Food Item Order
+//   Read User Food Order
 //*****************************************************************************
 Stream<List<UserOrder>> readUserOrders() {
   final firestoreUserOrders = FirebaseFirestore.instance
@@ -36,22 +36,45 @@ Stream<List<UserOrder>> readUserOrders() {
 }
 
 //*****************************************************************************
+//   Read Of Delete User Order
+//*****************************************************************************
+Stream<List<UserOrder>> readDeleteHistoryOrders() {
+  final firestoreUserOrders = FirebaseFirestore.instance
+      .collection("removeOrders")
+      .orderBy('timeStamp')
+      .snapshots();
+
+  return firestoreUserOrders.map((snapshot) =>
+      snapshot.docs.map((doc) => UserOrder.fromMap(doc.data())).toList());
+}
+
+//*****************************************************************************
 //   Delete Food Item Order
 //*****************************************************************************
-Future<bool?> deleteOrder({required String orderID}) async {
+Future<bool?> deleteOrder(
+    {required String collectionPath, required String orderID}) async {
   final orderDelete =
-      FirebaseFirestore.instance.collection("userOrders").doc(orderID);
+      FirebaseFirestore.instance.collection(collectionPath).doc(orderID);
+
+/////////               History User Order Delete                //////////
+  if (collectionPath == "removeOrders") {
+    print("history delete   ${collectionPath}");
+    return orderDelete
+        .delete()
+        .then((value) => true)
+        .catchError((err) => false);
+  }
+
   final DocumentSnapshot snapshot = await orderDelete.get();
   final getOrder = snapshot.data() as Map<String, dynamic>;
   UserOrder getUserOrder = UserOrder.fromMap(getOrder);
 
-/////////    remove Order Collection created //////////
+/////////    remove Order Collection and Creating Delete History //////////
   final removeCollection =
       FirebaseFirestore.instance.collection("removeOrders").doc();
   getUserOrder.userid = removeCollection.id;
 
   final json = getUserOrder.toJson();
-  // removeCollection.set(json)
 
   return removeCollection.set(json).then((value) {
     return orderDelete
