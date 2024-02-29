@@ -76,10 +76,12 @@ class _AboutViewState extends State<AboutView>
               strings: [
                 contactYouSinhala,
                 contactYouJapanese,
+                contactYouEng,
                 sinhala,
                 japanese,
                 aboutContactNumberSinhala,
                 aboutContactNumberJapanese,
+                aboutContactNumberEng,
                 contactInfoSinhala,
                 contactInfoJapan,
               ],

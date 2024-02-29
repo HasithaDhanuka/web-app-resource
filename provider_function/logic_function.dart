@@ -143,8 +143,8 @@ class GetImgLocal extends ChangeNotifier {
 
     isImageFile = true;
 
-    print("file name :: ${resultFile.name}");
-    print("file name :: ${resultFile.extension}");
+    // print("file name :: ${resultFile.name}");
+    // print("file name :: ${resultFile.extension}");
     notifyListeners();
     return isImageFile;
   }
