@@ -13,6 +13,7 @@ class _CartViewState extends State<OrderView> {
   @override
   Widget build(BuildContext context) {
     return UserOrderCarts(
+      isRequiredCount: true,
       tittleName: "Customer Orders",
       streamer: readUserOrders(),
       collectionPath: "userOrders",

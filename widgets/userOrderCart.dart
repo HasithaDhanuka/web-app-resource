@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +25,9 @@ class UserOrderCarts extends StatefulWidget {
     required this.tittleName,
     required this.streamer,
     required this.collectionPath,
+    required this.isRequiredCount,
   });
+  final bool isRequiredCount;
   final String tittleName;
   final String collectionPath;
   final Stream<List<UserOrder>> streamer;
@@ -69,9 +74,11 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
           } else if (snapshot.hasData) {
             final userOrdersData = snapshot.data!;
 
-            context
-                .read<UserOrdersFind>()
-                .getUserOrder(ordersLength: userOrdersData.length);
+            widget.isRequiredCount
+                ? context
+                    .read<UserOrdersFind>()
+                    .getUserOrder(ordersLength: userOrdersData.length)
+                : null;
 
             return ViewWrapper(
                 desktopView: Padding(
@@ -126,6 +133,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
                 itemPrice: orderDetails.userTotalPrice,
                 timeOfOrder: orderDetails.timestamp!,
                 orders: orderDetails.userOrders,
+                indexNumber: index,
               );
             })
         : ListView.builder(
@@ -143,6 +151,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
                 itemPrice: orderDetails.userTotalPrice,
                 timeOfOrder: orderDetails.timestamp!,
                 orders: orderDetails.userOrders,
+                indexNumber: index,
               );
             });
   }
@@ -180,7 +189,12 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
     required int itemPrice,
     required Timestamp timeOfOrder,
     required List<FoodItem> orders,
+    required int indexNumber,
   }) {
+    print("${indexNumber}");
+    // context.read<DeleteOrdersIncome>().getOrder(userOrderPrice: itemPrice);
+    // context.read<DeleteOrdersIncome>().currentPrice(currentPrice: itemPrice);
+
 // ***************************************************************//
 // ###################   Tap ON CART    ##########################//
     return InkWell(
@@ -213,7 +227,9 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
               orderID: userID, collectionPath: widget.collectionPath);
 
           if (removeDatabase == true) {
-            // ignore: use_build_context_synchronously
+            context
+                .read<DeleteOrdersIncome>()
+                .removeOrder(orderIndex: indexNumber);
             isSuccessPopup(
                 context: context,
                 title: "Order Remove Success",
@@ -223,7 +239,6 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
 
             debugPrint("Order is finished :: $isOrderFinished");
           } else {
-            // ignore: use_build_context_synchronously
             isSuccessPopup(
                 context: context,
                 title: "ERROR",
@@ -248,6 +263,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
                     userPhoneNunberEditingController,
                 userID: userID,
                 collectionPath: widget.collectionPath,
+                indexNumber: indexNumber,
               );
             },
             backgroundColor: MyColor.myRed,
@@ -304,6 +320,7 @@ void onTapDrag(
   required TextEditingController userPhoneNunberEditingController,
   required String userID,
   required String collectionPath,
+  required int indexNumber,
 }) async {
   final isOrderFinished = await orderFinished(
       context: context,
@@ -315,6 +332,7 @@ void onTapDrag(
         await deleteOrder(orderID: userID, collectionPath: collectionPath);
 
     if (removeDatabase == true) {
+      context.read<DeleteOrdersIncome>().removeOrder(orderIndex: indexNumber);
       print("remove Done");
     }
 

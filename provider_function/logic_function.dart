@@ -103,6 +103,41 @@ class OrderFoodItems extends ChangeNotifier {
   List<FoodItem> get getOrderList => listOfOrder;
 }
 
+// **************************************************************************
+// ##################    Delete Order Income   ##############################
+class DeleteOrdersIncome extends ChangeNotifier {
+  late List<int> listOfOrderPrices = [];
+  int ntotalPrice = 0;
+  void getOrder({required int userOrderPrice}) {
+    listOfOrderPrices.add(userOrderPrice);
+    print(listOfOrderPrices);
+    notifyListeners();
+  }
+
+  void removeOrder({required int orderIndex}) {
+    ntotalPrice = ntotalPrice - listOfOrderPrices[orderIndex];
+    listOfOrderPrices.removeAt(orderIndex);
+
+    notifyListeners();
+  }
+
+  void currentPrice({required int currentPrice}) {
+    ntotalPrice = ntotalPrice + currentPrice;
+
+    notifyListeners();
+  }
+
+  void orderListClear() {
+    listOfOrderPrices.clear();
+    // print(listOfOrderPrices.length);
+    //  print(listOfOrderPrices);
+    notifyListeners();
+  }
+
+  int get getTotalPrice => ntotalPrice;
+//  List<FoodItem> get getOrderList => listOfOrderPrices;
+}
+
 // *****************************************************************
 // ##################    USER  ORDERS   ############################
 
