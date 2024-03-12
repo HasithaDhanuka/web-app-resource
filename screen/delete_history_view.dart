@@ -76,7 +76,7 @@ class _DeleteHistoryViewState extends State<DeleteHistoryView> {
             });
 
             return roundedBorder(
-                height: 50,
+                height: 100,
                 widget: Center(
                   child: Text(
                     "Delete Income Is $nTotlePrice 円",
