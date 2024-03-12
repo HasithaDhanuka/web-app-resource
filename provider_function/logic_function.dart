@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:web_app/model/food.dart';
@@ -103,40 +102,29 @@ class OrderFoodItems extends ChangeNotifier {
   List<FoodItem> get getOrderList => listOfOrder;
 }
 
-// **************************************************************************
-// ##################    Delete Order Income   ##############################
-class DeleteOrdersIncome extends ChangeNotifier {
-  late List<int> listOfOrderPrices = [];
-  int ntotalPrice = 0;
-  void getOrder({required int userOrderPrice}) {
-    listOfOrderPrices.add(userOrderPrice);
-    print(listOfOrderPrices);
-    notifyListeners();
-  }
+// // **************************************************************************
+// // ##################    Delete Order Income   ##############################
+// class DeleteOrdersIncome extends ChangeNotifier {
+//   //late List<int> listOfOrderPrices = [];
+//   int ntotalPrice = 0;
+//   bool isHistory = true;
 
-  void removeOrder({required int orderIndex}) {
-    ntotalPrice = ntotalPrice - listOfOrderPrices[orderIndex];
-    listOfOrderPrices.removeAt(orderIndex);
+//   bool isSwitchON({required bool isOn}) {
+//     isHistory = isOn;
+//     notifyListeners();
+//     return isHistory;
+//   }
 
-    notifyListeners();
-  }
+//   void setTotlePrice({required int price}) {
+//     ntotalPrice = price;
+//     print("222222");
 
-  void currentPrice({required int currentPrice}) {
-    ntotalPrice = ntotalPrice + currentPrice;
+//     print("notifire toatle price :: ${ntotalPrice}");
+//     notifyListeners();
+//   }
 
-    notifyListeners();
-  }
-
-  void orderListClear() {
-    listOfOrderPrices.clear();
-    // print(listOfOrderPrices.length);
-    //  print(listOfOrderPrices);
-    notifyListeners();
-  }
-
-  int get getTotalPrice => ntotalPrice;
-//  List<FoodItem> get getOrderList => listOfOrderPrices;
-}
+//   int get getTotalPrice => ntotalPrice;
+// }
 
 // *****************************************************************
 // ##################    USER  ORDERS   ############################
@@ -177,9 +165,6 @@ class GetImgLocal extends ChangeNotifier {
     imageName = resultFile.name;
 
     isImageFile = true;
-
-    print("file name :: ${resultFile.name}");
-    print("file name :: ${resultFile.extension}");
     notifyListeners();
     return isImageFile;
   }

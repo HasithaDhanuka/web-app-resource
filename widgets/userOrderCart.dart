@@ -3,7 +3,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -92,7 +91,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
                 mobileView: Padding(
                   padding: const EdgeInsets.only(top: 15),
                   child: roundedBorder(
-                      height: 300,
+                      height: 500,
                       widget: orderViewSelection(
                           isSlideView: true, userOrdersData: userOrdersData),
                       title: widget.tittleName),
@@ -112,7 +111,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
             itemCount: userOrdersData.length,
             options: CarouselOptions(
               enableInfiniteScroll: false,
-              height: 300,
+              height: 400,
               enlargeCenterPage: true,
               enlargeStrategy: CenterPageEnlargeStrategy.zoom,
               autoPlay: false,
@@ -191,10 +190,6 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
     required List<FoodItem> orders,
     required int indexNumber,
   }) {
-    print("${indexNumber}");
-    // context.read<DeleteOrdersIncome>().getOrder(userOrderPrice: itemPrice);
-    // context.read<DeleteOrdersIncome>().currentPrice(currentPrice: itemPrice);
-
 // ***************************************************************//
 // ###################   Tap ON CART    ##########################//
     return InkWell(
@@ -227,9 +222,6 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
               orderID: userID, collectionPath: widget.collectionPath);
 
           if (removeDatabase == true) {
-            context
-                .read<DeleteOrdersIncome>()
-                .removeOrder(orderIndex: indexNumber);
             isSuccessPopup(
                 context: context,
                 title: "Order Remove Success",
@@ -332,7 +324,6 @@ void onTapDrag(
         await deleteOrder(orderID: userID, collectionPath: collectionPath);
 
     if (removeDatabase == true) {
-      context.read<DeleteOrdersIncome>().removeOrder(orderIndex: indexNumber);
       print("remove Done");
     }
 

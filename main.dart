@@ -18,7 +18,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => UserOrdersFind()),
         ChangeNotifierProvider(create: (_) => GetImgLocal()),
         ChangeNotifierProvider(create: (_) => DatabaseClassifier()),
-        ChangeNotifierProvider(create: (_) => DeleteOrdersIncome()),
+        //  ChangeNotifierProvider(create: (_) => DeleteOrdersIncome()),
       ],
       builder: (context, child) => const MyApp(),
     ),
