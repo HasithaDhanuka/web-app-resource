@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/firebase_options.dart';
@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       scrollBehavior: const MaterialScrollBehavior().copyWith(dragDevices: {
-        PointerDeviceKind.mouse,
-        PointerDeviceKind.touch,
-        PointerDeviceKind.stylus,
-        PointerDeviceKind.unknown,
+        ui.PointerDeviceKind.mouse,
+        ui.PointerDeviceKind.touch,
+        ui.PointerDeviceKind.stylus,
+        ui.PointerDeviceKind.unknown,
       }),
       title: 'セイロン味',
       theme: ThemeData(

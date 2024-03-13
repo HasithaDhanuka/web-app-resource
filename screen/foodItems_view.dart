@@ -235,6 +235,7 @@ Widget gridItemViewr({
           foodItem: items,
           itemName: items.itemName,
           itemPrice: items.itemPrice,
+          itemCount: items.itemCount,
           itemUrl: items.itemUrl,
         );
       });
@@ -264,10 +265,12 @@ Widget itemsSliderView({
           final foodItem = itemLength[index];
 
           return FoodTile(
-              foodItem: foodItem,
-              itemName: foodItem.itemName,
-              itemPrice: foodItem.itemPrice,
-              itemUrl: foodItem.itemUrl);
+            foodItem: foodItem,
+            itemName: foodItem.itemName,
+            itemPrice: foodItem.itemPrice,
+            itemCount: foodItem.itemCount,
+            itemUrl: foodItem.itemUrl,
+          );
         }),
   );
 }

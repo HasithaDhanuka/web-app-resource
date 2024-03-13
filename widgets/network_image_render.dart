@@ -1,16 +1,29 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-//  import 'dart:ui_web' as ui;
+
 //  import 'dart:html' as html;
 
 //##############    Canvers kit with Network Image ###############
 Widget netImageView({required imgURL, onTap}) {
-  return InkWell(
-    onTap: onTap,
-    child: Image.network(
-      imgURL,
-      fit: BoxFit.cover,
-    ),
-  );
+  return !kIsWeb
+      ? InkWell(
+          onTap: onTap,
+          child: CachedNetworkImage(
+            fit: BoxFit.cover,
+            imageUrl: imgURL,
+            placeholder: (context, url) =>
+                const CircularProgressIndicator.adaptive(),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          ),
+        )
+      : InkWell(
+          onTap: onTap,
+          child: Image.network(
+            imgURL,
+            fit: BoxFit.cover,
+          ),
+        );
 }
 
 
