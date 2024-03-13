@@ -23,6 +23,7 @@ class CreateItem extends StatefulWidget {
 class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
   final itemNameController = TextEditingController();
   final itemPricesController = TextEditingController();
+  final itemCountController = TextEditingController();
   final itemURLController = TextEditingController();
   String dataBasePath = "OtherItems";
   @override
@@ -32,6 +33,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
 
     itemNameController.dispose();
     itemPricesController.dispose();
+    itemCountController.dispose();
     itemURLController.dispose();
   }
 
@@ -69,6 +71,14 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
               inputEditingController: itemPricesController,
               isNumberTypeKeybord: true,
               isValidate: value.bItemPriceValidate,
+              keyBordType: TextInputType.number);
+        }),
+        Consumer<TextFieldChanger>(builder: (context, value, child) {
+          return customInputField(
+              inputFieldName: "Item Count",
+              inputEditingController: itemCountController,
+              isNumberTypeKeybord: true,
+              isValidate: value.bItemCountValidate,
               keyBordType: TextInputType.number);
         }),
         context.watch<GetImgLocal>().isFile
@@ -192,11 +202,15 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                   context.read<TextFieldChanger>().itemPriceChanger(
                       itemPricesController.value.text.isEmpty ? true : false);
 
+                  context.read<TextFieldChanger>().itemCountChanger(
+                      itemCountController.value.text.isEmpty ? true : false);
+
                   context.read<TextFieldChanger>().itemUrlChanger(
                       itemURLController.value.text.isEmpty ? true : false);
 
                   if (itemNameController.value.text.isEmpty ||
                       itemPricesController.value.text.isEmpty ||
+                      itemCountController.value.text.isEmpty ||
                       itemURLController.value.text.isEmpty) {
                     return;
                   }
@@ -206,10 +220,12 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                       foodItem: FoodItem(
                           itemName: itemNameController.text,
                           itemPrice: int.parse(itemPricesController.text),
+                          itemCount: int.parse(itemCountController.text),
                           itemUrl: itemURLController.text));
 
                   itemNameController.clear();
                   itemPricesController.clear();
+                  itemCountController.clear();
                   itemURLController.clear();
                 },
               )
@@ -219,6 +235,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
             return Container(
               child: itemNameController.value.text.isEmpty ||
                       itemPricesController.value.text.isEmpty ||
+                      itemCountController.value.text.isEmpty ||
                       itemURLController.value.text.isEmpty
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -246,6 +263,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                         child: FoodTile(
                             itemName: itemNameController.text,
                             itemPrice: int.parse(itemPricesController.text),
+                            itemCount: int.parse(itemCountController.text),
                             itemUrl: itemURLController.text),
                       ),
                     ),

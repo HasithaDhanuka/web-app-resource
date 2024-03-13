@@ -5,6 +5,7 @@ class FoodItem {
   late String? collectionPath;
   late final String itemName;
   late final int itemPrice;
+  late final int? itemCount;
   late final String itemUrl;
   late Timestamp? timestamp;
   FoodItem({
@@ -12,6 +13,7 @@ class FoodItem {
     this.collectionPath = "",
     required this.itemName,
     required this.itemPrice,
+    this.itemCount,
     required this.itemUrl,
     this.timestamp,
   });
@@ -21,6 +23,7 @@ class FoodItem {
         "collectionPath": collectionPath,
         "itemName": itemName,
         "itemPrice": itemPrice,
+        "itemCount": itemCount,
         "itemUrl": itemUrl,
         "timeStamp": timestamp ?? FieldValue.serverTimestamp(),
       };
@@ -31,6 +34,7 @@ class FoodItem {
       collectionPath: data["collectionPath"],
       itemName: data["itemName"],
       itemPrice: data["itemPrice"],
+      itemCount: data["itemCount"],
       itemUrl: data["itemUrl"],
       timestamp: data["timeStamp"],
     );

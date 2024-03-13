@@ -19,12 +19,14 @@ class FoodUpdateView extends StatefulWidget {
 class _FoodUpdateViewState extends State<FoodUpdateView> {
   final _itemNameController = TextEditingController();
   final _itemPriceController = TextEditingController();
+  final _itemCountController = TextEditingController();
   final _itemUrlController = TextEditingController();
   @override
   void dispose() {
     super.dispose();
     _itemNameController.dispose();
     _itemPriceController.dispose();
+    _itemCountController.dispose();
     _itemUrlController.dispose();
   }
 
@@ -112,6 +114,7 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
         context.read<FoodItemProperty>().setItemProperty(
               itemName: foodItem.itemName,
               itemPrice: foodItem.itemPrice,
+              itemCount: foodItem.itemCount!,
               itemUrl: foodItem.itemUrl,
               itemID: foodItem.id,
             );
@@ -119,8 +122,12 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
         final itemUpdate = await itemEditeField();
         String getItemName = itemUpdate![0];
         String getItemPrice = itemUpdate[1];
-        String getItemUrl = itemUpdate[2];
-        if (getItemName.isEmpty && getItemPrice.isEmpty && getItemUrl.isEmpty) {
+        String getItemCount = itemUpdate[2];
+        String getItemUrl = itemUpdate[3];
+        if (getItemName.isEmpty &&
+            getItemPrice.isEmpty &&
+            getItemCount.isEmpty &&
+            getItemUrl.isEmpty) {
           return;
         }
         Navigator.of(context).pop();
@@ -128,12 +135,16 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
         getItemPrice.isEmpty
             ? getItemPrice = foodItem.itemPrice.toString()
             : getItemPrice;
+        getItemCount.isEmpty
+            ? getItemCount = foodItem.itemCount.toString()
+            : getItemCount;
         getItemUrl.isEmpty ? getItemUrl = foodItem.itemUrl : getItemUrl;
 
         EditItem(
             item_ID: foodItem.id,
             itemName: getItemName,
             itemPrice: int.parse(getItemPrice),
+            itemCount: int.parse(getItemCount),
             itemUrl: getItemUrl,
             collectionPath: foodItem.collectionPath!);
       },
@@ -159,7 +170,7 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
           ),
           content: SingleChildScrollView(
             child: SizedBox(
-              height: 300,
+              // height: 300,
               width: 400,
               child: Center(
                 child: Column(
@@ -185,6 +196,15 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
                     Consumer<FoodItemProperty>(
                         builder: (context, value, child) {
                       return customInputField(
+                          inputFieldName: "${value.getItemCount}",
+                          inputEditingController: _itemCountController,
+                          isNumberTypeKeybord: true,
+                          isValidate: false,
+                          keyBordType: TextInputType.number);
+                    }),
+                    Consumer<FoodItemProperty>(
+                        builder: (context, value, child) {
+                      return customInputField(
                           inputFieldName: value.getItemUrl,
                           inputEditingController: _itemUrlController,
                           isNumberTypeKeybord: false,
@@ -202,12 +222,15 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
                 List<String> itemUpdate = [
                   _itemNameController.text,
                   _itemPriceController.text,
+                  _itemCountController.text,
                   _itemUrlController.text,
                 ];
 
                 Navigator.of(context).pop(itemUpdate);
                 _itemNameController.clear();
                 _itemPriceController.clear();
+                _itemCountController.clear();
+                _itemUrlController.clear();
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,

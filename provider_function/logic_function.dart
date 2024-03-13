@@ -6,18 +6,21 @@ import 'package:web_app/model/food.dart';
 class FoodItemProperty extends ChangeNotifier {
   late String getItemName;
   late int getItemPrice;
+  late int getItemCount;
   late String getItemUrl;
   late String getItemID;
 
   void setItemProperty({
     required String itemName,
     required int itemPrice,
+    required int itemCount,
     required String itemUrl,
     required String itemID,
     // required Future Allet,
   }) {
     getItemName = itemName;
     getItemPrice = itemPrice;
+    getItemCount = itemCount;
     getItemUrl = itemUrl;
     getItemID = itemID;
 
@@ -30,6 +33,7 @@ class FoodItemProperty extends ChangeNotifier {
 class TextFieldChanger extends ChangeNotifier {
   bool bItemNameValidate = false;
   bool bItemPriceValidate = false;
+  bool bItemCountValidate = false;
   bool bItemUrlValidate = false;
 
   bool getUserNameValidate = false;
@@ -44,6 +48,11 @@ class TextFieldChanger extends ChangeNotifier {
 
   void itemPriceChanger(bool priceValidate) {
     bItemPriceValidate = priceValidate;
+    notifyListeners();
+  }
+
+  void itemCountChanger(bool countValidate) {
+    bItemCountValidate = countValidate;
     notifyListeners();
   }
 

@@ -77,12 +77,14 @@ Future EditItem({
   required String itemName,
   required int itemPrice,
   required String itemUrl,
+  int? itemCount,
 }) async {
   final item_Edit =
       FirebaseFirestore.instance.collection(collectionPath).doc(item_ID);
   await item_Edit.update({
     "itemName": itemName,
     "itemPrice": itemPrice,
+    "itemCount": itemCount,
     "itemUrl": itemUrl,
     "timeStamp": FieldValue.serverTimestamp(),
   });
