@@ -157,9 +157,11 @@ class _FoodItemState extends State<FoodItemsView> {
           final productItems = snapshot.data!;
 
           return gridItemViewr(
-              crossAxisItemsCount: crossAxisItemsCount,
-              scrollDirectionAxis: scrollDirectionAxis,
-              itemLength: productItems);
+            crossAxisItemsCount: crossAxisItemsCount,
+            scrollDirectionAxis: scrollDirectionAxis,
+            itemLength: productItems,
+            isUserOrder: false,
+          );
         } else {
           return Text(
             "Item Not Founded",
@@ -177,6 +179,7 @@ Widget gridItemViewr({
   required int crossAxisItemsCount,
   required Axis scrollDirectionAxis,
   required List<FoodItem> itemLength,
+  required bool isUserOrder,
 }) {
   return GridView.builder(
       scrollDirection: scrollDirectionAxis,
@@ -191,8 +194,9 @@ Widget gridItemViewr({
           foodItem: items,
           itemName: items.itemName,
           itemPrice: items.itemPrice,
-          itemCount: items.itemCount,
+          itemCount: isUserOrder ? 1 : items.itemCount,
           itemUrl: items.itemUrl,
+          isUserOrderOrNot: isUserOrder,
         );
       });
 }

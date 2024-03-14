@@ -261,10 +261,12 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                         height: 300,
                         width: 300,
                         child: FoodTile(
-                            itemName: itemNameController.text,
-                            itemPrice: int.parse(itemPricesController.text),
-                            itemCount: int.parse(itemCountController.text),
-                            itemUrl: itemURLController.text),
+                          itemName: itemNameController.text,
+                          itemPrice: int.parse(itemPricesController.text),
+                          itemCount: int.parse(itemCountController.text),
+                          itemUrl: itemURLController.text,
+                          isUserOrderOrNot: false,
+                        ),
                       ),
                     ),
             );

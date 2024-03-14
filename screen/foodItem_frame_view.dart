@@ -13,14 +13,15 @@ class FoodTile extends StatelessWidget {
     required this.itemPrice,
     this.itemCount,
     required this.itemUrl,
+    required this.isUserOrderOrNot,
   });
 
   final FoodItem? foodItem;
-
   final String itemName;
   final int itemPrice;
   final int? itemCount;
   final String itemUrl;
+  final bool isUserOrderOrNot;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +74,7 @@ class FoodTile extends StatelessWidget {
                   child: netImageView(
                     imgURL: itemUrl,
                     onTap: () async {
+                      if (isUserOrderOrNot) return;
                       updateItem(context, foodItem: foodItem!);
                     },
                   )),

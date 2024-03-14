@@ -197,9 +197,11 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
         final isOrderFinished = await orderDetails(
           context: context,
           itemViewr: gridItemViewr(
-              crossAxisItemsCount: 3,
-              scrollDirectionAxis: Axis.vertical,
-              itemLength: orders),
+            crossAxisItemsCount: 3,
+            scrollDirectionAxis: Axis.vertical,
+            itemLength: orders,
+            isUserOrder: true,
+          ),
           nameWidget: titleSubtitle(
               title: "Name",
               subTitle: userName,
