@@ -213,12 +213,14 @@ class PdfApi {
 *************************************************/
   static Future<bool> saveDocument({
     required Uint8List pdfBytes,
+    required String userName,
   }) async {
     List<int> fileInts = List.from(pdfBytes);
     html.AnchorElement(
         href:
             "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(fileInts)}")
-      ..setAttribute("download", "${DateTime.now().millisecondsSinceEpoch}.pdf")
+      ..setAttribute(
+          "download", "${userName}${DateTime.now().millisecondsSinceEpoch}.pdf")
       ..click();
     return true;
   }
