@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
+import 'dart:async';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +12,8 @@ import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/timedate_conventer.dart';
 import 'package:web_app/Utils/view_wrapper.dart';
 import 'package:web_app/firebase/firebase_userOrder.dart';
+import 'package:web_app/invoice_pdf/pdf_api.dart';
+import 'package:web_app/invoice_pdf/pdf_view_screen.dart';
 import 'package:web_app/model/food.dart';
 import 'package:web_app/model/user_order.dart';
 import 'package:web_app/provider_function/logic_function.dart';
@@ -129,7 +133,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
                 userTelephoneNumber: orderDetails.userPhoneNumber,
                 userPostalCode: orderDetails.userPostalCode,
                 userAddress: orderDetails.userAddruss,
-                itemPrice: orderDetails.userTotalPrice,
+                orderPrice: orderDetails.userTotalPrice,
                 timeOfOrder: orderDetails.timestamp!,
                 orders: orderDetails.userOrders,
                 indexNumber: index,
@@ -147,7 +151,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
                 userTelephoneNumber: orderDetails.userPhoneNumber,
                 userPostalCode: orderDetails.userPostalCode,
                 userAddress: orderDetails.userAddruss,
-                itemPrice: orderDetails.userTotalPrice,
+                orderPrice: orderDetails.userTotalPrice,
                 timeOfOrder: orderDetails.timestamp!,
                 orders: orderDetails.userOrders,
                 indexNumber: index,
@@ -185,7 +189,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
     required int userTelephoneNumber,
     required int userPostalCode,
     required String userAddress,
-    required int itemPrice,
+    required int orderPrice,
     required Timestamp timeOfOrder,
     required List<FoodItem> orders,
     required int indexNumber,
@@ -248,6 +252,25 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
         endActionPane: ActionPane(motion: const ScrollMotion(), children: [
           SlidableAction(
             onPressed: (context) {
+              getInvoice(
+                context,
+                indexNumber: indexNumber,
+                userTelephoneNumber: userTelephoneNumber,
+                orderPrice: orderPrice,
+                userID: userID,
+                userName: userName,
+                userAddrass: userAddress,
+                timeOfOrder: timeOfOrder,
+                orders: orders,
+              );
+            },
+            backgroundColor: Color(0xFF21B7CA),
+            foregroundColor: Colors.white,
+            icon: Icons.receipt_long,
+            label: 'Invoice',
+          ),
+          SlidableAction(
+            onPressed: (context) {
               ///*************************************************************************************** */
 
               onTapDrag(
@@ -294,7 +317,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
                 Row(
                   children: [
                     Text(
-                      "Date - ${TimeDateConventor().date(timeStamp: timeOfOrder)}\nTime - ${TimeDateConventor().time(timeStamp: timeOfOrder)}\n$itemPrice 円",
+                      "Date - ${TimeDateConventor().date(timeStamp: timeOfOrder)}\nTime - ${TimeDateConventor().time(timeStamp: timeOfOrder)}\n$orderPrice 円",
                       style: TextStyle(color: MyColor.myGreen, fontSize: 15),
                     ),
                   ],
@@ -308,6 +331,49 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
   }
 }
 
+// ***************************************************************//
+// ###################   Get Invoice    ##########################//
+Future<void> getInvoice(
+  BuildContext context, {
+  required int indexNumber,
+  required int userTelephoneNumber,
+  required int orderPrice,
+  required String userName,
+  required String userID,
+  required String userAddrass,
+  required Timestamp timeOfOrder,
+  required List<FoodItem> orders,
+}) async {
+  showDialog(
+      context: context,
+      builder: (context) => Center(
+            child: CircularProgressIndicator.adaptive(),
+          ));
+
+  final getPdf = await PdfApi.genarateInvoice(
+    indexNumber: indexNumber,
+    userTelephoneNumber: userTelephoneNumber,
+    orderPrice: orderPrice,
+    userName: userName,
+    userID: userID,
+    userAddrass: userAddrass,
+    timeOfOrder: timeOfOrder,
+    orders: orders,
+  );
+  Navigator.of(context).pop();
+
+//  PdfApi.saveDocument(pdfBytes: getPdf);
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+        builder: (context) => PdfViewScreen(
+              pdfData: getPdf,
+            )),
+  );
+}
+
+// ***************************************************************//
+// ###################   Delete Order    ##########################//
 void onTapDrag(
   BuildContext context, {
   required int userTelephoneNumber,
