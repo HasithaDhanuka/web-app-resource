@@ -199,6 +199,15 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
     return InkWell(
       onTap: () async {
         final isOrderFinished = await orderDetails(
+          userPostalCode: userPostalCode,
+          indexNumber: indexNumber,
+          userTelephoneNumber: userTelephoneNumber,
+          orderPrice: orderPrice,
+          userID: userID,
+          userName: userName,
+          userAddress: userAddress,
+          timeOfOrder: timeOfOrder,
+          orders: orders,
           context: context,
           itemViewr: gridItemViewr(
             crossAxisItemsCount: 3,
@@ -249,9 +258,10 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
       // ***************************************************************//
       // ##################   Design of Order Cart  ####################//
       child: Slidable(
-        endActionPane: ActionPane(motion: const ScrollMotion(), children: [
+        key: ValueKey(indexNumber),
+        startActionPane: ActionPane(motion: const ScrollMotion(), children: [
           SlidableAction(
-            onPressed: (context) {
+            onPressed: ((context) {
               getInvoice(
                 context,
                 indexNumber: indexNumber,
@@ -263,32 +273,37 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
                 timeOfOrder: timeOfOrder,
                 orders: orders,
               );
-            },
+            }),
             backgroundColor: Color(0xFF21B7CA),
             foregroundColor: Colors.white,
             icon: Icons.receipt_long,
             label: 'Invoice',
           ),
-          SlidableAction(
-            onPressed: (context) {
-              ///*************************************************************************************** */
 
-              onTapDrag(
-                context,
-                userTelephoneNumber: userTelephoneNumber,
-                userPhoneNunberEditingController:
-                    userPhoneNunberEditingController,
-                userID: userID,
-                collectionPath: widget.collectionPath,
-                indexNumber: indexNumber,
-              );
-            },
-            backgroundColor: MyColor.myRed,
-            foregroundColor: MyColor.myWhite,
-            icon: Icons.delete,
-            label: 'Delete',
-          )
+          ///*************************************************************************************** */
         ]),
+        endActionPane: ActionPane(
+            motion: ScrollMotion(),
+            dismissible: DismissiblePane(onDismissed: () {}),
+            children: [
+              SlidableAction(
+                onPressed: (context) {
+                  onTapDrag(
+                    context,
+                    userTelephoneNumber: userTelephoneNumber,
+                    userPhoneNunberEditingController:
+                        userPhoneNunberEditingController,
+                    userID: userID,
+                    collectionPath: widget.collectionPath,
+                    indexNumber: indexNumber,
+                  );
+                },
+                backgroundColor: MyColor.myRed,
+                foregroundColor: MyColor.myWhite,
+                icon: Icons.delete,
+                label: 'Delete',
+              )
+            ]),
         child: SizedBox(
           height: 120,
           child: Card(
@@ -333,7 +348,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
 
 // ***************************************************************//
 // ###################   Get Invoice    ##########################//
-Future<void> getInvoice(
+Future getInvoice(
   BuildContext context, {
   required int indexNumber,
   required int userTelephoneNumber,
@@ -344,11 +359,17 @@ Future<void> getInvoice(
   required Timestamp timeOfOrder,
   required List<FoodItem> orders,
 }) async {
-  showDialog(
-      context: context,
-      builder: (context) => Center(
-            child: CircularProgressIndicator.adaptive(),
-          ));
+  // Builder(builder: (context) {
+  //   return CircularProgressIndicator.adaptive();
+  // });
+
+  // showDialog(
+  //     context: context,
+  //     builder: (_) => Builder(builder: (context) {
+  //           return CircularProgressIndicator.adaptive();
+  //         }));
+
+  print('#######  1  #######');
 
   final getPdf = await PdfApi.genarateInvoice(
     indexNumber: indexNumber,
@@ -360,9 +381,14 @@ Future<void> getInvoice(
     timeOfOrder: timeOfOrder,
     orders: orders,
   );
-  Navigator.of(context).pop();
+  print('#######  2  #######');
 
-//  PdfApi.saveDocument(pdfBytes: getPdf);
+//  Navigator.of(context).pop();
+
+  print('#######  3  #######');
+
+  PdfApi.saveDocument(pdfBytes: getPdf, userName: userName);
+
   Navigator.push(
     context,
     MaterialPageRoute(
@@ -370,6 +396,7 @@ Future<void> getInvoice(
               pdfData: getPdf,
             )),
   );
+  print('#######  4  #######');
 }
 
 // ***************************************************************//

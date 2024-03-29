@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
@@ -9,6 +10,8 @@ import 'package:web_app/widgets/network_image_render.dart';
 import 'package:web_app/widgets/reusable_widget.dart';
 import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/provider_function/logic_function.dart';
+
+import '../widgets/userOrderCart.dart';
 
 // ***************************************************************//
 // ####################   PopUp Item    ##########################//
@@ -201,6 +204,15 @@ Future orderDetails({
   required Widget addressWidget,
   required int userPhoneNumber,
   required TextEditingController textEditingController,
+  required String userID,
+  required String userName,
+  required int userTelephoneNumber,
+  required int userPostalCode,
+  required String userAddress,
+  required int orderPrice,
+  required Timestamp timeOfOrder,
+  required List<FoodItem> orders,
+  required int indexNumber,
 }) =>
     showDialog(
       context: context,
@@ -213,7 +225,7 @@ Future orderDetails({
             children: [
               SizedBox(
                 width: 400,
-                height: 200,
+                height: 300,
                 child: itemViewr,
               ),
               nameWidget,
@@ -247,7 +259,26 @@ Future orderDetails({
                         borderSideColor: MyColor.myYellow),
                   ],
                 ),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: reUsableButton(
+                    onPressed: () {
+                      getInvoice(
+                        context,
+                        indexNumber: indexNumber,
+                        userTelephoneNumber: userTelephoneNumber,
+                        orderPrice: orderPrice,
+                        userID: userID,
+                        userName: userName,
+                        userAddrass: userAddress,
+                        timeOfOrder: timeOfOrder,
+                        orders: orders,
+                      );
+                    },
+                    buttonName: "Invoice",
+                    borderSideColor: MyColor.myRed),
+              ),
             ],
           ),
         ),

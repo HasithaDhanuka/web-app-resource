@@ -22,8 +22,8 @@ class PdfApi {
     final pdf = Document();
     final font = await PdfGoogleFonts.sawarabiMinchoRegular();
     final img = await rootBundle.load('iconLogo.jpg');
-    final imageBytes = img.buffer.asUint8List();
-    Image image1 = Image(MemoryImage(imageBytes));
+    final imageBytes = await img.buffer.asUint8List();
+    Image image1 = await Image(MemoryImage(imageBytes));
 
     pdf.addPage(MultiPage(
       build: (context) => [
@@ -58,7 +58,7 @@ class PdfApi {
         )
       ]),
     ));
-    final pdfDocumentData = pdf.save();
+    final pdfDocumentData = await pdf.save();
     return pdfDocumentData;
   }
 
@@ -216,7 +216,7 @@ class PdfApi {
     required String userName,
   }) async {
     List<int> fileInts = List.from(pdfBytes);
-    html.AnchorElement(
+    await html.AnchorElement(
         href:
             "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(fileInts)}")
       ..setAttribute(
