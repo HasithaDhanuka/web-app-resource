@@ -10,6 +10,7 @@ import 'package:web_app/provider_function/logic_function.dart';
 import 'package:web_app/screen/popup_view.dart';
 import 'package:web_app/widgets/network_image_render.dart';
 import 'package:web_app/widgets/rounded_border.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -134,8 +135,10 @@ class _CartViewState extends State<CartView> {
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Lottie.asset("assets/wating.json",
-                  height: 200, width: 200, fit: BoxFit.cover)),
+              child: kIsWeb
+                  ? Image.asset("fun13.gif")
+                  : Lottie.asset("assets/wating.json",
+                      height: 200, width: 200, fit: BoxFit.cover)),
           Text(
             "オーダーをまだ購入されてない。\nඔබ තවමත් ඔබේ ඇණවුම මිලදී ගෙන නැත.\nYou have not purchased your order yet.",
             style: TextStyle(color: MyColor.myRed),

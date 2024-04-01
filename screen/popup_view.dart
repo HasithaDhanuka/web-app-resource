@@ -11,23 +11,44 @@ import 'package:web_app/provider_function/logic_function.dart';
 // ***************************************************************//
 // ####################   PopUp Item    ##########################//
 Future<bool?> popUpItem(BuildContext context,
-        {required String itemUrl, required bool canOrder}) =>
+        {required String itemUrl,
+        required String itemName,
+        required bool canOrder}) =>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         insetPadding: const EdgeInsets.all(20),
         backgroundColor: Colors.black,
         shadowColor: MyColor.myGreen,
-        content: Container(
-          height: 300,
-          width: 300,
-          decoration: BoxDecoration(
-            border: Border.all(color: MyColor.myGreen),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: netImageView(imgURL: itemUrl),
+        content: SizedBox(
+          height: 400,
+          child: Column(
+            children: [
+              Container(
+                height: 300,
+                width: 300,
+                decoration: BoxDecoration(
+                  border: Border.all(color: MyColor.myGreen),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: netImageView(imgURL: itemUrl),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  "$itemName",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: MyColor.myOrange),
+                ),
+              )
+            ],
           ),
         ),
         actions: [

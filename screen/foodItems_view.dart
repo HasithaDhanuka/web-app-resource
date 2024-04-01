@@ -49,7 +49,7 @@ class _FoodItemState extends State<FoodItemsView> {
         desktopView: desktopView(
             crossAxisItemsCount: 5, scrollDirectionAxis: Axis.vertical),
         mobileView: mobileView(
-            crossAxisItemsCount: 2, scrollDirectionAxis: Axis.horizontal));
+            crossAxisItemsCount: 2, scrollDirectionAxis: Axis.vertical));
   }
 
 // ***************************************************************//
@@ -120,10 +120,24 @@ class _FoodItemState extends State<FoodItemsView> {
     return Column(
       children: [
         roundedBorder(
-          title: "Other Items",
-          height: 450,
+          title: "Grains Items",
+          height: 200,
           widget: bodyOfDevicer(
             sliderView: true,
+            viewportFraction: 0.5,
+            sliderViewAutoPlay: true,
+            sliderViewItemHeight: 370,
+            sliderViewAutoPlayDuration: 3,
+            crossAxisItemsCount: crossAxisItemsCount,
+            scrollDirectionAxis: scrollDirectionAxis,
+            readfoodItems: ReadGrainsItems(),
+          ),
+        ),
+        roundedBorder(
+          title: "Other Items",
+          //   height: 450,
+          widget: bodyOfDevicer(
+            sliderView: false,
             sliderViewAutoPlay: true,
             sliderViewItemHeight: 370,
             viewportFraction: 0.8,
@@ -131,20 +145,6 @@ class _FoodItemState extends State<FoodItemsView> {
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,
             readfoodItems: ReadOtherItems(),
-          ),
-        ),
-        roundedBorder(
-          title: "Grains Items",
-          height: 400,
-          widget: bodyOfDevicer(
-            sliderView: false,
-            viewportFraction: 0.8,
-            sliderViewAutoPlay: true,
-            sliderViewItemHeight: 370,
-            sliderViewAutoPlayDuration: 3,
-            crossAxisItemsCount: crossAxisItemsCount,
-            scrollDirectionAxis: scrollDirectionAxis,
-            readfoodItems: ReadGrainsItems(),
           ),
         ),
         roundedBorder(
@@ -223,20 +223,28 @@ Widget gridItemViewr({
   required List<FoodItem> itemLength,
 }) {
   return GridView.builder(
+      shrinkWrap: true,
+      primary: false,
+      physics: NeverScrollableScrollPhysics(),
       scrollDirection: scrollDirectionAxis,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        // childAspectRatio: 1.3,
         crossAxisCount: crossAxisItemsCount,
       ),
       itemCount: itemLength.length,
       itemBuilder: (BuildContext context, int index) {
         final items = itemLength[index];
 
-        return FoodTile(
-          foodItem: items,
-          itemName: items.itemName,
-          itemPrice: items.itemPrice,
-          itemCount: items.itemCount,
-          itemUrl: items.itemUrl,
+        return Container(
+          height: 500,
+          width: 500,
+          child: FoodTile(
+            foodItem: items,
+            itemName: items.itemName,
+            itemPrice: items.itemPrice,
+            itemCount: items.itemCount,
+            itemUrl: items.itemUrl,
+          ),
         );
       });
 }

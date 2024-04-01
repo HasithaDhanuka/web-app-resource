@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/view_wrapper.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -242,11 +243,13 @@ class _HomeViewState extends State<HomeView> {
       width: getImageSize(),
       child: ClipRRect(
           borderRadius: BorderRadius.circular(getImageSize() / 2),
-          child: Lottie.asset("assets/dragon.json",
-              //controller: create_button_anim,
-              height: 200,
-              width: 200,
-              fit: BoxFit.cover)),
+          child: kIsWeb
+              ? Image.asset("assets/delivery.gif")
+              : Lottie.asset("assets/dragon.json",
+                  //controller: create_button_anim,
+                  height: 200,
+                  width: 200,
+                  fit: BoxFit.cover)),
     );
   }
 }

@@ -36,9 +36,11 @@ class FoodTile extends StatelessWidget {
               child: GridTile(
                 header: Container(
                   color: const Color.fromARGB(151, 7, 7, 7),
-                  height: 30,
-                  child: Center(
+                  height: 40,
+                  child: Padding(
+                    padding: const EdgeInsets.all(3.0),
                     child: AutoSizeText(
+                      textAlign: TextAlign.center,
                       itemName,
                       maxFontSize: 15,
                       style: TextStyle(
@@ -51,7 +53,8 @@ class FoodTile extends StatelessWidget {
                 footer: Container(
                   height: 20,
                   color: const Color.fromARGB(151, 0, 0, 0),
-                  child: Center(
+                  child: Align(
+                    alignment: Alignment.center,
                     child: itemCount == 0
                         ? AutoSizeText(
                             "Out Of Stock",
@@ -75,6 +78,7 @@ class FoodTile extends StatelessWidget {
                   imgURL: itemUrl,
                   onTap: () async {
                     final orderComplete = await popUpItem(context,
+                        itemName: itemName,
                         itemUrl: itemUrl,
                         canOrder: itemCount == 0 ? false : true);
 

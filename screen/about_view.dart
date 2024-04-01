@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:web_app/Utils/colors.dart';
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:web_app/Utils/view_wrapper.dart';
 import 'package:web_app/Animation/bullet_list.dart';
 import 'package:web_app/widgets/rounded_border.dart';
@@ -126,22 +126,29 @@ class _AboutViewState extends State<AboutView>
   }
 
   Widget profilePicture() {
-    return SizedBox(
-      height: getImageSize(),
-      width: getImageSize(),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(getImageSize() / 2),
-        child: Container(
-          color: Colors.grey,
-          child: Center(
-              child: Lottie.asset("assets/elepent.json",
-                  //controller: create_button_anim,
-                  height: 200,
-                  width: 200,
-                  fit: BoxFit.cover)),
-        ),
-      ),
-    );
+    return ClipRRect(
+        borderRadius: BorderRadius.circular(100),
+        child: kIsWeb
+            ? Image.asset(
+                "ld2.gif",
+              )
+            : Lottie.asset(
+                "assets/elepent.json",
+              )
+
+        // child: Container(
+        //   // color: Colors.grey,
+        //   child: Center(
+        //       child: kIsWeb
+        //           ? Image.asset("12loading.gif")
+        //           : Lottie.asset("assets/elepent.json",
+        //               //controller: create_button_anim,
+        //               height: 300,
+        //               width: 300,
+        //               fit: BoxFit.cover)),
+        // ),
+
+        );
   }
 
   double getImageSize() {

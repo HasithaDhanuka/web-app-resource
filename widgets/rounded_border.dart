@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:web_app/Utils/colors.dart';
 
 Widget roundedBorder({
-  required double? height,
+  double? height,
   required Widget widget,
   required String title,
 }) {
