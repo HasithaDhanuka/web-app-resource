@@ -143,7 +143,7 @@ class _CartViewState extends State<CartView> {
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           kIsWeb
               ? Image.asset(
-                  "funy12.gif",
+                  "assets/fun13.gif",
                   width: 300,
                   height: 300,
                 )

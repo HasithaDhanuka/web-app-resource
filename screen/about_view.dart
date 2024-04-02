@@ -130,7 +130,7 @@ class _AboutViewState extends State<AboutView>
         borderRadius: BorderRadius.circular(100),
         child: kIsWeb
             ? Image.asset(
-                "123.gif",
+                "assets/123.gif",
               )
             : Lottie.asset(
                 "assets/elepent.json",
