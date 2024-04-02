@@ -1,10 +1,13 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
+import 'package:web_app/Utils/static_text.dart';
 import 'package:web_app/widgets/custom_button.dart';
 import 'package:web_app/widgets/network_image_render.dart';
 import 'package:web_app/widgets/reusable_widget.dart';
+import 'package:web_app/widgets/rounded_border.dart';
 import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/provider_function/logic_function.dart';
 
@@ -84,6 +87,67 @@ Widget buttonOfPopUp(BuildContext context,
   );
 }
 
+Future<bool?> isDelivery({
+  required BuildContext context,
+}) =>
+    showDialog(
+        context: context,
+        builder: (context) => SingleChildScrollView(
+              child: AlertDialog(
+                backgroundColor: Colors.black,
+                insetPadding: const EdgeInsets.all(20),
+                content: Column(
+                  children: [
+                    inputTextWidget(
+                        fontSize: 15,
+                        inputText: MyText.howAboutDeleverySinhala,
+                        testColor: MyColor.myGreen),
+                    inputTextWidget(
+                        fontSize: 15,
+                        inputText: MyText.howAboutDeleveryEng,
+                        testColor: MyColor.myOrange),
+                    inputTextWidget(
+                        fontSize: 15,
+                        inputText: MyText.howAboutDeleveryJapanese,
+                        testColor: MyColor.myYellow)
+                  ],
+                ),
+                actions: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      reUsableButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(true);
+                          },
+                          buttonName: "Yes",
+                          borderSideColor: MyColor.myGreen),
+                      reUsableButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(false);
+                          },
+                          buttonName: "No",
+                          borderSideColor: MyColor.myRed),
+                    ],
+                  )
+                ],
+              ),
+            ));
+Widget inputTextWidget({
+  required String inputText,
+  required Color testColor,
+  required double fontSize,
+}) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Text(
+      textAlign: TextAlign.center,
+      inputText,
+      style: TextStyle(color: testColor, fontSize: fontSize),
+    ),
+  );
+}
+
 // ****************************************************************//
 // ####################   PopUp Order    ##########################//
 Future<bool?> popupOrder({
@@ -92,6 +156,8 @@ Future<bool?> popupOrder({
   required TextEditingController userPhoneNunberEditingController,
   required TextEditingController userPostalCodeEditingController,
   required TextEditingController userAddrassEditingController,
+  required bool? isDelivery,
+  required int totalAmount,
 }) =>
     showDialog(
         context: context,
@@ -102,11 +168,21 @@ Future<bool?> popupOrder({
                 backgroundColor: Colors.black,
                 content: SizedBox(
                   width: 400,
-                  height: 500,
+                  //  height: 500,
                   child: Consumer<TextFieldChanger>(
                       builder: (context, value, chaild) {
+                    final getTotalAmount =
+                        isDelivery! ? 200 + totalAmount : totalAmount;
                     return Column(
                       children: <Widget>[
+                        roundedBorder(
+                            widget: Text(
+                              textAlign: TextAlign.center,
+                              "Your Total Amount Is : ${getTotalAmount} 円 Only. ",
+                              style: TextStyle(color: MyColor.myOrange),
+                            ),
+                            title: "Total Amount"),
+
                         customInputField(
                             inputFieldName: "your Address",
                             inputEditingController:

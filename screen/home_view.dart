@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:web_app/Utils/colors.dart';
@@ -88,7 +89,7 @@ class _HomeViewState extends State<HomeView> {
             picture(),
             header(30),
             SizedBox(
-              height: screenHeight * 0.03,
+              height: screenHeight * 0.01,
             ),
             subHeader(
                 text: "Thank you very much for your participation.",
@@ -96,27 +97,27 @@ class _HomeViewState extends State<HomeView> {
                 color: MyColor.myGreen),
             subHeader(
                 text: "ඔබගේ සහභාගීත්වයට බොහෝම ස්තූතියි.\n",
-                fontSize: 15,
+                fontSize: 20,
                 color: MyColor.myRed),
             SizedBox(
               height: screenHeight * 0.01,
             ),
-            subHeader(
-                text:
-                    "We operate a delivery service \n in Matsuyama and surrounding areas.",
-                fontSize: 15,
-                color: MyColor.myGreen),
-            SizedBox(
-              height: screenHeight * 0.01,
-            ),
-            subHeader(
-                text:
-                    "අපි මට්සුයම හා ඒ අවට ප්‍රදේශ වල භාණ්ඩ \n සැපයුන් සේවාව පවත්වාගෙන යන්නෙමු.",
-                fontSize: 15,
-                color: MyColor.myRed),
-            SizedBox(
-              height: screenHeight * 0.05,
-            ),
+            // subHeader(
+            //     text:
+            //         "We operate a delivery service \n in Matsuyama and surrounding areas.",
+            //     fontSize: 15,
+            //     color: MyColor.myGreen),
+            // SizedBox(
+            //   height: screenHeight * 0.01,
+            // ),
+            // subHeader(
+            //     text:
+            //         "අපි මට්සුයම හා ඒ අවට ප්‍රදේශ වල භාණ්ඩ \n සැපයුන් සේවාව පවත්වාගෙන යන්නෙමු.",
+            //     fontSize: 15,
+            //     color: MyColor.myRed),
+            // SizedBox(
+            //   height: screenHeight * 0.05,
+            // ),
           ],
         ),
       ),
@@ -231,9 +232,13 @@ class _HomeViewState extends State<HomeView> {
 
   Widget subHeader(
       {required String text, required double fontSize, required Color color}) {
-    return Text(
+    return AutoSizeText(
+      maxLines: 2,
+      maxFontSize: fontSize,
+      minFontSize: 15,
+      textAlign: TextAlign.center,
       text,
-      style: TextStyle(color: color),
+      style: TextStyle(color: color, fontSize: fontSize),
     );
   }
 

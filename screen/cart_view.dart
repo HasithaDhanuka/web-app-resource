@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -49,10 +50,12 @@ class _CartViewState extends State<CartView> {
           : Column(
               children: [
                 roundedBorder(
-                    height: 300,
+                    //   height: 300,
                     widget: ListView.builder(
-                        physics: const ScrollPhysics(
-                            parent: BouncingScrollPhysics()),
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        // physics: const ScrollPhysics(
+                        //     parent: BouncingScrollPhysics()),
                         itemCount: value.getOrderList.length,
                         itemBuilder: (BuildContext contect, int index) {
                           final orderList = value.getOrderList[index];
@@ -68,8 +71,12 @@ class _CartViewState extends State<CartView> {
                 totalPrice(
                     value: value,
                     onPressed: () async {
+                      final isDeliveryOK = await isDelivery(context: context);
+
                       final orderSend = await popupOrder(
                           context: context,
+                          isDelivery: isDeliveryOK,
+                          totalAmount: value.getTotalPrice,
                           userNameEditingController: userNameEditingController,
                           userPhoneNunberEditingController:
                               userPhoneNunberEditingController,
@@ -88,6 +95,7 @@ class _CartViewState extends State<CartView> {
                             userPhoneNumber: int.parse(
                                 userPhoneNunberEditingController.text),
                             userOrders: value.getOrderList,
+                            isDelivery: isDeliveryOK,
                           ),
                         );
 
@@ -133,12 +141,14 @@ class _CartViewState extends State<CartView> {
       child: Card(
         color: Colors.transparent,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: kIsWeb
-                  ? Image.asset("fun13.gif")
-                  : Lottie.asset("assets/wating.json",
-                      height: 200, width: 200, fit: BoxFit.cover)),
+          kIsWeb
+              ? Image.asset(
+                  "funy12.gif",
+                  width: 300,
+                  height: 300,
+                )
+              : Lottie.asset("assets/wating.json",
+                  height: 200, width: 200, fit: BoxFit.cover),
           Text(
             "オーダーをまだ購入されてない。\nඔබ තවමත් ඔබේ ඇණවුම මිලදී ගෙන නැත.\nYou have not purchased your order yet.",
             style: TextStyle(color: MyColor.myRed),
@@ -172,15 +182,21 @@ class _CartViewState extends State<CartView> {
                   )),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    itemName,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: MyColor.myGreen, fontSize: 10),
+                  SizedBox(
+                    width: 150,
+                    child: AutoSizeText(
+                      itemName,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      maxFontSize: 12,
+                      maxLines: 2,
+                      style: TextStyle(color: MyColor.myGreen, fontSize: 10),
+                    ),
                   ),
                   Text(
                     "$itemPrice 円",
