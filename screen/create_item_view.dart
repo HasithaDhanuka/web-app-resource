@@ -1,11 +1,10 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-// import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/view_wrapper.dart';
-// import 'package:web_app/firebase/firebase_storage.dart';
-// import 'package:web_app/screen/popup_view.dart';
+import 'package:web_app/firebase/firebase_storage.dart';
+import 'package:web_app/screen/popup_view.dart';
 import 'package:web_app/widgets/rounded_border.dart';
 import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/firebase/firebase_food.dart';
@@ -136,58 +135,58 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
 
 //*************************************************************************/
 //*****************     GET IMAGE FUNCTION    *****************************/
-        // Consumer<GetImgLocal>(builder: (context, value, child) {
-        //   return getImage(
-        //     //###########    GET BUTTON    ##########################
-        //     imgGet: () async {
-        //       final isImage = await value.getImageLocal();
+        Consumer<GetImgLocal>(builder: (context, value, child) {
+          return getImage(
+            //###########    GET BUTTON    ##########################
+            imgGet: () async {
+              final isImage = await value.getImageLocal();
 
-        //       if (isImage == false) {
-        //         itemURLController.clear();
-        //         value.getImageClear();
-        //         return;
-        //       }
-        //       value.createButtonDisable();
-        //       String? imgUrl = await upLoadImage(
-        //           imagePath: value.fileName, data: value.fileBytes);
+              if (isImage == false) {
+                itemURLController.clear();
+                value.getImageClear();
+                return;
+              }
+              value.createButtonDisable();
+              String? imgUrl = await upLoadImage(
+                  imagePath: value.fileName, data: value.fileBytes);
 
-        //       itemURLController.text = imgUrl!;
+              itemURLController.text = imgUrl!;
 
-        //       if (imgUrl.isNotEmpty) {
-        //         value.createButtonEnable();
-        //       }
+              if (imgUrl.isNotEmpty) {
+                value.createButtonEnable();
+              }
 
-        //       imgUrl = "";
-        //     },
-        //     //###########    IMAGE DELETE BUTTON     ###################
-        //     imgDelete: () async {
-        //       final isDelete =
-        //           await deleteCloudImage(imagePath: value.fileName);
+              imgUrl = "";
+            },
+            //###########    IMAGE DELETE BUTTON     ###################
+            imgDelete: () async {
+              final isDelete =
+                  await deleteCloudImage(imagePath: value.fileName);
 
-        //       isDelete!
-        //           // ignore: use_build_context_synchronously
-        //           ? isSuccessPopup(
-        //               context: context,
-        //               title: "Image is Deleted ",
-        //               msg: "Image is Delete Success",
-        //               function: () {},
-        //               isSuccess: true)
-        //           // ignore: use_build_context_synchronously
-        //           : isSuccessPopup(
-        //               context: context,
-        //               title: "Image Deleted Faild ",
-        //               msg: "Image Delete Is Faild",
-        //               function: () {},
-        //               isSuccess: false);
+              isDelete!
+                  // ignore: use_build_context_synchronously
+                  ? isSuccessPopup(
+                      context: context,
+                      title: "Image is Deleted ",
+                      msg: "Image is Delete Success",
+                      function: () {},
+                      isSuccess: true)
+                  // ignore: use_build_context_synchronously
+                  : isSuccessPopup(
+                      context: context,
+                      title: "Image Deleted Faild ",
+                      msg: "Image Delete Is Faild",
+                      function: () {},
+                      isSuccess: false);
 
-        //       value.isEnableCreateButton = true;
-        //       value.getImageClear();
-        //       itemURLController.clear();
-        //     },
-        //     isImage: value.isFile,
-        //     imageFileDetil: value.fileBytes,
-        //   );
-        // }),
+              value.isEnableCreateButton = true;
+              value.getImageClear();
+              itemURLController.clear();
+            },
+            isImage: value.isFile,
+            imageFileDetil: value.fileBytes,
+          );
+        }),
 
 //*********************     Create button()      ****************************
         context.watch<GetImgLocal>().isEnableCreateButton

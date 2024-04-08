@@ -4,6 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/firebase_options.dart';
 import 'package:web_app/home_page.dart';
+import 'package:web_app/invoice_pdf/pdf_view_screen.dart';
 import 'package:web_app/provider_function/logic_function.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -35,6 +36,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: "/home",
+      routes: {
+        "/home": (context) => HomePage(),
+        "/pdf": (context) => InvoiceView(),
+      },
       debugShowCheckedModeBanner: false,
       scrollBehavior: const MaterialScrollBehavior().copyWith(dragDevices: {
         PointerDeviceKind.mouse,

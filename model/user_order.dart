@@ -8,6 +8,7 @@ class UserOrder {
   late final int userPostalCode;
   late final int userTotalPrice;
   late int userPhoneNumber;
+  late bool? isDelivery;
   late Timestamp? timestamp;
   late final List<FoodItem> userOrders;
 
@@ -18,6 +19,7 @@ class UserOrder {
     required this.userPostalCode,
     required this.userTotalPrice,
     required this.userPhoneNumber,
+    this.isDelivery,
     this.timestamp,
     required this.userOrders,
   });
@@ -29,6 +31,7 @@ class UserOrder {
         "userPostalCode": userPostalCode,
         "userTotalPrice": userTotalPrice,
         "userPhoneNumber": userPhoneNumber,
+        "isDelivery": isDelivery,
         "timeStamp": timestamp ?? FieldValue.serverTimestamp(),
         "userOrders": userOrders.map((e) => e.toJson()).toList(),
       };
@@ -41,6 +44,7 @@ class UserOrder {
       userPostalCode: data["userPostalCode"],
       userTotalPrice: data["userTotalPrice"],
       userPhoneNumber: data["userPhoneNumber"],
+      isDelivery: data["isDelivery"],
       timestamp: data["timeStamp"],
       userOrders: List<FoodItem>.from(
           data["userOrders"].map((item) => FoodItem.fromMap(item))),

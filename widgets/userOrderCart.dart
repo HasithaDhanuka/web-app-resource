@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'dart:async';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -128,6 +129,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
               final orderDetails = userOrdersData[index];
 
               return orderCart(
+                isDeliver: orderDetails.isDelivery ?? false,
                 userID: orderDetails.userid,
                 userName: orderDetails.userName,
                 userTelephoneNumber: orderDetails.userPhoneNumber,
@@ -146,6 +148,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
               final orderDetails = userOrdersData[index];
 
               return orderCart(
+                isDeliver: orderDetails.isDelivery ?? false,
                 userID: orderDetails.userid,
                 userName: orderDetails.userName,
                 userTelephoneNumber: orderDetails.userPhoneNumber,
@@ -193,6 +196,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
     required Timestamp timeOfOrder,
     required List<FoodItem> orders,
     required int indexNumber,
+    required bool isDeliver,
   }) {
 // ***************************************************************//
 // ###################   Tap ON CART    ##########################//
@@ -227,7 +231,6 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
               title: "Address",
               subTitle: "$userPostalCode \n $userAddress",
               icon: const Icon(Icons.location_on)),
-          userPhoneNumber: userTelephoneNumber,
           textEditingController: userPhoneNunberEditingController,
         );
         if (isOrderFinished == true) {
@@ -261,18 +264,29 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
         key: ValueKey(indexNumber),
         startActionPane: ActionPane(motion: const ScrollMotion(), children: [
           SlidableAction(
-            onPressed: ((context) {
-              getInvoice(
-                context,
-                indexNumber: indexNumber,
-                userTelephoneNumber: userTelephoneNumber,
-                orderPrice: orderPrice,
-                userID: userID,
-                userName: userName,
-                userAddrass: userAddress,
-                timeOfOrder: timeOfOrder,
-                orders: orders,
-              );
+            onPressed: ((context) async {
+              // final getPdf = await PdfApi.genarateInvoice(
+              //   indexNumber: indexNumber,
+              //   userTelephoneNumber: userTelephoneNumber,
+              //   orderPrice: orderPrice,
+              //   userName: userName,
+              //   userID: userID,
+              //   userAddrass: userAddress,
+              //   timeOfOrder: timeOfOrder,
+              //   orders: orders,
+              // );
+
+              // PdfApi.saveDocument(pdfBytes: getPdf, userName: userName);
+
+              Navigator.pushNamed(context, '/pdf', arguments: {
+                "userName": userName,
+                "userAddrass": userAddress,
+                "telephoneNum": userTelephoneNumber,
+                "orderPrice": orderPrice,
+                "timeOfOrder": timeOfOrder,
+                "orders": orders,
+                "isDeliver": isDeliver,
+              });
             }),
             backgroundColor: Color(0xFF21B7CA),
             foregroundColor: Colors.white,
@@ -305,35 +319,53 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
               )
             ]),
         child: SizedBox(
-          height: 120,
+          height: 300,
           child: Card(
             color: Colors.transparent,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //  mainAxisAlignment: MainAxisAlignment.spaceAround,
               // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Name : $userName",
-                        style: TextStyle(color: MyColor.myGreen, fontSize: 15),
-                      ),
-                      Text(
-                        "TP    : $userTelephoneNumber",
-                        style: TextStyle(color: MyColor.myGreen, fontSize: 15),
-                      ),
-                    ],
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: SizedBox(
+                    width: 120,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AutoSizeText(
+                          maxLines: 2,
+                          maxFontSize: 15,
+                          minFontSize: 8,
+                          textAlign: TextAlign.left,
+                          overflow: TextOverflow.ellipsis,
+                          "Name : $userName",
+                          style:
+                              TextStyle(color: MyColor.myGreen, fontSize: 15),
+                        ),
+                        AutoSizeText(
+                          maxLines: 1,
+                          maxFontSize: 15,
+                          minFontSize: 8,
+                          "TP    : $userTelephoneNumber",
+                          style:
+                              TextStyle(color: MyColor.myGreen, fontSize: 15),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Row(
                   children: [
-                    Text(
+                    AutoSizeText(
+                      textAlign: TextAlign.left,
+                      maxFontSize: 15,
+                      minFontSize: 8,
                       "Date - ${TimeDateConventor().date(timeStamp: timeOfOrder)}\nTime - ${TimeDateConventor().time(timeStamp: timeOfOrder)}\n$orderPrice 円",
-                      style: TextStyle(color: MyColor.myGreen, fontSize: 15),
+                      style: TextStyle(
+                          color: isDeliver ? MyColor.myRed : MyColor.myGreen,
+                          fontSize: 15),
                     ),
                   ],
                 ),
@@ -348,7 +380,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
 
 // ***************************************************************//
 // ###################   Get Invoice    ##########################//
-Future getInvoice(
+Future<void> getInvoice(
   BuildContext context, {
   required int indexNumber,
   required int userTelephoneNumber,
@@ -359,16 +391,6 @@ Future getInvoice(
   required Timestamp timeOfOrder,
   required List<FoodItem> orders,
 }) async {
-  // Builder(builder: (context) {
-  //   return CircularProgressIndicator.adaptive();
-  // });
-
-  // showDialog(
-  //     context: context,
-  //     builder: (_) => Builder(builder: (context) {
-  //           return CircularProgressIndicator.adaptive();
-  //         }));
-
   print('#######  1  #######');
 
   final getPdf = await PdfApi.genarateInvoice(
@@ -387,16 +409,10 @@ Future getInvoice(
 
   print('#######  3  #######');
 
-  PdfApi.saveDocument(pdfBytes: getPdf, userName: userName);
+  // PdfApi.saveDocument(pdfBytes: getPdf, userName: userName);
 
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-        builder: (context) => PdfViewScreen(
-              pdfData: getPdf,
-            )),
-  );
-  print('#######  4  #######');
+  // Navigator.pushNamed(context, '/pdf');
+  // print('#######  4  #######');
 }
 
 // ***************************************************************//

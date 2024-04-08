@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/model/food.dart';
@@ -10,8 +11,10 @@ import 'package:web_app/widgets/network_image_render.dart';
 import 'package:web_app/widgets/reusable_widget.dart';
 import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/provider_function/logic_function.dart';
-
+import 'package:maps_launcher/maps_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../widgets/userOrderCart.dart';
+import 'package:web_app/invoice_pdf/pdf_view_screen.dart';
 
 // ***************************************************************//
 // ####################   PopUp Item    ##########################//
@@ -202,7 +205,6 @@ Future orderDetails({
   required Widget nameWidget,
   required Widget telPhoneWidget,
   required Widget addressWidget,
-  required int userPhoneNumber,
   required TextEditingController textEditingController,
   required String userID,
   required String userName,
@@ -229,8 +231,37 @@ Future orderDetails({
                 child: itemViewr,
               ),
               nameWidget,
-              telPhoneWidget,
-              addressWidget,
+              InkWell(
+                  onTap: () async {
+                    final snackBar = SnackBar(
+                      content: Text(
+                        'Phone Number Copy Success !',
+                        style: TextStyle(color: MyColor.myGreen),
+                      ),
+                    );
+                    Clipboard.setData(
+                            ClipboardData(text: "0${userTelephoneNumber}"))
+                        .then((value) => ScaffoldMessenger.of(context)
+                            .showSnackBar(snackBar));
+                  },
+                  child: telPhoneWidget),
+              InkWell(
+                  onTap: () {
+                    MapsLauncher.launchQuery(userAddress);
+                  },
+                  onLongPress: () {
+                    final snackBar = SnackBar(
+                      content: Text(
+                        'Address Copy Success !',
+                        style: TextStyle(color: MyColor.myGreen),
+                      ),
+                    );
+
+                    Clipboard.setData(ClipboardData(text: "${userAddress}"))
+                        .then((value) => ScaffoldMessenger.of(context)
+                            .showSnackBar(snackBar));
+                  },
+                  child: addressWidget),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Row(
@@ -240,7 +271,7 @@ Future orderDetails({
                         onPressed: () async {
                           final isOrderFinished = await orderFinished(
                               context: context,
-                              userPhoneNumber: userPhoneNumber,
+                              userPhoneNumber: userTelephoneNumber,
                               textEditingController: textEditingController);
 
                           if (isOrderFinished == true) {
@@ -260,25 +291,15 @@ Future orderDetails({
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: reUsableButton(
-                    onPressed: () {
-                      getInvoice(
-                        context,
-                        indexNumber: indexNumber,
-                        userTelephoneNumber: userTelephoneNumber,
-                        orderPrice: orderPrice,
-                        userID: userID,
-                        userName: userName,
-                        userAddrass: userAddress,
-                        timeOfOrder: timeOfOrder,
-                        orders: orders,
-                      );
-                    },
-                    buttonName: "Invoice",
-                    borderSideColor: MyColor.myRed),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.only(top: 20),
+              //   child: reUsableButton(
+              //       onPressed: () {
+              //         Navigator.pushNamed(context, '/pdf');
+              //       },
+              //       buttonName: "Invoice",
+              //       borderSideColor: MyColor.myRed),
+              // ),
             ],
           ),
         ),
