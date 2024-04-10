@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -57,35 +58,28 @@ class _AboutViewState extends State<AboutView>
 //  ********************       Desktop View Of About   ************************
   Widget desktopView() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      // mainAxisAlignment: MainAxisAlignment.center,
+      // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Spacer(
-          flex: 1,
+        Padding(
+          padding: const EdgeInsets.only(left: 40, right: 40),
+          child: SingleChildScrollView(child: infoSection()),
         ),
-        Expanded(
-          flex: 3,
-          child: infoSection(),
-        ),
-        const Spacer(
-          flex: 1,
-        ),
-        const Expanded(
-            flex: 3,
+        Container(
             child: BulletList(
-              strings: [
-                contactYouSinhala,
-                contactYouJapanese,
-                contactYouEng,
-                sinhala,
-                japanese,
-                aboutContactNumberSinhala,
-                aboutContactNumberJapanese,
-                aboutContactNumberEng,
-                contactInfoSinhala,
-                contactInfoJapan,
-              ],
-            ))
+          strings: [
+            contactYouSinhala,
+            contactYouJapanese,
+            contactYouEng,
+            sinhala,
+            japanese,
+            aboutContactNumberSinhala,
+            aboutContactNumberJapanese,
+            aboutContactNumberEng,
+            contactInfoSinhala,
+            contactInfoJapan,
+          ],
+        ))
       ],
     );
   }

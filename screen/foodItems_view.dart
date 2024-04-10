@@ -47,7 +47,7 @@ class _FoodItemState extends State<FoodItemsView> {
   Widget build(BuildContext context) {
     return ViewWrapper(
         desktopView: desktopView(
-            crossAxisItemsCount: 5, scrollDirectionAxis: Axis.vertical),
+            crossAxisItemsCount: 4, scrollDirectionAxis: Axis.vertical),
         mobileView: mobileView(
             crossAxisItemsCount: 2, scrollDirectionAxis: Axis.vertical));
   }
@@ -67,10 +67,10 @@ class _FoodItemState extends State<FoodItemsView> {
           children: [
             roundedBorder(
               title: "Other Items",
-              height: 400,
+              //height: 400,
               widget: bodyOfDevicer(
                 viewportFraction: 0.3,
-                sliderView: true,
+                sliderView: false,
                 sliderViewAutoPlay: true,
                 sliderViewItemHeight: 370,
                 sliderViewAutoPlayDuration: 3,
@@ -84,7 +84,7 @@ class _FoodItemState extends State<FoodItemsView> {
               height: 400,
               widget: bodyOfDevicer(
                 viewportFraction: 0.3,
-                sliderView: false,
+                sliderView: true,
                 sliderViewAutoPlay: true,
                 sliderViewItemHeight: 370,
                 sliderViewAutoPlayDuration: 3,
@@ -224,9 +224,8 @@ Widget gridItemViewr({
 }) {
   return GridView.builder(
       shrinkWrap: true,
-      primary: false,
       physics: NeverScrollableScrollPhysics(),
-      scrollDirection: scrollDirectionAxis,
+      // scrollDirection: scrollDirectionAxis,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         // childAspectRatio: 1.3,
         crossAxisCount: crossAxisItemsCount,

@@ -40,19 +40,21 @@ class _BulletListState extends State<BulletList>
   Widget build(BuildContext context) {
     return Container(
         child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: List.generate(widget.strings.length * 2, (index) {
         if (index.isEven) {
-          return Flexible(
-            flex: 2,
-            child: BulletPoint(
-              text: widget.strings[index ~/ 2],
-              animationController: _animationController,
-              index: index ~/ 2,
+          return Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BulletPoint(
+                text: widget.strings[index ~/ 2],
+                animationController: _animationController,
+                index: index ~/ 2,
+              ),
             ),
           );
         } else {
-          return Spacer(flex: 1);
+          return Spacer(flex: 2);
         }
       }),
     ));

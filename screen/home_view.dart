@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/view_wrapper.dart';
@@ -29,44 +30,46 @@ class _HomeViewState extends State<HomeView> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
-          width: screenWidth * 0.45,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              header(getFontSize(true)),
-              SizedBox(
-                height: screenHeight * 0.08,
-              ),
-              subHeader(
-                  text: "Thank you very much for your participation.",
-                  fontSize: getFontSize(false),
-                  color: MyColor.myYellow),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              subHeader(
-                  text: "ඔබගේ සහභාගීත්වයට බොහෝම ස්තූතියි.",
-                  fontSize: getFontSize(false),
-                  color: MyColor.myYellow),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              subHeader(
-                  text:
-                      "We operate a delivery service in Matsuyama and surrounding areas.",
-                  fontSize: getFontSize(false),
-                  color: MyColor.myYellow),
-              SizedBox(
-                height: screenHeight * 0.02,
-              ),
-              subHeader(
-                  text:
-                      "අපි මට්සුයම හා ඒ අවට ප්‍රදේශ වල භාණ්ඩ සැපයුන් සේවාව පවත්වාගෙන යන්නෙමු.",
-                  fontSize: getFontSize(false),
-                  color: MyColor.myYellow),
-            ],
+        SingleChildScrollView(
+          child: SizedBox(
+            width: screenWidth * 0.45,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                header(getFontSize(true)),
+                SizedBox(
+                  height: screenHeight * 0.08,
+                ),
+                subHeader(
+                    text: "Thank you very much for your participation.",
+                    fontSize: getFontSize(false),
+                    color: MyColor.myYellow),
+                SizedBox(
+                  height: screenHeight * 0.02,
+                ),
+                subHeader(
+                    text: "ඔබගේ සහභාගීත්වයට බොහෝම ස්තූතියි.",
+                    fontSize: getFontSize(false),
+                    color: MyColor.myYellow),
+                SizedBox(
+                  height: screenHeight * 0.02,
+                ),
+                subHeader(
+                    text:
+                        "We operate a delivery service in Matsuyama and surrounding areas.",
+                    fontSize: getFontSize(false),
+                    color: MyColor.myYellow),
+                SizedBox(
+                  height: screenHeight * 0.02,
+                ),
+                subHeader(
+                    text:
+                        "අපි මට්සුයම හා ඒ අවට ප්‍රදේශ වල භාණ්ඩ සැපයුන් සේවාව පවත්වාගෙන යන්නෙමු.",
+                    fontSize: getFontSize(false),
+                    color: MyColor.myYellow),
+              ],
+            ),
           ),
         ),
         picture()
