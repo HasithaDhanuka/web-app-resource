@@ -88,7 +88,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
                 desktopView: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: roundedBorder(
-                      height: null,
+                      height: 500,
                       widget: orderViewSelection(
                           isSlideView: false, userOrdersData: userOrdersData),
                       title: widget.tittleName),
@@ -142,6 +142,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
               );
             })
         : ListView.builder(
+            shrinkWrap: true,
             physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
             itemCount: userOrdersData.length,
             itemBuilder: (BuildContext context, int index) {
@@ -276,8 +277,19 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
               //   orders: orders,
               // );
 
-              // PdfApi.saveDocument(pdfBytes: getPdf, userName: userName);
-
+              // final b = await PdfApi.saveDocument(
+              //     pdfBytes: getPdf, userName: userName);
+              // if (b) {
+              //   Navigator.pushNamed(context, '/pdf', arguments: {
+              //     "userName": userName,
+              //     "userAddrass": userAddress,
+              //     "telephoneNum": userTelephoneNumber,
+              //     "orderPrice": orderPrice,
+              //     "timeOfOrder": timeOfOrder,
+              //     "orders": orders,
+              //     "isDeliver": isDeliver,
+              //   });
+              // }
               Navigator.pushNamed(context, '/pdf', arguments: {
                 "userName": userName,
                 "userAddrass": userAddress,

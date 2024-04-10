@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:web_app/Utils/colors.dart';
+import 'package:web_app/Utils/view_wrapper.dart';
 import 'package:web_app/firebase/firebase_userOrder.dart';
 import 'package:web_app/model/user_order.dart';
 import 'package:web_app/widgets/rounded_border.dart';
@@ -15,37 +16,45 @@ class DeleteHistoryView extends StatefulWidget {
 class _DeleteHistoryViewState extends State<DeleteHistoryView> {
   bool isShowDeleteUserHistory = false;
   @override
-  // bool isDeleteHistoryView = false;
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "User Order Delete History ",
-              style: TextStyle(
-                  color: MyColor.myOrange, fontWeight: FontWeight.bold),
-            ),
-            Switch(
-                value: isShowDeleteUserHistory,
-                onChanged: (value) {
-                  setState(() {
-                    isShowDeleteUserHistory = value;
-                  });
-                }),
-          ],
-        ),
-        totalPrice(),
-        isShowDeleteUserHistory
-            ? UserOrderCarts(
-                isRequiredCount: false,
-                tittleName: "Delete History View ",
-                streamer: readDeleteHistoryOrders(),
-                collectionPath: "removeOrders",
-              )
-            : Container(),
-      ],
+    return ViewWrapper(
+      desktopView: body(),
+      mobileView: body(),
+    );
+  }
+
+  Widget body() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "User Order Delete History ",
+                style: TextStyle(
+                    color: MyColor.myOrange, fontWeight: FontWeight.bold),
+              ),
+              Switch(
+                  value: isShowDeleteUserHistory,
+                  onChanged: (value) {
+                    setState(() {
+                      isShowDeleteUserHistory = value;
+                    });
+                  }),
+            ],
+          ),
+          totalPrice(),
+          isShowDeleteUserHistory
+              ? UserOrderCarts(
+                  isRequiredCount: false,
+                  tittleName: "Delete History View ",
+                  streamer: readDeleteHistoryOrders(),
+                  collectionPath: "removeOrders",
+                )
+              : Container(),
+        ],
+      ),
     );
   }
 

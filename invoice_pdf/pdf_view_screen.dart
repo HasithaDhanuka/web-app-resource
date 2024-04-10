@@ -1,13 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
-import 'package:printing/printing.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/timedate_conventer.dart';
 import 'package:web_app/model/food.dart';
+import 'package:animated_expandable_fab/animated_expandable_fab.dart';
+import 'package:image_downloader_web/image_downloader_web.dart';
+
+import 'dart:io';
+import 'dart:typed_data';
+
 //import 'package:pdfx/pdfx.dart';
 
 class InvoiceView extends StatelessWidget {
@@ -15,6 +18,8 @@ class InvoiceView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenshotController screenshotController = ScreenshotController();
+
     final Map<String, dynamic> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
@@ -27,76 +32,128 @@ class InvoiceView extends StatelessWidget {
     final List<FoodItem> orderItem = args["orders"];
 
     int totalAmount = orderPrice + (isDeliver ? 200 : 0);
+
+    Future<void> _downloadImage({required Uint8List bytes}) async {
+      print("is save");
+      File('my_image.jpg').writeAsBytes(bytes);
+
+      // await WebImageDownloader.downloadImageFromUInt8List(
+      //     uInt8List: bytes, name: "test_image", imageType: ImageType.jpeg);
+    }
+
 /* ***************************************************************
  ##################         Invoice       #######################*/
     return Scaffold(
+      floatingActionButton: ExpandableFab(
+        distance: 100,
+        openIcon: Icon(Icons.add),
+        closeIcon: Icon(Icons.close),
+        children: [
+          // ActionButton(
+          //   text: Text("Save "),
+          //   onPressed: () async {
+          //     final invoiceImg = await screenshotController.capture();
+
+          //     if (invoiceImg == null) {
+          //       print("img Is Null");
+          //       return;
+          //     }
+          //     print("is save okpen");
+          //     // _downloadImage(bytes: invoiceImg);
+          //   },
+          //   icon: Icon(Icons.save_alt_outlined),
+          // ),
+          ActionButton(
+            text: Text("Go Home "),
+            onPressed: () {
+              Navigator.pushNamed(context, '/home');
+            },
+            icon: Icon(Icons.home),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
-        physics: ScrollPhysics(),
         child: SizedBox(
           width: 400,
-          child: Column(
-            children: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    "Invoice",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-              header(
-                  userName: userName,
-                  userAddress: userAddress,
-                  userTelNumber: userTelNumber,
-                  timeOfOrder: timeOfOrder,
-                  textAlign: TextAlign.left,
-                  fontSize: 10),
-              tableHeaders(
-                itemName: "Item Name",
-                itemQty: "Qty",
-                itemPrice: "Price",
-                rowHeight: 30,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: MyColor.myGreen,
-              ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: orderItem.length,
-                  itemBuilder: (context, index) {
-                    final item = orderItem[index];
-                    return tableHeaders(
-                        fontSize: 10,
-                        itemName: "${item.itemName}",
-                        itemQty: " X 1",
-                        itemPrice: "${item.itemPrice} 円",
-                        fontWeight: FontWeight.w700,
-                        color: MyColor.myOrange,
-                        rowHeight: 30);
-                  }),
-              invoiceTotal(
-                  itemPrice: "$orderPrice 円",
-                  deliverCharge: isDeliver ? "200 円" : "0 円",
-                  totalAmount: "$totalAmount 円"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "ありがとうございました。",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                  Image.asset(
-                    "assets/LogoFooter.png",
-                    height: 100,
-                    width: 100,
-                  ),
-                ],
-              )
-            ],
+          child: Screenshot(
+            controller: screenshotController,
+            child: invoiceBody(userName, userAddress, userTelNumber,
+                timeOfOrder, orderItem, orderPrice, isDeliver, totalAmount),
           ),
         ),
       ),
+    );
+  }
+
+  Widget invoiceBody(
+      String userName,
+      String userAddress,
+      int userTelNumber,
+      Timestamp timeOfOrder,
+      List<FoodItem> orderItem,
+      int orderPrice,
+      bool isDeliver,
+      int totalAmount) {
+    return Column(
+      children: [
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              "Invoice",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+        header(
+            userName: userName,
+            userAddress: userAddress,
+            userTelNumber: userTelNumber,
+            timeOfOrder: timeOfOrder,
+            textAlign: TextAlign.left,
+            fontSize: 10),
+        tableHeaders(
+          itemName: "Item Name",
+          itemQty: "Qty",
+          itemPrice: "Price",
+          rowHeight: 30,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: MyColor.myGreen,
+        ),
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: orderItem.length,
+            itemBuilder: (context, index) {
+              final item = orderItem[index];
+              return tableHeaders(
+                  fontSize: 10,
+                  itemName: "${item.itemName}",
+                  itemQty: " X 1",
+                  itemPrice: "${item.itemPrice} 円",
+                  fontWeight: FontWeight.w700,
+                  color: MyColor.myOrange,
+                  rowHeight: 30);
+            }),
+        invoiceTotal(
+            itemPrice: "$orderPrice 円",
+            deliverCharge: isDeliver ? "200 円" : "0 円",
+            totalAmount: "$totalAmount 円"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "ありがとうございました。",
+              style: TextStyle(fontSize: 20),
+            ),
+            Image.asset(
+              "assets/LogoFooter.png",
+              height: 100,
+              width: 100,
+            ),
+          ],
+        )
+      ],
     );
   }
 }

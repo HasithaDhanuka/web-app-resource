@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
@@ -215,6 +216,17 @@ class PdfApi {
     required Uint8List pdfBytes,
     required String userName,
   }) async {
+    // // Save the PDF
+    // List<int> fileInts = List.from(pdfBytes);
+    // final blob = pdfMemoryBytesToBlob(fileInts);
+    // final url = getUrlFromBlob(blob);
+
+    // // Trigger download
+    // final anchor = html.AnchorElement(href: url)
+    //   ..setAttribute(
+    //       "download", "${userName}${DateTime.now().millisecondsSinceEpoch}.pdf")
+    //   ..click();
+
     List<int> fileInts = List.from(pdfBytes);
     await html.AnchorElement(
         href:
@@ -225,3 +237,12 @@ class PdfApi {
     return true;
   }
 }
+
+// html.Blob pdfMemoryBytesToBlob(List<int> bytes) {
+//   final blob = html.Blob([bytes], 'application/pdf');
+//   return blob;
+// }
+
+// String getUrlFromBlob(html.Blob blob) {
+//   return html.Url.createObjectUrlFromBlob(blob);
+// }
