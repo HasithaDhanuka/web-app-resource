@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:web_app/Utils/colors.dart';
+import 'package:web_app/Utils/view_wrapper.dart';
 import 'package:web_app/widgets/custom_button.dart';
 import 'package:web_app/firebase/firebase_userOrder.dart';
 import 'package:web_app/model/user_order.dart';
@@ -47,88 +48,109 @@ class _CartViewState extends State<CartView> {
     return Consumer<OrderFoodItems>(builder: (context, value, chaild) {
       return value.listOfOrder.isEmpty
           ? isItemOrder()
-          : Column(
-              children: [
-                roundedBorder(
-                    //   height: 300,
-                    widget: ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        // physics: const ScrollPhysics(
-                        //     parent: BouncingScrollPhysics()),
-                        itemCount: value.getOrderList.length,
-                        itemBuilder: (BuildContext contect, int index) {
-                          final orderList = value.getOrderList[index];
+          : SingleChildScrollView(
+              physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+              child: Column(
+                children: [
+                  roundedBorder(
+                      //    height: 300,
+                      widget: ViewWrapper(
+                        desktopView: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: value.getOrderList.length,
+                            itemBuilder: (BuildContext contect, int index) {
+                              final orderList = value.getOrderList[index];
 
-                          return orderCart(
-                            itemName: orderList.itemName,
-                            itemPrice: orderList.itemPrice,
-                            itemUrl: orderList.itemUrl,
-                            nOrderIndex: index,
-                          );
-                        }),
-                    title: "Your Order View"),
-                totalPrice(
-                    value: value,
-                    onPressed: () async {
-                      final isDeliveryOK = await isDelivery(context: context);
+                              return orderCart(
+                                itemName: orderList.itemName,
+                                itemPrice: orderList.itemPrice,
+                                itemUrl: orderList.itemUrl,
+                                nOrderIndex: index,
+                              );
+                            }),
+                        mobileView: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            // physics: const ScrollPhysics(
+                            //     parent: BouncingScrollPhysics()),
+                            itemCount: value.getOrderList.length,
+                            itemBuilder: (BuildContext contect, int index) {
+                              final orderList = value.getOrderList[index];
 
-                      final orderSend = await popupOrder(
-                          context: context,
-                          isDelivery: isDeliveryOK,
-                          totalAmount: value.getTotalPrice,
-                          userNameEditingController: userNameEditingController,
-                          userPhoneNunberEditingController:
-                              userPhoneNunberEditingController,
-                          userPostalCodeEditingController:
-                              userPostalCodeEditingController,
-                          userAddrassEditingController:
-                              userAddrassEditingController);
-                      if (orderSend == true) {
-                        final bIsSuccess = await createOrder(
-                          userOrder: UserOrder(
-                            userName: userNameEditingController.text,
-                            userAddruss: userAddrassEditingController.text,
-                            userPostalCode:
-                                int.parse(userPostalCodeEditingController.text),
-                            userTotalPrice: value.getTotalPrice,
-                            userPhoneNumber: int.parse(
-                                userPhoneNunberEditingController.text),
-                            userOrders: value.getOrderList,
-                            isDelivery: isDeliveryOK,
-                          ),
-                        );
+                              return orderCart(
+                                itemName: orderList.itemName,
+                                itemPrice: orderList.itemPrice,
+                                itemUrl: orderList.itemUrl,
+                                nOrderIndex: index,
+                              );
+                            }),
+                      ),
+                      title: "Your Order View"),
+                  totalPrice(
+                      value: value,
+                      onPressed: () async {
+                        final isDeliveryOK = await isDelivery(context: context);
 
-                        if (bIsSuccess == true) {
-                          print("is success? : $bIsSuccess");
-
-                          // ignore: use_build_context_synchronously
-                          AwesomeDialog(
+                        final orderSend = await popupOrder(
                             context: context,
-                            animType: AnimType.leftSlide,
-                            headerAnimationLoop: false,
-                            dialogType: DialogType.success,
-                            showCloseIcon: false,
-                            title: 'Succes',
-                            desc: ' Order Is Deliverd ',
-                            btnOkOnPress: () {
-                              //debugPrint('OnClcik');
-                            },
-                            btnOkIcon: Icons.check_circle,
-                            onDismissCallback: (type) {
-                              debugPrint('Dialog Dissmiss from callback $type');
-                            },
-                          ).show();
-                        }
+                            isDelivery: isDeliveryOK,
+                            totalAmount: value.getTotalPrice,
+                            userNameEditingController:
+                                userNameEditingController,
+                            userPhoneNunberEditingController:
+                                userPhoneNunberEditingController,
+                            userPostalCodeEditingController:
+                                userPostalCodeEditingController,
+                            userAddrassEditingController:
+                                userAddrassEditingController);
+                        if (orderSend == true) {
+                          final bIsSuccess = await createOrder(
+                            userOrder: UserOrder(
+                              userName: userNameEditingController.text,
+                              userAddruss: userAddrassEditingController.text,
+                              userPostalCode: int.parse(
+                                  userPostalCodeEditingController.text),
+                              userTotalPrice: value.getTotalPrice,
+                              userPhoneNumber: int.parse(
+                                  userPhoneNunberEditingController.text),
+                              userOrders: value.getOrderList,
+                              isDelivery: isDeliveryOK,
+                            ),
+                          );
 
-                        value.orderListClear();
-                        userNameEditingController.clear();
-                        userPhoneNunberEditingController.clear();
-                        userPostalCodeEditingController.clear();
-                        userAddrassEditingController.clear();
-                      }
-                    }),
-              ],
+                          if (bIsSuccess == true) {
+                            print("is success? : $bIsSuccess");
+
+                            // ignore: use_build_context_synchronously
+                            AwesomeDialog(
+                              context: context,
+                              animType: AnimType.leftSlide,
+                              headerAnimationLoop: false,
+                              dialogType: DialogType.success,
+                              showCloseIcon: false,
+                              title: 'Succes',
+                              desc: ' Order Is Deliverd ',
+                              btnOkOnPress: () {
+                                //debugPrint('OnClcik');
+                              },
+                              btnOkIcon: Icons.check_circle,
+                              onDismissCallback: (type) {
+                                debugPrint(
+                                    'Dialog Dissmiss from callback $type');
+                              },
+                            ).show();
+                          }
+
+                          value.orderListClear();
+                          userNameEditingController.clear();
+                          userPhoneNunberEditingController.clear();
+                          userPostalCodeEditingController.clear();
+                          userAddrassEditingController.clear();
+                        }
+                      }),
+                ],
+              ),
             );
     });
   }
