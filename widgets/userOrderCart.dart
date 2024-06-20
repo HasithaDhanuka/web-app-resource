@@ -235,7 +235,7 @@ class _UserOrderCartsState extends State<UserOrderCarts> {
           textEditingController: userPhoneNunberEditingController,
         );
         if (isOrderFinished == true) {
-          //   print("order is finished :: $isOrderFinished");
+          // print("order is finished :: $isOrderFinished");
 
           final removeDatabase = await deleteOrder(
               orderID: userID, collectionPath: widget.collectionPath);
@@ -447,7 +447,7 @@ void onTapDrag(
         await deleteOrder(orderID: userID, collectionPath: collectionPath);
 
     if (removeDatabase == true) {
-      print("remove Done");
+      // print("remove Done");
     }
 
     // print("context 01");

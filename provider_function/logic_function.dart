@@ -159,8 +159,6 @@ class GetImgLocal extends ChangeNotifier {
   bool isEnableCreateButton = true;
 
   Future<bool?> getImageLocal() async {
-    print("function entering of Img picker");
-
     final pickFileResult = await FilePicker.platform.pickFiles();
     if (pickFileResult == null) {
       isImageFile = false;

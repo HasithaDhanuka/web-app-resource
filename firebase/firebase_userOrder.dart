@@ -41,7 +41,7 @@ Stream<List<UserOrder>> readUserOrders() {
 Stream<List<UserOrder>> readDeleteHistoryOrders() {
   final firestoreUserOrders = FirebaseFirestore.instance
       .collection("removeOrders")
-      .orderBy('timeStamp')
+      .orderBy('timeStamp', descending: true)
       .snapshots();
 
   return firestoreUserOrders.map((snapshot) =>
@@ -58,7 +58,7 @@ Future<bool?> deleteOrder(
 
 /////////               History User Order Delete                //////////
   if (collectionPath == "removeOrders") {
-    print("history delete   ${collectionPath}");
+    // print("history delete   ${collectionPath}");
     return orderDelete
         .delete()
         .then((value) => true)

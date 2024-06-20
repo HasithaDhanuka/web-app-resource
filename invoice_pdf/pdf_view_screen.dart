@@ -6,7 +6,6 @@ import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/timedate_conventer.dart';
 import 'package:web_app/model/food.dart';
 import 'package:animated_expandable_fab/animated_expandable_fab.dart';
-import 'package:image_downloader_web/image_downloader_web.dart';
 
 import 'dart:io';
 import 'dart:typed_data';
