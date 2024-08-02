@@ -21,6 +21,7 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
   final _itemPriceController = TextEditingController();
   final _itemCountController = TextEditingController();
   final _itemUrlController = TextEditingController();
+  final _descriptionController = TextEditingController();
   @override
   void dispose() {
     super.dispose();
@@ -28,6 +29,7 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
     _itemPriceController.dispose();
     _itemCountController.dispose();
     _itemUrlController.dispose();
+    _descriptionController.dispose();
   }
 
   @override
@@ -117,6 +119,7 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
               itemCount: foodItem.itemCount!,
               itemUrl: foodItem.itemUrl,
               itemID: foodItem.id,
+              description: foodItem.description,
             );
 
         final itemUpdate = await itemEditeField();
@@ -124,10 +127,12 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
         String getItemPrice = itemUpdate[1];
         String getItemCount = itemUpdate[2];
         String getItemUrl = itemUpdate[3];
+        String? getDescription = itemUpdate[4];
         if (getItemName.isEmpty &&
             getItemPrice.isEmpty &&
             getItemCount.isEmpty &&
-            getItemUrl.isEmpty) {
+            getItemUrl.isEmpty &&
+            getDescription.isEmpty) {
           return;
         }
         Navigator.of(context).pop();
@@ -139,6 +144,9 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
             ? getItemCount = foodItem.itemCount.toString()
             : getItemCount;
         getItemUrl.isEmpty ? getItemUrl = foodItem.itemUrl : getItemUrl;
+        getDescription.isEmpty
+            ? getDescription = foodItem.description
+            : getDescription;
 
         EditItem(
             item_ID: foodItem.id,
@@ -146,6 +154,7 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
             itemPrice: int.parse(getItemPrice),
             itemCount: int.parse(getItemCount),
             itemUrl: getItemUrl,
+            description: getDescription,
             collectionPath: foodItem.collectionPath!);
       },
       icon: Icon(
@@ -211,6 +220,15 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
                           isValidate: false,
                           keyBordType: TextInputType.name);
                     }),
+                    Consumer<FoodItemProperty>(
+                        builder: (context, value, child) {
+                      return customInputField(
+                          inputFieldName: value.getDescription,
+                          inputEditingController: _descriptionController,
+                          isNumberTypeKeybord: false,
+                          isValidate: false,
+                          keyBordType: TextInputType.name);
+                    }),
                   ],
                 ),
               ),
@@ -224,6 +242,7 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
                   _itemPriceController.text,
                   _itemCountController.text,
                   _itemUrlController.text,
+                  _descriptionController.text,
                 ];
 
                 Navigator.of(context).pop(itemUpdate);
@@ -231,6 +250,7 @@ class _FoodUpdateViewState extends State<FoodUpdateView> {
                 _itemPriceController.clear();
                 _itemCountController.clear();
                 _itemUrlController.clear();
+                _descriptionController.clear();
               },
               style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.transparent,

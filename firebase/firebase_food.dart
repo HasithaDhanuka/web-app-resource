@@ -23,6 +23,18 @@ Future CreateItemModule(
 //*****************************************************************************
 //   Stream Other items
 //*****************************************************************************
+Stream<List<FoodItem>> ReadCookingItems() {
+  final firestore = FirebaseFirestore.instance
+      .collection("CookingItems")
+      .orderBy("timeStamp", descending: true)
+      .snapshots();
+  return firestore.map((snapshot) =>
+      snapshot.docs.map((doc) => FoodItem.fromMap(doc.data())).toList());
+}
+
+//*****************************************************************************
+//   Stream Other items
+//*****************************************************************************
 Stream<List<FoodItem>> ReadOtherItems() {
   final firestore = FirebaseFirestore.instance
       .collection("OtherItems")
@@ -77,6 +89,7 @@ Future EditItem({
   required String itemName,
   required int itemPrice,
   required String itemUrl,
+  String? description,
   int? itemCount,
 }) async {
   final item_Edit =
@@ -86,6 +99,7 @@ Future EditItem({
     "itemPrice": itemPrice,
     "itemCount": itemCount,
     "itemUrl": itemUrl,
+    "description": description,
     "timeStamp": FieldValue.serverTimestamp(),
   });
 }

@@ -7,6 +7,7 @@ class FoodItem {
   late final int itemPrice;
   late final int? itemCount;
   late final String itemUrl;
+  late final String? description;
   late Timestamp? timestamp;
   FoodItem({
     this.id = "",
@@ -15,6 +16,7 @@ class FoodItem {
     required this.itemPrice,
     this.itemCount,
     required this.itemUrl,
+    this.description,
     this.timestamp,
   });
 // send json
@@ -25,6 +27,7 @@ class FoodItem {
         "itemPrice": itemPrice,
         "itemCount": itemCount,
         "itemUrl": itemUrl,
+        "description": description,
         "timeStamp": timestamp ?? FieldValue.serverTimestamp(),
       };
 
@@ -36,6 +39,7 @@ class FoodItem {
       itemPrice: data["itemPrice"],
       itemCount: data["itemCount"],
       itemUrl: data["itemUrl"],
+      description: data["description"],
       timestamp: data["timeStamp"],
     );
   }

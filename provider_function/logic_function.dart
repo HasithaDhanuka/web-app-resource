@@ -9,6 +9,7 @@ class FoodItemProperty extends ChangeNotifier {
   late int getItemCount;
   late String getItemUrl;
   late String getItemID;
+  String getDescription = "";
 
   void setItemProperty({
     required String itemName,
@@ -16,6 +17,7 @@ class FoodItemProperty extends ChangeNotifier {
     required int itemCount,
     required String itemUrl,
     required String itemID,
+    String? description,
     // required Future Allet,
   }) {
     getItemName = itemName;
@@ -23,6 +25,7 @@ class FoodItemProperty extends ChangeNotifier {
     getItemCount = itemCount;
     getItemUrl = itemUrl;
     getItemID = itemID;
+    getDescription = description ?? "";
 
     notifyListeners();
   }
@@ -197,8 +200,13 @@ class GetImgLocal extends ChangeNotifier {
 }
 
 class DatabaseClassifier extends ChangeNotifier {
-  List<String> classifier = ["OtherItems", "GrainsItems", "PowderItems"];
-  List<bool> isSelected = [true, false, false];
+  List<String> classifier = [
+    "OtherItems",
+    "GrainsItems",
+    "PowderItems",
+    "CookingItems"
+  ];
+  List<bool> isSelected = [true, false, false, false];
   int currentIndex = 1;
   String collectionPath = "";
   void getCurrentItem(int index) {

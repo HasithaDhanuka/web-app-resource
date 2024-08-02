@@ -24,6 +24,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
   final itemPricesController = TextEditingController();
   final itemCountController = TextEditingController();
   final itemURLController = TextEditingController();
+  final descriptionController = TextEditingController();
   String dataBasePath = "OtherItems";
   @override
   void dispose() {
@@ -34,6 +35,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
     itemPricesController.dispose();
     itemCountController.dispose();
     itemURLController.dispose();
+    descriptionController.dispose();
   }
 
   @override
@@ -90,6 +92,12 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                     isValidate: value.bItemUrlValidate,
                     keyBordType: TextInputType.multiline);
               }),
+        customInputField(
+            inputFieldName: "Description",
+            inputEditingController: descriptionController,
+            isNumberTypeKeybord: false,
+            isValidate: false,
+            keyBordType: TextInputType.multiline),
 //*************************************************************************/
 //*****************   Toggle Custom Buttons      *****************************/
         Consumer<DatabaseClassifier>(builder: (context, value, child) {
@@ -105,7 +113,7 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                 color: MyColor.myRed,
                 constraints: const BoxConstraints(
                   minHeight: 40.0,
-                  minWidth: 80.0,
+                  minWidth: 40.0,
                 ),
                 onPressed: (int index) {
                   for (int i = 0; i < isSelected.length; i++) {
@@ -128,6 +136,10 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                   Padding(
                     padding: EdgeInsets.all(15.0),
                     child: Text("පිටි වර්ග"),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: Text("පිසින කෑම"),
                   ),
                 ]),
           );
@@ -215,17 +227,20 @@ class _CreateItemState extends State<CreateItem> with TickerProviderStateMixin {
                   }
 
                   await CreateItemModule(
-                      collectionPath: dataBasePath,
-                      foodItem: FoodItem(
-                          itemName: itemNameController.text,
-                          itemPrice: int.parse(itemPricesController.text),
-                          itemCount: int.parse(itemCountController.text),
-                          itemUrl: itemURLController.text));
+                    collectionPath: dataBasePath,
+                    foodItem: FoodItem(
+                        itemName: itemNameController.text,
+                        itemPrice: int.parse(itemPricesController.text),
+                        itemCount: int.parse(itemCountController.text),
+                        itemUrl: itemURLController.text,
+                        description: descriptionController.text),
+                  );
 
                   itemNameController.clear();
                   itemPricesController.clear();
                   itemCountController.clear();
                   itemURLController.clear();
+                  descriptionController.clear();
                 },
               )
             : const CircularProgressIndicator.adaptive(), //   Create button end
