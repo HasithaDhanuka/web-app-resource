@@ -120,6 +120,20 @@ class _FoodItemState extends State<FoodItemsView> {
     return Column(
       children: [
         roundedBorder(
+          title: "පිසූ ආහාර",
+          height: 300,
+          widget: bodyOfDevicer(
+            sliderView: true,
+            viewportFraction: 0.5,
+            sliderViewAutoPlay: true,
+            sliderViewItemHeight: 370,
+            sliderViewAutoPlayDuration: 3,
+            crossAxisItemsCount: crossAxisItemsCount,
+            scrollDirectionAxis: scrollDirectionAxis,
+            readfoodItems: ReadCookingFood(),
+          ),
+        ),
+        roundedBorder(
           title: "Grains Items",
           height: 200,
           widget: bodyOfDevicer(
@@ -127,7 +141,7 @@ class _FoodItemState extends State<FoodItemsView> {
             viewportFraction: 0.5,
             sliderViewAutoPlay: true,
             sliderViewItemHeight: 370,
-            sliderViewAutoPlayDuration: 3,
+            sliderViewAutoPlayDuration: 5,
             crossAxisItemsCount: crossAxisItemsCount,
             scrollDirectionAxis: scrollDirectionAxis,
             readfoodItems: ReadGrainsItems(),
