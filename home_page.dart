@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -26,6 +28,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+  String? imgOfBG;
   late ItemScrollController _itemScrollController;
   var scaffoldkey = GlobalKey<ScaffoldState>();
   late double screenwidth;
@@ -97,6 +100,22 @@ class _HomePageState extends State<HomePage>
   void initState() {
     // TODO: implement initState
     super.initState();
+    int randomBGValue = Random().nextInt(10);
+
+    List<String> backgroundIMG = [
+      "img/1.jpg",
+      "img/2.jpg",
+      "img/3.jpg",
+      "img/4.jpg",
+      "img/5.jpg",
+      "img/6.jpg",
+      "img/7.jpg",
+      "img/8.jpg",
+      "img/9.jpg",
+      "img/10.jpg",
+    ];
+    imgOfBG = backgroundIMG[randomBGValue];
+
     tabController = TabController(length: contentViews.length, vsync: this);
     _itemScrollController = ItemScrollController();
   }
@@ -117,7 +136,7 @@ class _HomePageState extends State<HomePage>
     bottomPadding = screenHeight * 0.01;
 
     return Background(
-      backgroundURL: "img/background1.jpg",
+      backgroundURL: imgOfBG!,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         endDrawer: drawer(),

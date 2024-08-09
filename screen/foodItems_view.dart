@@ -124,6 +124,7 @@ class _FoodItemState extends State<FoodItemsView> {
           height: 300,
           widget: bodyOfDevicer(
             sliderView: true,
+            reverse: true,
             viewportFraction: 0.5,
             sliderViewAutoPlay: true,
             sliderViewItemHeight: 370,
@@ -190,6 +191,7 @@ class _FoodItemState extends State<FoodItemsView> {
     required double sliderViewItemHeight,
     required Axis scrollDirectionAxis,
     required Stream<List<FoodItem>> readfoodItems,
+    bool reverse = false,
   }) {
     return StreamBuilder<List<FoodItem>>(
       stream: readfoodItems,
@@ -210,6 +212,7 @@ class _FoodItemState extends State<FoodItemsView> {
           return sliderView
               ? itemsSliderView(
                   itemLength: productItems,
+                  reverse: reverse,
                   autoPlay: true,
                   timeDuration: sliderViewAutoPlayDuration,
                   itemHeight: sliderViewItemHeight,
@@ -270,11 +273,13 @@ Widget itemsSliderView({
   required int? timeDuration,
   required double itemHeight,
   required double? viewportFraction,
+  required bool reverse,
 }) {
   return Center(
     child: CarouselSlider.builder(
         itemCount: itemLength.length,
         options: CarouselOptions(
+          reverse: reverse,
           height: itemHeight,
           enlargeCenterPage: true,
           enlargeStrategy: CenterPageEnlargeStrategy.height,
