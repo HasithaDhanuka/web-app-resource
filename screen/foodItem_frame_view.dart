@@ -80,6 +80,7 @@ class FoodTile extends StatelessWidget {
                     final orderComplete = await popUpItem(context,
                         itemName: itemName,
                         itemUrl: itemUrl,
+                        itemDiscription: foodItem?.description ?? "",
                         canOrder: itemCount == 0 ? false : true);
 
                     if (orderComplete == null || orderComplete == false) {

@@ -16,6 +16,7 @@ import 'package:web_app/provider_function/logic_function.dart';
 Future<bool?> popUpItem(BuildContext context,
         {required String itemUrl,
         required String itemName,
+        required itemDiscription,
         required bool canOrder}) =>
     showDialog(
       context: context,
@@ -23,8 +24,7 @@ Future<bool?> popUpItem(BuildContext context,
         insetPadding: const EdgeInsets.all(20),
         backgroundColor: Colors.black,
         shadowColor: MyColor.myGreen,
-        content: SizedBox(
-          height: 400,
+        content: SingleChildScrollView(
           child: Column(
             children: [
               Container(
@@ -50,7 +50,20 @@ Future<bool?> popUpItem(BuildContext context,
                       fontWeight: FontWeight.w500,
                       color: MyColor.myOrange),
                 ),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 0.8),
+                child: Text(
+                  maxLines: 5,
+                  overflow: TextOverflow.visible,
+                  textAlign: TextAlign.start,
+                  "$itemDiscription",
+                  style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w300,
+                      color: MyColor.myOrange),
+                ),
+              ),
             ],
           ),
         ),

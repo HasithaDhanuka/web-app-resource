@@ -249,24 +249,31 @@ class _CartViewState extends State<CartView> {
 Widget totalPrice(
     {required OrderFoodItems value, required VoidCallback onPressed}) {
   return SizedBox(
-    height: 100,
+    height: 120,
     child: Card(
       color: Colors.transparent,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Column(
         children: [
-          Text(
-            "Total Price ",
-            style: TextStyle(color: MyColor.myOrange, fontSize: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                "Total Price ",
+                style: TextStyle(color: MyColor.myOrange, fontSize: 30),
+              ),
+              Text(
+                "${value.getTotalPrice} 円",
+                style: TextStyle(color: MyColor.myGreen, fontSize: 30),
+              ),
+            ],
           ),
-          Text(
-            "${value.getTotalPrice} 円",
-            style: TextStyle(color: MyColor.myGreen, fontSize: 30),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: reUsableButton(
+                onPressed: onPressed,
+                buttonName: "Order ( ඇනවුම තහවුරු කරන්න )",
+                borderSideColor: MyColor.myGreen),
           ),
-          reUsableButton(
-              onPressed: onPressed,
-              buttonName: "Order",
-              borderSideColor: MyColor.myRed),
         ],
       ),
     ),
