@@ -65,9 +65,38 @@ Future<bool?> deleteOrder(
         .catchError((err) => false);
   }
 
+  /////////       History User Cooking Order Delete          /////////////
+  if (collectionPath == "removeCookingOrders") {
+    // print("history delete   ${collectionPath}");
+    return orderDelete
+        .delete()
+        .then((value) => true)
+        .catchError((err) => false);
+  }
+
   final DocumentSnapshot snapshot = await orderDelete.get();
   final getOrder = snapshot.data() as Map<String, dynamic>;
   UserOrder getUserOrder = UserOrder.fromMap(getOrder);
+
+//////////////    Cooking Order Classifier Database         //////////////
+  if (collectionPath == "CookingItems") {
+    final removeCookingItemsCollection =
+        FirebaseFirestore.instance.collection("removeCookingOrders").doc();
+    getUserOrder.userid = removeCookingItemsCollection.id;
+
+    final json = getUserOrder.toJson();
+    return removeCookingItemsCollection.set(json).then((value) {
+      return orderDelete
+          .delete()
+          .then((value) => true)
+          .catchError((err) => false);
+
+      //   print("Order send success !");
+    }).catchError((error) {
+      //   print("Oder Error");
+      return false;
+    });
+  }
 
 /////////    remove Order Collection and Creating Delete History //////////
   final removeCollection =
@@ -81,10 +110,7 @@ Future<bool?> deleteOrder(
         .delete()
         .then((value) => true)
         .catchError((err) => false);
-
-    //   print("Order send success !");
   }).catchError((error) {
-    //   print("Oder Error");
     return false;
   });
 }

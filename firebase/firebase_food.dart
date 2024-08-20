@@ -21,7 +21,7 @@ Future CreateItemModule(
 }
 
 //*****************************************************************************
-//   Stream Other items
+//   Stream Cooking Items
 //*****************************************************************************
 Stream<List<FoodItem>> ReadCookingItems() {
   final firestore = FirebaseFirestore.instance
