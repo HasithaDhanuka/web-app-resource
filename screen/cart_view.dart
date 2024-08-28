@@ -120,8 +120,6 @@ class _CartViewState extends State<CartView> {
                           );
 
                           if (bIsSuccess == true) {
-                            print("is success? : $bIsSuccess");
-
                             // ignore: use_build_context_synchronously
                             AwesomeDialog(
                               context: context,

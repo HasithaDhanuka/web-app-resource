@@ -94,6 +94,7 @@ class OrderFoodItems extends ChangeNotifier {
 
   void orderListClear() {
     listOfOrder.clear();
+    ntotalPrice = 0;
     // print(listOfOrder.length);
     //  print(listOfOrder);
     notifyListeners();
