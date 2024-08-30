@@ -1,9 +1,6 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:typewritertext/typewritertext.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/static_text.dart';
 import 'package:web_app/widgets/custom_button.dart';
