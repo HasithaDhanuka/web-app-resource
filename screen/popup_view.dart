@@ -1,7 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:typewritertext/typewritertext.dart';
 import 'package:web_app/Utils/colors.dart';
 import 'package:web_app/Utils/static_text.dart';
 import 'package:web_app/widgets/custom_button.dart';
@@ -10,13 +12,14 @@ import 'package:web_app/widgets/reusable_widget.dart';
 import 'package:web_app/widgets/rounded_border.dart';
 import 'package:web_app/widgets/text_field_module.dart';
 import 'package:web_app/provider_function/logic_function.dart';
+import 'package:web_app/widgets/type_write_anim.dart';
 
 // ***************************************************************//
 // ####################   PopUp Item    ##########################//
 Future<bool?> popUpItem(BuildContext context,
         {required String itemUrl,
         required String itemName,
-        required itemDiscription,
+        required String itemDiscription,
         required bool canOrder}) =>
     showDialog(
       context: context,
@@ -53,16 +56,20 @@ Future<bool?> popUpItem(BuildContext context,
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 0.8),
-                child: Text(
-                  maxLines: 5,
-                  overflow: TextOverflow.visible,
-                  textAlign: TextAlign.start,
-                  "$itemDiscription",
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w300,
-                      color: MyColor.myOrange),
-                ),
+
+                child: typeWriteAnimKit(
+                    inputAnimText: itemDiscription, typeSpeed: 40),
+
+                //   child: Text(
+                //     maxLines: 5,
+                //     overflow: TextOverflow.visible,
+                //     textAlign: TextAlign.start,
+                //     "$itemDiscription",
+                //     style: TextStyle(
+                //         fontSize: 13,
+                //         fontWeight: FontWeight.w300,
+                //         color: MyColor.myOrange),
+                //   ),
               ),
             ],
           ),
