@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage>
     ContentView(
       tab: const CustomTab(
         isShowCount: false,
-        title: "Home",
+        title: "මුල් පිටුව",
       ),
       content: const HomeView(),
     ),
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage>
     ContentView(
       tab: const CustomTab(
         isShowCount: false,
-        title: "Food",
+        title: "ආහාර",
       ),
       content: const FoodItemsView(),
     ),
