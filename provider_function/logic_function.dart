@@ -162,16 +162,16 @@ class GetImgLocal extends ChangeNotifier {
   bool isEnableCreateButton = true;
 
   Future<bool?> getImageLocal() async {
-    final pickFileResult = await FilePicker.platform.pickFiles();
-    if (pickFileResult == null) {
+    final pickedFiles = await FilePicker.pickFiles();
+    if (pickedFiles.isEmpty) {
       isImageFile = false;
       createButtonEnable();
       return isImageFile;
     }
 
-    PlatformFile resultFile = pickFileResult.files.first;
+    final resultFile = pickedFiles.first;
 
-    imagedata = resultFile.bytes!;
+    imagedata = await resultFile.readAsBytes();
     imageName = resultFile.name;
 
     isImageFile = true;
